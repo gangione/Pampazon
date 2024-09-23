@@ -3,14 +3,14 @@ using Pampazon.ModuloCompartido;
 
 namespace Pampazon.ModuloVentas.Clientes
 {
-    public class AbmClienteModel
+    public class AbmClientesModel
     {
         private readonly List<ClienteEntity> _clientes;
-        public AbmClienteModel()
+        public AbmClientesModel()
         {
             _clientes = new List<ClienteEntity>()
             {
-                new () { Numero = "1", Cuit = "20397623778", Nombre = "Gabriel Angione", CalleNumero = "Chubut 4711" }
+                //new () { Numero = "1", Cuit = "20397623778", Nombre = "Gabriel Angione", CalleNumero = "Chubut 4711" }
             };
         }
         public List<ClienteEntity> ObtenerTodos()

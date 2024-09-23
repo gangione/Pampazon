@@ -20,6 +20,21 @@ public static class Alerta
             MessageBoxIcon.Error
         );
     }
+    public static void MostrarErrores(List<string> mensajes)
+    {
+        string mensaje = "Hay errores en los datos ingresados \n\n";
+        mensajes.ForEach(error =>
+        {
+            mensaje += error + "\n";
+        });
+
+        MessageBox.Show(
+            mensaje,
+            "Error!",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        );
+    }
     public static void MostrarInfo(string mensaje)
     {
         MessageBox.Show(

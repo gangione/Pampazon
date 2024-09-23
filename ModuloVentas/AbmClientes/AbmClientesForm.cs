@@ -5,14 +5,14 @@ using System.ComponentModel;
 
 namespace Pampazon
 {
-    public partial class AbmClienteForm : Form
+    public partial class AbmClientesForm : Form
     {
-        private AbmClienteModel _abmClienteModel;
+        private AbmClientesModel _abmClienteModel;
         private List<ClienteEntity> _clientes;
-        private List<ErrorProvider> _errores;
-        private List<string> _mensajes;
+        protected List<ErrorProvider> _errores;
+        protected List<string> _mensajes;
 
-        public AbmClienteForm()
+        public AbmClientesForm()
         {
             InitializeComponent();
         }
@@ -74,7 +74,7 @@ namespace Pampazon
             ];
         }
 
-        private List<string> ValidarFormulario()
+        protected List<string> ValidarFormulario()
         {
             _mensajes.Clear();
             ValidateChildren();
@@ -106,14 +106,14 @@ namespace Pampazon
             List<ListViewItem> viewItems = new();
             foreach (var cliente in clientes)
             {
-                ListViewItem item = new(cliente.Numero);
+                ListViewItem item = new(cliente.Numero.ToString());
                 item.SubItems.Add(cliente.Cuit);
                 item.SubItems.Add(cliente.Nombre);
-                item.SubItems.Add(cliente.CalleNumero);
-                item.SubItems.Add(cliente.Departamento);
-                item.SubItems.Add(cliente.Ciudad);
-                item.SubItems.Add(cliente.Provincia);
-                item.SubItems.Add(cliente.CodigoPostal);
+                item.SubItems.Add(cliente.Domicilio?.CalleNumero);
+                item.SubItems.Add(cliente.Domicilio?.Departamento);
+                item.SubItems.Add(cliente.Domicilio?.Ciudad);
+                item.SubItems.Add(cliente.Domicilio?.Provincia);
+                item.SubItems.Add(cliente.Domicilio?.CodigoPostal);
                 viewItems.Add(item);
             }
             return viewItems.ToArray();
@@ -132,28 +132,24 @@ namespace Pampazon
             List<string> erroresValidacion = ValidarFormulario();
             if (erroresValidacion.Count > 0)
             {
-                string mensaje = "Hay errores en los datos ingresados \n\n";
-                erroresValidacion.ForEach(error =>
-                {
-                    mensaje += error + "\n";
-                });
-
-                Alerta.MostrarError(mensaje);
-
+                Alerta.MostrarErrores(erroresValidacion);
                 return;
             }
 
             Resultado<ClienteEntity> resultado = _abmClienteModel.Guardar(
                 new ClienteEntity()
                 {
-                    Numero = textBoxNumero.Text,
+                    Numero = long.Parse(textBoxNumero.Text),
                     Cuit = textBoxCuit.Text,
                     Nombre = textBoxNombre.Text,
-                    CalleNumero = textBoxCalleNumero.Text,
-                    Departamento = textBoxDepto.Text,
-                    Ciudad = textBoxCiudad.Text,
-                    Provincia = textBoxProvincia.Text,
-                    CodigoPostal = textBoxCodPostal.Text,
+                    Domicilio = new DomicilioEntity()
+                    {
+                        CalleNumero = textBoxCalleNumero.Text,
+                        Departamento = textBoxDepto.Text,
+                        Ciudad = textBoxCiudad.Text,
+                        Provincia = textBoxProvincia.Text,
+                        CodigoPostal = textBoxCodPostal.Text,
+                    }
                 }
             );
 
@@ -192,7 +188,7 @@ namespace Pampazon
                 Resultado<ClienteEntity> resultado = _abmClienteModel.Eliminar(
                     new ClienteEntity()
                     {
-                        Numero = selectedCliente.SubItems[0].Text,
+                        Numero = long.Parse(selectedCliente.SubItems[0].Text),
                         Cuit = selectedCliente.SubItems[1].Text
                     }
                 );
@@ -257,14 +253,17 @@ namespace Pampazon
             Resultado<ClienteEntity> resultado = _abmClienteModel.Actualizar(
                 new ClienteEntity()
                 {
-                    Numero = textBoxNumero.Text,
+                    Numero = long.Parse(textBoxNumero.Text),
                     Cuit = textBoxCuit.Text,
                     Nombre = textBoxNombre.Text,
-                    CalleNumero = textBoxCalleNumero.Text,
-                    Departamento = textBoxDepto.Text,
-                    Ciudad = textBoxCiudad.Text,
-                    Provincia = textBoxProvincia.Text,
-                    CodigoPostal = textBoxCodPostal.Text,
+                    Domicilio = new DomicilioEntity()
+                    {
+                        CalleNumero = textBoxCalleNumero.Text,
+                        Departamento = textBoxDepto.Text,
+                        Ciudad = textBoxCiudad.Text,
+                        Provincia = textBoxProvincia.Text,
+                        CodigoPostal = textBoxCodPostal.Text,
+                    }
                 }
             );
 

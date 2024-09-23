@@ -1,6 +1,6 @@
 ﻿namespace Pampazon
 {
-    partial class AbmClienteForm
+    partial class AbmClientesForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AbmClienteForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AbmClientesForm));
             listViewCliente = new ListView();
             columnHeaderNumero = new ColumnHeader();
             columnHeaderCuit = new ColumnHeader();
@@ -70,7 +70,7 @@
             errorProviderProvincia = new ErrorProvider(components);
             errorProviderCodPostal = new ErrorProvider(components);
             errorProviderNombre = new ErrorProvider(components);
-            pictureBox1 = new PictureBox();
+            pictureBoxLogo = new PictureBox();
             errorProviderNumero = new ErrorProvider(components);
             groupBoxFormulario.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProviderCuit).BeginInit();
@@ -79,7 +79,7 @@
             ((System.ComponentModel.ISupportInitialize)errorProviderProvincia).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderCodPostal).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderNombre).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderNumero).BeginInit();
             SuspendLayout();
             // 
@@ -139,31 +139,41 @@
             // 
             // textBoxBuscar
             // 
+            textBoxBuscar.BackColor = Color.FromArgb(240, 240, 240);
+            textBoxBuscar.BorderStyle = BorderStyle.FixedSingle;
+            textBoxBuscar.Font = new Font("Segoe UI", 10F);
+            textBoxBuscar.ForeColor = Color.FromArgb(64, 64, 64);
             textBoxBuscar.Location = new Point(12, 46);
             textBoxBuscar.Name = "textBoxBuscar";
-            textBoxBuscar.PlaceholderText = "Buscar por Razón Social o CUIT";
-            textBoxBuscar.Size = new Size(194, 23);
+            textBoxBuscar.PlaceholderText = " Razón Social o CUIT";
+            textBoxBuscar.Size = new Size(237, 25);
             textBoxBuscar.TabIndex = 1;
             textBoxBuscar.UseWaitCursor = true;
             // 
             // labelTitulo
             // 
             labelTitulo.AutoSize = true;
-            labelTitulo.Font = new Font("Segoe UI Black", 15.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            labelTitulo.Font = new Font("Segoe UI Black", 18F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            labelTitulo.ForeColor = Color.FromArgb(64, 64, 64);
             labelTitulo.Location = new Point(12, 9);
             labelTitulo.Name = "labelTitulo";
-            labelTitulo.Size = new Size(92, 30);
-            labelTitulo.TabIndex = 2;
+            labelTitulo.Size = new Size(105, 32);
+            labelTitulo.TabIndex = 11;
             labelTitulo.Text = "Clientes";
             // 
             // buttonEditar
             // 
-            buttonEditar.Location = new Point(912, 278);
+            buttonEditar.BackColor = Color.FromArgb(33, 150, 243);
+            buttonEditar.FlatAppearance.BorderSize = 0;
+            buttonEditar.FlatStyle = FlatStyle.Flat;
+            buttonEditar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonEditar.ForeColor = Color.White;
+            buttonEditar.Location = new Point(839, 280);
             buttonEditar.Name = "buttonEditar";
-            buttonEditar.Size = new Size(75, 23);
-            buttonEditar.TabIndex = 4;
+            buttonEditar.Size = new Size(150, 40);
+            buttonEditar.TabIndex = 13;
             buttonEditar.Text = "Editar";
-            buttonEditar.UseVisualStyleBackColor = true;
+            buttonEditar.UseVisualStyleBackColor = false;
             buttonEditar.Click += buttonEditar_Click;
             // 
             // groupBoxFormulario
@@ -187,16 +197,16 @@
             groupBoxFormulario.Controls.Add(labelCalleNumero);
             groupBoxFormulario.Controls.Add(textBoxNombre);
             groupBoxFormulario.Controls.Add(buttonGuardar);
-            groupBoxFormulario.Location = new Point(12, 304);
+            groupBoxFormulario.Location = new Point(14, 326);
             groupBoxFormulario.Name = "groupBoxFormulario";
-            groupBoxFormulario.Size = new Size(975, 215);
+            groupBoxFormulario.Size = new Size(975, 241);
             groupBoxFormulario.TabIndex = 4;
             groupBoxFormulario.TabStop = false;
             groupBoxFormulario.Text = "Formulario";
             // 
             // buttonActualizar
             // 
-            buttonActualizar.Location = new Point(775, 181);
+            buttonActualizar.Location = new Point(776, 207);
             buttonActualizar.Name = "buttonActualizar";
             buttonActualizar.Size = new Size(94, 28);
             buttonActualizar.TabIndex = 15;
@@ -224,7 +234,7 @@
             // 
             // buttonLimpiar
             // 
-            buttonLimpiar.Location = new Point(875, 181);
+            buttonLimpiar.Location = new Point(876, 207);
             buttonLimpiar.Name = "buttonLimpiar";
             buttonLimpiar.Size = new Size(94, 28);
             buttonLimpiar.TabIndex = 16;
@@ -355,7 +365,7 @@
             // 
             // buttonGuardar
             // 
-            buttonGuardar.Location = new Point(675, 181);
+            buttonGuardar.Location = new Point(676, 207);
             buttonGuardar.Name = "buttonGuardar";
             buttonGuardar.Size = new Size(94, 28);
             buttonGuardar.TabIndex = 14;
@@ -365,21 +375,31 @@
             // 
             // buttonBuscar
             // 
-            buttonBuscar.Location = new Point(212, 45);
+            buttonBuscar.BackColor = Color.FromArgb(33, 150, 243);
+            buttonBuscar.FlatAppearance.BorderSize = 0;
+            buttonBuscar.FlatStyle = FlatStyle.Flat;
+            buttonBuscar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonBuscar.ForeColor = Color.White;
+            buttonBuscar.Location = new Point(255, 46);
             buttonBuscar.Name = "buttonBuscar";
-            buttonBuscar.Size = new Size(75, 23);
-            buttonBuscar.TabIndex = 2;
+            buttonBuscar.Size = new Size(150, 25);
+            buttonBuscar.TabIndex = 10;
             buttonBuscar.Text = "Buscar";
-            buttonBuscar.UseVisualStyleBackColor = true;
+            buttonBuscar.UseVisualStyleBackColor = false;
             // 
             // buttonEliminar
             // 
-            buttonEliminar.Location = new Point(831, 278);
+            buttonEliminar.BackColor = Color.FromArgb(33, 150, 243);
+            buttonEliminar.FlatAppearance.BorderSize = 0;
+            buttonEliminar.FlatStyle = FlatStyle.Flat;
+            buttonEliminar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonEliminar.ForeColor = Color.White;
+            buttonEliminar.Location = new Point(683, 280);
             buttonEliminar.Name = "buttonEliminar";
-            buttonEliminar.Size = new Size(75, 23);
-            buttonEliminar.TabIndex = 3;
+            buttonEliminar.Size = new Size(150, 40);
+            buttonEliminar.TabIndex = 12;
             buttonEliminar.Text = "Eliminar";
-            buttonEliminar.UseVisualStyleBackColor = true;
+            buttonEliminar.UseVisualStyleBackColor = false;
             buttonEliminar.Click += buttonEliminar_Click;
             // 
             // errorProviderCuit
@@ -406,15 +426,15 @@
             // 
             errorProviderNombre.ContainerControl = this;
             // 
-            // pictureBox1
+            // pictureBoxLogo
             // 
-            pictureBox1.BackgroundImageLayout = ImageLayout.None;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(687, 9);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(300, 60);
-            pictureBox1.TabIndex = 7;
-            pictureBox1.TabStop = false;
+            pictureBoxLogo.BackgroundImageLayout = ImageLayout.None;
+            pictureBoxLogo.Image = (Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Location = new Point(687, 9);
+            pictureBoxLogo.Name = "pictureBoxLogo";
+            pictureBoxLogo.Size = new Size(300, 60);
+            pictureBoxLogo.TabIndex = 7;
+            pictureBoxLogo.TabStop = false;
             // 
             // errorProviderNumero
             // 
@@ -424,9 +444,9 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.LightSteelBlue;
-            ClientSize = new Size(1010, 531);
-            Controls.Add(pictureBox1);
+            BackColor = Color.WhiteSmoke;
+            ClientSize = new Size(1010, 587);
+            Controls.Add(pictureBoxLogo);
             Controls.Add(buttonEliminar);
             Controls.Add(buttonBuscar);
             Controls.Add(buttonEditar);
@@ -434,10 +454,10 @@
             Controls.Add(textBoxBuscar);
             Controls.Add(listViewCliente);
             Controls.Add(groupBoxFormulario);
-            FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "AbmClienteForm";
+            Padding = new Padding(10);
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ABM de Clientes";
@@ -450,7 +470,7 @@
             ((System.ComponentModel.ISupportInitialize)errorProviderProvincia).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderCodPostal).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderNombre).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderNumero).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -493,7 +513,7 @@
         private ErrorProvider errorProviderProvincia;
         private ErrorProvider errorProviderCodPostal;
         private ErrorProvider errorProviderNombre;
-        private PictureBox pictureBox1;
+        private PictureBox pictureBoxLogo;
         private Button buttonLimpiar;
         private ColumnHeader columnHeaderNumero;
         private Label labelNumero;

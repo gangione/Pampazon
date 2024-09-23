@@ -9,8 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ModuloOperaciones\" />
-    <Folder Include="ModuloRRHH\" />
+    <Compile Remove="ModuloRRHH\**" />
+    <EmbeddedResource Remove="ModuloRRHH\**" />
+    <None Remove="ModuloRRHH\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ModuloOperaciones\Almacen\AbmOrdenDeSeleccion\" />
+    <Folder Include="ModuloOperaciones\Despacho\AbmRemito\" />
+    <Folder Include="ModuloOperaciones\Despacho\AbmOrdenDeEntrega\" />
+    <Folder Include="ModuloOperaciones\Recepcion\AbmOrdenDePreparacion\" />
+    <Folder Include="ModuloOperaciones\Recepcion\AbmOrdenDeRecepcion\" />
+    <Folder Include="ModuloOperaciones\Recepcion\AbmNotaEspacio\" />
     <Folder Include="ModuloVentas\AbmContratos\" />
   </ItemGroup>
 
