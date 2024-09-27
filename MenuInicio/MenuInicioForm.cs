@@ -1,5 +1,6 @@
 ﻿using Pampazon.Entities;
 using Pampazon.Entities.Enums;
+using Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia;
 using Pampazon.ModuloUsuarios.AbmUsuarios;
 
 namespace Pampazon.MenuInicio
@@ -18,9 +19,10 @@ namespace Pampazon.MenuInicio
         {
             _opciones.Add("Usuarios", new AbmUsuariosForm());
             _opciones.Add("Clientes", new AbmClientesForm());
+            _opciones.Add("RecepcionarMercaderia", new RecepcionarMercaderiaForm());
 
             // Modificar al Menú de Ventas / Operaciones según rol.
-            if (_usuario.Rol == Rol.GerenteVentas)
+            if (_usuario.Rol == Roles.GerenteVentas)
             {
                 var clientesForm = _opciones["Clientes"];
                 clientesForm.ShowDialog();
@@ -40,6 +42,12 @@ namespace Pampazon.MenuInicio
         {
             var clientesForm = _opciones["Clientes"];
             clientesForm.ShowDialog();
+        }
+
+        private void buttonOperaciones_Click(object sender, EventArgs e)
+        {
+            var recepcionarMercaderiaForm = _opciones["RecepcionarMercaderia"];
+            recepcionarMercaderiaForm.ShowDialog();
         }
     }
 }

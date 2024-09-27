@@ -108,6 +108,7 @@
             buttonOperaciones.TabIndex = 19;
             buttonOperaciones.Text = "Operaciones";
             buttonOperaciones.UseVisualStyleBackColor = false;
+            buttonOperaciones.Click += buttonOperaciones_Click;
             // 
             // MenuInicioForm
             // 

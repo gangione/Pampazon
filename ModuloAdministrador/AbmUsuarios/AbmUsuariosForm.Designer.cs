@@ -32,14 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AbmUsuariosForm));
             pictureBoxLogo = new PictureBox();
             buttonEliminar = new Button();
-            buttonBuscar = new Button();
             buttonEditar = new Button();
             labelTitulo = new Label();
-            textBoxBuscar = new TextBox();
             listViewCliente = new ListView();
             columnHeaderNumero = new ColumnHeader();
             columnHeaderNombre = new ColumnHeader();
-            columnHeaderPW = new ColumnHeader();
             columnHeaderRol = new ColumnHeader();
             groupBoxFormulario = new GroupBox();
             labelRol = new Label();
@@ -57,6 +54,7 @@
             errorProviderNombre = new ErrorProvider(components);
             errorProviderContrasenia = new ErrorProvider(components);
             errorProviderRol = new ErrorProvider(components);
+            textBoxBuscar = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             groupBoxFormulario.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProviderNumero).BeginInit();
@@ -90,20 +88,6 @@
             buttonEliminar.UseVisualStyleBackColor = false;
             buttonEliminar.Click += buttonEliminar_Click;
             // 
-            // buttonBuscar
-            // 
-            buttonBuscar.BackColor = Color.FromArgb(33, 150, 243);
-            buttonBuscar.FlatAppearance.BorderSize = 0;
-            buttonBuscar.FlatStyle = FlatStyle.Flat;
-            buttonBuscar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            buttonBuscar.ForeColor = Color.White;
-            buttonBuscar.Location = new Point(255, 49);
-            buttonBuscar.Name = "buttonBuscar";
-            buttonBuscar.Size = new Size(150, 25);
-            buttonBuscar.TabIndex = 10;
-            buttonBuscar.Text = "Buscar";
-            buttonBuscar.UseVisualStyleBackColor = false;
-            // 
             // buttonEditar
             // 
             buttonEditar.BackColor = Color.FromArgb(33, 150, 243);
@@ -130,23 +114,10 @@
             labelTitulo.TabIndex = 11;
             labelTitulo.Text = "Usuarios";
             // 
-            // textBoxBuscar
-            // 
-            textBoxBuscar.BackColor = Color.FromArgb(240, 240, 240);
-            textBoxBuscar.BorderStyle = BorderStyle.FixedSingle;
-            textBoxBuscar.Font = new Font("Segoe UI", 10F);
-            textBoxBuscar.ForeColor = Color.FromArgb(64, 64, 64);
-            textBoxBuscar.Location = new Point(20, 49);
-            textBoxBuscar.Name = "textBoxBuscar";
-            textBoxBuscar.PlaceholderText = " Nombre. Numero o Rol";
-            textBoxBuscar.Size = new Size(229, 25);
-            textBoxBuscar.TabIndex = 9;
-            textBoxBuscar.UseWaitCursor = true;
-            // 
             // listViewCliente
             // 
             listViewCliente.BackColor = Color.White;
-            listViewCliente.Columns.AddRange(new ColumnHeader[] { columnHeaderNumero, columnHeaderNombre, columnHeaderPW, columnHeaderRol });
+            listViewCliente.Columns.AddRange(new ColumnHeader[] { columnHeaderNumero, columnHeaderNombre, columnHeaderRol });
             listViewCliente.Font = new Font("Segoe UI", 10F);
             listViewCliente.ForeColor = Color.FromArgb(64, 64, 64);
             listViewCliente.FullRowSelect = true;
@@ -169,11 +140,6 @@
             // 
             columnHeaderNombre.Text = "Nombre";
             columnHeaderNombre.Width = 160;
-            // 
-            // columnHeaderPW
-            // 
-            columnHeaderPW.Text = "PW";
-            columnHeaderPW.Width = 0;
             // 
             // columnHeaderRol
             // 
@@ -316,20 +282,34 @@
             // 
             errorProviderRol.ContainerControl = this;
             // 
+            // textBoxBuscar
+            // 
+            textBoxBuscar.BackColor = Color.FromArgb(240, 240, 240);
+            textBoxBuscar.BorderStyle = BorderStyle.FixedSingle;
+            textBoxBuscar.Font = new Font("Segoe UI", 10F);
+            textBoxBuscar.ForeColor = Color.FromArgb(64, 64, 64);
+            textBoxBuscar.Location = new Point(20, 47);
+            textBoxBuscar.Name = "textBoxBuscar";
+            textBoxBuscar.PlaceholderText = " Buscar por Numero o Nombre";
+            textBoxBuscar.Size = new Size(229, 25);
+            textBoxBuscar.TabIndex = 16;
+            textBoxBuscar.UseWaitCursor = true;
+            textBoxBuscar.KeyDown += textBoxBuscar_KeyDown;
+            // 
             // AbmUsuariosForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1014, 511);
+            Controls.Add(textBoxBuscar);
             Controls.Add(pictureBoxLogo);
             Controls.Add(buttonEliminar);
-            Controls.Add(buttonBuscar);
             Controls.Add(buttonEditar);
             Controls.Add(labelTitulo);
-            Controls.Add(textBoxBuscar);
             Controls.Add(listViewCliente);
             Controls.Add(groupBoxFormulario);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;
             Name = "AbmUsuariosForm";
@@ -353,10 +333,8 @@
 
         private PictureBox pictureBoxLogo;
         private Button buttonEliminar;
-        private Button buttonBuscar;
         private Button buttonEditar;
         private Label labelTitulo;
-        private TextBox textBoxBuscar;
         private ListView listViewCliente;
         private ColumnHeader columnHeaderNumero;
         private ColumnHeader columnHeaderNombre;
@@ -377,6 +355,6 @@
         private ErrorProvider errorProviderNombre;
         private ErrorProvider errorProviderContrasenia;
         private ErrorProvider errorProviderRol;
-        private ColumnHeader columnHeaderPW;
+        private TextBox textBoxBuscar;
     }
 }

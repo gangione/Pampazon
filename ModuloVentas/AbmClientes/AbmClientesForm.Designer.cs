@@ -386,6 +386,7 @@
             buttonBuscar.TabIndex = 10;
             buttonBuscar.Text = "Buscar";
             buttonBuscar.UseVisualStyleBackColor = false;
+            buttonBuscar.Click += buttonBuscar_Click;
             // 
             // buttonEliminar
             // 
@@ -440,7 +441,7 @@
             // 
             errorProviderNumero.ContainerControl = this;
             // 
-            // AbmClienteForm
+            // AbmClientesForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -456,7 +457,7 @@
             Controls.Add(groupBoxFormulario);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            Name = "AbmClienteForm";
+            Name = "AbmClientesForm";
             Padding = new Padding(10);
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;

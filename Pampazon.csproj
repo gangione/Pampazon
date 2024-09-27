@@ -15,12 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ModuloOperaciones\Almacen\AbmOrdenDeSeleccion\" />
-    <Folder Include="ModuloOperaciones\Despacho\AbmRemito\" />
-    <Folder Include="ModuloOperaciones\Despacho\AbmOrdenDeEntrega\" />
-    <Folder Include="ModuloOperaciones\Recepcion\AbmOrdenDePreparacion\" />
-    <Folder Include="ModuloOperaciones\Recepcion\AbmOrdenDeRecepcion\" />
-    <Folder Include="ModuloOperaciones\Recepcion\AbmNotaEspacio\" />
+    <Folder Include="ModuloOperaciones\Almacen\IngresarProductoAlStock\" />
+    <Folder Include="ModuloOperaciones\Despacho\GenerarRemito\" />
+    <Folder Include="ModuloOperaciones\Descarga\IngresarOrdenDePreparacion\" />
+    <Folder Include="ModuloOperaciones\Preparacion\GenerarOrdenDeEntrega\" />
+    <Folder Include="ModuloReportes\GestionDeAlmacen\" />
     <Folder Include="ModuloVentas\AbmContratos\" />
   </ItemGroup>
 

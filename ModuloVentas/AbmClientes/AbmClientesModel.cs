@@ -10,7 +10,19 @@ namespace Pampazon.ModuloVentas.Clientes
         {
             _clientes = new List<ClienteEntity>()
             {
-                //new () { Numero = "1", Cuit = "20397623778", Nombre = "Gabriel Angione", CalleNumero = "Chubut 4711" }
+                new ()
+                {
+                    Numero = 1,
+                    Cuit = "20397623778",
+                    Nombre = "Mercadito S.A",
+                    Domicilio = new()
+                    {
+                        CalleNumero = "Calle Falsa 123",
+                        Ciudad = "Buenos Aires",
+                        Provincia = "Buenos Aires",
+                        CodigoPostal = "0000"
+                    }
+                }
             };
         }
         public List<ClienteEntity> ObtenerTodos()
@@ -44,13 +56,13 @@ namespace Pampazon.ModuloVentas.Clientes
                 return new Resultado<ClienteEntity>(false, "No existe un cliente con ese Numero", cliente);
 
             int indice = _clientes.IndexOf(cliente);
-            
+
             _clientes[indice] = cliente;
 
             return new Resultado<ClienteEntity>(true, "El Cliente se actualizó correctamente.", cliente);
         }
 
-        public Resultado<ClienteEntity> Eliminar(ClienteEntity cliente) 
+        public Resultado<ClienteEntity> Eliminar(ClienteEntity cliente)
         {
             if (!_clientes.Contains(cliente))
                 return new Resultado<ClienteEntity>(false, "El Cliente no existe.", cliente);

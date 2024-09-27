@@ -26,7 +26,7 @@
             // Si pasa las validaciones, se devuelve Empty
             return string.Empty;
         }
-    
+
         public static string ValidarCampoNumerico(string texto)
         {
             if (string.IsNullOrEmpty(texto))
@@ -35,12 +35,20 @@
             // Verificar que solo contenga números
             if (!long.TryParse(texto, out _))
                 return "El campo solo debe contener números.";
-            
+
             return string.Empty;
         }
 
         public static string ValidarFormatoImporte(string texto)
         {
+            return string.Empty;
+        }
+
+        public static string ValidarListadoCompleto(int cantidadItems)
+        {
+            if (cantidadItems == 0)
+                return "El listado no puede estar vacío.";
+
             return string.Empty;
         }
     }

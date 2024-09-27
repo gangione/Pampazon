@@ -10,31 +10,19 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
         private AbmUsuariosModel _abmUsuarioModel;
         private List<UsuarioEntity> _usuarios;
         protected List<ErrorProvider> _errores;
-        protected List<string> _mensajes;
         public AbmUsuariosForm()
         {
             InitializeComponent();
         }
 
-        private void AbmUsuariosForm_Load(object sender, EventArgs e)
-        {
-            _abmUsuarioModel = new();
-            _mensajes = new();
-            comboBoxRol.Items.AddRange(Enum.GetNames(typeof(Rol)));
-
-            CrearValidaciones();
-            Iniciar();
-        }
-
         private void Iniciar()
         {
-            ActualizarListado();
-            LimpiarFormulario();
-            _mensajes.Clear();
+            CargarListado();
+            CargarFormulario();
         }
 
         #region Formulario - Datos Cliente
-        private void LimpiarFormulario()
+        private void CargarFormulario()
         {
             buttonActualizar.Enabled = false;
             buttonGuardar.Enabled = true;
@@ -42,18 +30,19 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
             textBoxNumero.Enabled = true;
             textBoxNombre.Enabled = true;
 
+            textBoxBuscar.Clear();
             textBoxNumero.Clear();
             textBoxNombre.Clear();
             textBoxContrasenia.Clear();
             comboBoxRol.SelectedIndex = 0;
+            CrearValidadores();
         }
 
-        private void CrearValidaciones()
+        private void CrearValidadores()
         {
             // Numero
             textBoxNumero.Tag = labelNumero.Text;
             errorProviderNumero.Tag = textBoxNumero;
-
 
             // Nombre
             textBoxNombre.Tag = labelNombre.Text;
@@ -77,7 +66,7 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
 
         protected List<string> ValidarFormulario()
         {
-            _mensajes.Clear();
+            List<string> mensajes = new();
             ValidateChildren();
 
             foreach (var error in _errores)
@@ -87,18 +76,24 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
 
                 if (!string.IsNullOrEmpty(err))
                 {
-                    _mensajes.Add($"{control.Tag}: {err}");
+                    mensajes.Add($"{control.Tag}: {err}");
                 }
             };
-            return _mensajes;
+            return mensajes;
         }
+
         #endregion
 
         #region Listado
-
-        private void ActualizarListado()
+        private void CargarListado()
         {
             _usuarios = _abmUsuarioModel.ObtenerTodos();
+            listViewCliente.Items.Clear();
+            listViewCliente.Items.AddRange(ObtenerListViewUsuarios(_usuarios));
+        }
+        private void CargarListadoConFiltro(string filtro)
+        {
+            _usuarios = _abmUsuarioModel.ObtenerPorFiltro(filtro);
             listViewCliente.Items.Clear();
             listViewCliente.Items.AddRange(ObtenerListViewUsuarios(_usuarios));
         }
@@ -109,7 +104,6 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
             {
                 ListViewItem item = new(usuario.Numero.ToString());
                 item.SubItems.Add(usuario.Usuario);
-                item.SubItems.Add(usuario.Contrasenia);
                 item.SubItems.Add(usuario.Rol.ToString());
                 viewItems.Add(item);
             }
@@ -119,47 +113,24 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
         #endregion
 
         #region Eventos
-        private void buttonGuardar_Click(object sender, EventArgs e)
+        private void AbmUsuariosForm_Load(object sender, EventArgs e)
         {
-            DialogResult confirmacion = Alerta.PedirConfirmacion("Desea guardar el usuario?");
+            _abmUsuarioModel = new();
+            comboBoxRol.Items.AddRange(Enum.GetNames(typeof(Roles)));
 
-            if (confirmacion == DialogResult.No)
-                return;
-
-            List<string> erroresValidacion = ValidarFormulario();
-            if (erroresValidacion.Count > 0)
-            {
-                Alerta.MostrarErrores(erroresValidacion);
-                return;
-            }
-
-            Resultado<UsuarioEntity> resultado = _abmUsuarioModel.Guardar(
-                new UsuarioEntity()
-                {
-                    Numero = long.Parse(textBoxNumero.Text),
-                    Usuario = textBoxNombre.Text,
-                    Contrasenia = textBoxContrasenia.Text,
-                    Rol = (Rol)Enum.Parse(typeof(Rol), comboBoxRol.SelectedItem.ToString())
-                }
-            );
-
-            if (!resultado.Exitoso)
-                Alerta.MostrarError(resultado.Mensaje);
-            else
-            {
-                Alerta.MostrarInfo(resultado.Mensaje);
-                Iniciar();
-            }
+            Iniciar();
         }
 
-        private void buttonLimpiar_Click(object sender, EventArgs e)
+        private void textBoxBuscar_KeyDown(object sender, KeyEventArgs e)
         {
-            DialogResult confirmacion = Alerta.PedirConfirmacion("Desea limpiar el formulario?");
-
-            if (confirmacion == DialogResult.No)
-                return;
-
-            LimpiarFormulario();
+            string filtro = textBoxBuscar.Text;
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (string.IsNullOrEmpty(filtro))
+                    CargarListado();
+                else
+                    CargarListadoConFiltro(filtro);
+            }
         }
 
         private void buttonEliminar_Click(object sender, EventArgs e)
@@ -207,19 +178,71 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
                 textBoxNumero.Enabled = false;
                 textBoxNombre.Text = selectedCliente.SubItems[1].Text;
                 textBoxNombre.Enabled = false;
-                textBoxContrasenia.Text = selectedCliente.SubItems[2].Text;
-
+                textBoxContrasenia.Clear();
                 // Obtener el valor del Rol desde el ListView
-                string rolTexto = selectedCliente.SubItems[3].Text;
+                string rolTexto = selectedCliente.SubItems[2].Text;
 
                 // Convertir el texto en el valor correspondiente del enum
-                Rol rolSeleccionado = (Rol)Enum.Parse(typeof(Rol), rolTexto);
+                Roles rolSeleccionado = (Roles)Enum.Parse(typeof(Roles), rolTexto);
 
                 // Asignar el valor del enum al ComboBox
                 comboBoxRol.SelectedItem = rolSeleccionado.ToString();
             }
             else
                 Alerta.MostrarAdvertencia("Debe seleccionar un usuario.");
+        }
+
+        private void textBoxNumero_Validating(object sender, CancelEventArgs e)
+        {
+            string validacion = Validador.ValidarCampoNumerico(textBoxNumero.Text);
+
+            if (!string.IsNullOrEmpty(validacion))
+                errorProviderNumero.SetError(textBoxNumero, validacion);
+            else
+                errorProviderNumero.SetError(textBoxNumero, "");
+        }
+
+        private void textBoxNombre_Validating(object sender, CancelEventArgs e)
+        {
+            string validacion = Validador.ValidarCampoVacio(textBoxNombre.Text);
+
+            if (!string.IsNullOrEmpty(validacion))
+                errorProviderNombre.SetError(textBoxNombre, validacion);
+            else
+                errorProviderNombre.SetError(textBoxNombre, "");
+        }
+
+        private void buttonGuardar_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmacion = Alerta.PedirConfirmacion("Desea guardar el usuario?");
+
+            if (confirmacion == DialogResult.No)
+                return;
+
+            List<string> erroresValidacion = ValidarFormulario();
+            if (erroresValidacion.Count > 0)
+            {
+                Alerta.MostrarErrores(erroresValidacion);
+                return;
+            }
+
+            Resultado<UsuarioEntity> resultado = _abmUsuarioModel.Guardar(
+                new UsuarioEntity()
+                {
+                    Numero = long.Parse(textBoxNumero.Text),
+                    Usuario = textBoxNombre.Text,
+                    Contrasenia = textBoxContrasenia.Text,
+                    Rol = (Roles)Enum.Parse(typeof(Roles), comboBoxRol.SelectedItem.ToString())
+                }
+            );
+
+            if (!resultado.Exitoso)
+                Alerta.MostrarError(resultado.Mensaje);
+            else
+            {
+                Alerta.MostrarInfo(resultado.Mensaje);
+                Iniciar();
+            }
         }
 
         private void buttonActualizar_Click(object sender, EventArgs e)
@@ -249,7 +272,7 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
                     Numero = long.Parse(textBoxNumero.Text),
                     Usuario = textBoxNombre.Text,
                     Contrasenia = textBoxContrasenia.Text,
-                    Rol = (Rol)Enum.Parse(typeof(Rol), comboBoxRol.SelectedItem.ToString())
+                    Rol = (Roles)Enum.Parse(typeof(Roles), comboBoxRol.SelectedItem.ToString())
                 }
             );
 
@@ -261,24 +284,15 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
                 Iniciar();
             }
         }
-        private void textBoxNumero_Validating(object sender, CancelEventArgs e)
+
+        private void buttonLimpiar_Click(object sender, EventArgs e)
         {
-            string validacion = Validador.ValidarCampoNumerico(textBoxNumero.Text);
+            DialogResult confirmacion = Alerta.PedirConfirmacion("Desea limpiar el formulario?");
 
-            if (!string.IsNullOrEmpty(validacion))
-                errorProviderNumero.SetError(textBoxNumero, validacion);
-            else
-                errorProviderNumero.SetError(textBoxNumero, "");
-        }
+            if (confirmacion == DialogResult.No)
+                return;
 
-        private void textBoxNombre_Validating(object sender, CancelEventArgs e)
-        {
-            string validacion = Validador.ValidarCampoVacio(textBoxNombre.Text);
-
-            if (!string.IsNullOrEmpty(validacion))
-                errorProviderNombre.SetError(textBoxNombre, validacion);
-            else
-                errorProviderNombre.SetError(textBoxNombre, "");
+            CargarFormulario();
         }
 
         #endregion

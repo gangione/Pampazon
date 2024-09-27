@@ -9,30 +9,40 @@ public class AbmUsuariosModel
     private readonly List<UsuarioEntity> _usuarios;
     public AbmUsuariosModel()
     {
-        _usuarios = new ()
+        _usuarios = new()
         {
             new()
             {
                 Numero = 1,
                 Usuario = "admin",
                 Contrasenia = "admin",
-                Rol = Rol.Administrador
+                Rol = Roles.Administrador
             },
             new()
             {
                 Numero = 2,
                 Usuario = "ventas",
                 Contrasenia = "ventas",
-                Rol = Rol.GerenteVentas
+                Rol = Roles.GerenteVentas
             },
             new()
             {
                 Numero = 3,
                 Usuario = "operaciones",
                 Contrasenia = "operaciones",
-                Rol = Rol.GerenteOperaciones
+                Rol = Roles.GerenteOperaciones
             }
         };
+    }
+
+    public List<UsuarioEntity> ObtenerPorFiltro(string filtro)
+    {
+        return _usuarios.FindAll(usuario =>
+            usuario.Numero
+                .ToString().Contains(filtro, StringComparison.CurrentCultureIgnoreCase) ||
+            usuario.Usuario
+                .ToString().Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
+            );
     }
 
     public List<UsuarioEntity> ObtenerTodos()

@@ -17,21 +17,21 @@ public class IniciarSesionModel
                 Numero = 1,
                 Usuario = "admin",
                 Contrasenia = "admin",
-                Rol = Rol.Administrador
+                Rol = Roles.Administrador
             },
             new()
             {
                 Numero = 2,
                 Usuario = "ventas",
                 Contrasenia = "ventas",
-                Rol = Rol.GerenteVentas
+                Rol = Roles.GerenteVentas
             },
             new()
             {
                 Numero = 3,
                 Usuario = "operaciones",
                 Contrasenia = "operaciones",
-                Rol = Rol.GerenteOperaciones
+                Rol = Roles.GerenteOperaciones
             }
         };
     }

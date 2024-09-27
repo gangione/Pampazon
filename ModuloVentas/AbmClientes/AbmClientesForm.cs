@@ -122,6 +122,10 @@ namespace Pampazon
         #endregion
 
         #region Eventos
+        private void buttonBuscar_Click(object sender, EventArgs e)
+        {
+
+        }
         private void buttonGuardar_Click(object sender, EventArgs e)
         {
             DialogResult confirmacion = Alerta.PedirConfirmacion("Desea guardar el cliente?");

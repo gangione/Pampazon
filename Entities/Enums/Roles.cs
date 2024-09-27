@@ -1,6 +1,6 @@
 ﻿namespace Pampazon.Entities.Enums;
 
-public enum Rol
+public enum Roles
 {
     Administrador,
     GerenteGeneral,
