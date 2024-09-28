@@ -9,8 +9,9 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
     {
         private RecepcionarMercaderiaModel _recepcionModel;
         private List<ClienteEntity> _clientes;
+        private List<TransportistaEntity> _transportistas;
         private List<MercaderiaEntity> _mercaderias;
-        protected Dictionary<string, ErrorProvider> _errores;
+        private Dictionary<string, ErrorProvider> _errores;
         public RecepcionarMercaderiaForm()
         {
             InitializeComponent();
@@ -26,6 +27,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
         private void CargarFormulario()
         {
             _clientes = _recepcionModel.ObtenerClientes();
+            _transportistas = _recepcionModel.ObtenerTransportistas();
 
             textBoxCliente.Clear();
             textBoxRemito.Clear();
@@ -37,6 +39,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
 
             CrearValidadores();
             ConfigurarAutocompleteClientes();
+            ConfigurarAutocompleteTransportistas();
             DeshabilitarNotaDeEspacio();
         }
 
@@ -57,7 +60,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             textBoxDNITransportista.Tag = labelDNITransportista.Text;
             errorProviderDNITransportista.Tag = textBoxDNITransportista;
 
-            textBoxNombreTransportista.Tag = labelNombreTransportista;
+            textBoxNombreTransportista.Tag = labelNombreTransportista.Text;
             errorProviderNombreTransportista.Tag = textBoxNombreTransportista;
 
             _errores.Add("TransportistaDNI", errorProviderDNITransportista);
@@ -80,8 +83,6 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
 
         private List<string> ValidarFormularioMercaderias()
         {
-            List<string> mensajes = new();
-
             List<ErrorProvider> errores = new()
             {
                 _errores.GetValueOrDefault("MercaderiaDescripcion"),
@@ -91,24 +92,13 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
 
             ValidateChildren();
 
-            foreach (var error in errores)
-            {
-                Control control = (Control)error.Tag;
-                string err = error.GetError(control);
-
-                if (!string.IsNullOrEmpty(err))
-                {
-                    mensajes.Add($"{control.Tag}: {err}");
-                }
-            };
+            List<string> mensajes = Validador.ValidarControles(errores);
 
             return mensajes;
         }
 
         private List<string> ValidarFormularioOrdenDeRecepcion()
         {
-            List<string> mensajes = new();
-
             List<ErrorProvider> errores = new()
             {
                 _errores.GetValueOrDefault("Cliente"),
@@ -119,16 +109,13 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
 
             ValidateChildren();
 
-            foreach (var error in errores)
+            if (_mercaderias.Count > 0)
             {
-                Control control = (Control)error.Tag;
-                string err = error.GetError(control);
+                errorProviderDescripcionMercaderia.SetError(textBoxDescripcionMercaderia, "");
+                errorProviderCantidadMercaderia.SetError(textBoxCantidadMercaderia, "");
+            }
 
-                if (!string.IsNullOrEmpty(err))
-                {
-                    mensajes.Add($"{control.Tag}: {err}");
-                }
-            };
+            List<string> mensajes = Validador.ValidarControles(errores);
 
             return mensajes;
         }
@@ -192,6 +179,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             item.SubItems.Add(mercaderia.Cantidad.ToString());
             item.SubItems.Add("");
             listViewMercaderias.Items.Add(item);
+            _mercaderias.Add(mercaderia);
         }
 
         private void EliminarItemsMercaderia()
@@ -199,6 +187,10 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             var mercaderias = listViewMercaderias.SelectedItems;
             for (int i = 0; i < mercaderias.Count; i++)
             {
+                MercaderiaEntity? mercaderia = _mercaderias
+                    .Find(m => m.Descripcion == mercaderias[i].Text);
+
+                _mercaderias.Remove(mercaderia);
                 listViewMercaderias.Items.RemoveAt(mercaderias[i].Index);
             }
         }
@@ -223,6 +215,23 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             textBoxCliente.TextChanged += textBoxCliente_TextChanged;
         }
 
+        private void ConfigurarAutocompleteTransportistas()
+        {
+            // Crear una colección para el autocomplete
+            AutoCompleteStringCollection nombresTransportistas = new();
+
+            // Agregar los nombres a la colección
+            foreach (var transportista in _transportistas)
+            {
+                nombresTransportistas.Add(transportista.NombreYApellido);
+            }
+
+            textBoxNombreTransportista.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            textBoxNombreTransportista.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            textBoxNombreTransportista.AutoCompleteCustomSource = nombresTransportistas;
+            textBoxNombreTransportista.TextChanged += textBoxNombreTransportista_TextChanged;
+        }
+
         #endregion
 
         #region Eventos
@@ -234,7 +243,13 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
 
         private void textBoxCliente_TextChanged(object sender, EventArgs e)
         {
-            _clientes = _recepcionModel.ObtenerClientesPorFiltro(textBoxObservaciones.Text);
+            _clientes = _recepcionModel.ObtenerClientesPorFiltro(textBoxCliente.Text);
+        }
+
+        private void textBoxNombreTransportista_TextChanged(object sender, EventArgs e)
+        {
+            _transportistas = _recepcionModel
+                .ObtenerTransportistasPorFiltro(textBoxNombreTransportista.Text);
         }
 
         private void textBoxDescripcionMercaderia_Validating(object sender, CancelEventArgs e)
@@ -262,20 +277,12 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             List<string> erroresValidacion = ValidarFormularioMercaderias();
             if (erroresValidacion.Count > 0)
             {
-                string mensaje = "Hay errores en los datos ingresados \n\n";
-                erroresValidacion.ForEach(error =>
-                {
-                    mensaje += error + "\n";
-                });
-
-                Alerta.MostrarError(mensaje);
-
+                Alerta.MostrarErrores(erroresValidacion);
                 return;
             }
 
             AgregarItemMercaderia(new MercaderiaEntity()
             {
-                //NumeroCliente = long.Parse(textBoxCliente.Text),
                 Descripcion = textBoxDescripcionMercaderia.Text,
                 UnidadDeMedida = textBoxUMMercaderia.Text,
                 Cantidad = long.Parse(textBoxCantidadMercaderia.Text),
@@ -316,7 +323,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
 
         private void buttonGenerarNotaInsuficiente_Click(object sender, EventArgs e)
         {
-            _recepcionModel.GenerarNotaEspacioInsuficiente();
+            //_recepcionModel.GenerarNotaEspacioInsuficiente();
 
         }
 
@@ -336,13 +343,25 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             if (listaCompletaError != string.Empty)
                 erroresValidacion.Add(listaCompletaError);
 
+            erroresValidacion.AddRange(ValidarFormularioOrdenDeRecepcion());
+
             if (erroresValidacion.Count > 0)
             {
                 Alerta.MostrarErrores(erroresValidacion);
                 return;
             }
 
-            Resultado<bool> resultado = _recepcionModel.ComprobarEspacioCliente();
+            ComprobanteDeRecepcionEntity comprobante = new()
+            {
+                NumeroRemito = long.Parse(textBoxRemito.Text),
+                Cliente = _clientes.First(),
+                Transportista = _transportistas.First(),
+                MercaderiasRecibidas = _mercaderias,
+                Observaciones = textBoxObservaciones.Text
+            };
+
+            Resultado<ComprobanteDeRecepcionEntity> resultado = _recepcionModel
+                .GenerarComprobanteDeRecepcion(comprobante);
 
             if (!resultado.Exitoso)
             {
@@ -358,6 +377,56 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
         private void buttonRestablecer_Click(object sender, EventArgs e)
         {
             Iniciar();
+        }
+
+        private void textBoxCliente_Validating(object sender, CancelEventArgs e)
+        {
+            string validacion = Validador.ValidarCampoVacio(textBoxCliente.Text);
+
+            if (!string.IsNullOrEmpty(validacion))
+                errorProviderCliente.SetError(textBoxCliente, validacion);
+            else
+                errorProviderCliente.SetError(textBoxCliente, "");
+        }
+
+        private void textBoxRemito_Validating(object sender, CancelEventArgs e)
+        {
+            string validacion = Validador.ValidarCampoNumerico(textBoxRemito.Text);
+
+            if (!string.IsNullOrEmpty(validacion))
+                errorProviderNroRemito.SetError(textBoxRemito, validacion);
+            else
+                errorProviderNroRemito.SetError(textBoxRemito, "");
+        }
+
+        private void textBoxNombreTransportista_Validating(object sender, CancelEventArgs e)
+        {
+            string validacion = Validador.ValidarCampoVacio(textBoxNombreTransportista.Text);
+
+            if (!string.IsNullOrEmpty(validacion))
+                errorProviderNombreTransportista.SetError(textBoxNombreTransportista, validacion);
+            else
+                errorProviderNombreTransportista.SetError(textBoxNombreTransportista, "");
+        }
+
+        private void textBoxDNITransportista_Validating(object sender, CancelEventArgs e)
+        {
+            string validacion = Validador.ValidarCampoNumerico(textBoxDNITransportista.Text);
+
+            if (!string.IsNullOrEmpty(validacion))
+                errorProviderDNITransportista.SetError(textBoxDNITransportista, validacion);
+            else
+                errorProviderDNITransportista.SetError(textBoxDNITransportista, "");
+        }
+
+        private void textBoxCantidadRechazada_Validating(object sender, CancelEventArgs e)
+        {
+            //string validacion = Validador.ValidarCampoNumerico(textBoxCantidadRechazada.Text);
+
+            //if (!string.IsNullOrEmpty(validacion))
+            //    errorProviderCantidadRechazada.SetError(textBoxCantidadRechazada, validacion);
+            //else
+            //    errorProviderCantidadRechazada.SetError(textBoxCantidadRechazada, "");
         }
         #endregion
     }

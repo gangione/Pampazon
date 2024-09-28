@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RecepcionarMercaderiaForm));
             pictureBoxLogo = new PictureBox();
             labelTitulo = new Label();
-            groupBoxComprobarEspacio = new GroupBox();
+            groupBoxComprobanteRecepcion = new GroupBox();
             groupBoxNotaEspacio = new GroupBox();
             buttonActualizar = new Button();
             labelCantidadRechazada = new Label();
@@ -40,7 +40,6 @@
             radioButtonTotal = new RadioButton();
             textBoxCantidadRechazada = new TextBox();
             radioButtonParcial = new RadioButton();
-            buttonGenerarNotaInsuficiente = new Button();
             labelRemito = new Label();
             textBoxRemito = new TextBox();
             labelCliente = new Label();
@@ -76,7 +75,7 @@
             errorProviderUMMercaderia = new ErrorProvider(components);
             errorProviderCantidadMercaderia = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
-            groupBoxComprobarEspacio.SuspendLayout();
+            groupBoxComprobanteRecepcion.SuspendLayout();
             groupBoxNotaEspacio.SuspendLayout();
             groupBoxTransportista.SuspendLayout();
             groupBoxMercaderias.SuspendLayout();
@@ -110,23 +109,24 @@
             labelTitulo.TabIndex = 13;
             labelTitulo.Text = "Recepción de Mercaderías";
             // 
-            // groupBoxComprobarEspacio
+            // groupBoxComprobanteRecepcion
             // 
-            groupBoxComprobarEspacio.Controls.Add(labelRemito);
-            groupBoxComprobarEspacio.Controls.Add(textBoxRemito);
-            groupBoxComprobarEspacio.Controls.Add(labelCliente);
-            groupBoxComprobarEspacio.Controls.Add(textBoxCliente);
-            groupBoxComprobarEspacio.Controls.Add(buttonRestablecer);
-            groupBoxComprobarEspacio.Controls.Add(buttonGenerarOrdenYComprobantes);
-            groupBoxComprobarEspacio.Controls.Add(textBoxObservaciones);
-            groupBoxComprobarEspacio.Controls.Add(labelObservaciones);
-            groupBoxComprobarEspacio.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            groupBoxComprobarEspacio.Location = new Point(18, 69);
-            groupBoxComprobarEspacio.Name = "groupBoxComprobarEspacio";
-            groupBoxComprobarEspacio.Size = new Size(970, 602);
-            groupBoxComprobarEspacio.TabIndex = 0;
-            groupBoxComprobarEspacio.TabStop = false;
-            groupBoxComprobarEspacio.Text = "Comprobante de Recepción";
+            groupBoxComprobanteRecepcion.Controls.Add(groupBoxNotaEspacio);
+            groupBoxComprobanteRecepcion.Controls.Add(labelRemito);
+            groupBoxComprobanteRecepcion.Controls.Add(textBoxRemito);
+            groupBoxComprobanteRecepcion.Controls.Add(labelCliente);
+            groupBoxComprobanteRecepcion.Controls.Add(textBoxCliente);
+            groupBoxComprobanteRecepcion.Controls.Add(buttonRestablecer);
+            groupBoxComprobanteRecepcion.Controls.Add(buttonGenerarOrdenYComprobantes);
+            groupBoxComprobanteRecepcion.Controls.Add(textBoxObservaciones);
+            groupBoxComprobanteRecepcion.Controls.Add(labelObservaciones);
+            groupBoxComprobanteRecepcion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            groupBoxComprobanteRecepcion.Location = new Point(18, 69);
+            groupBoxComprobanteRecepcion.Name = "groupBoxComprobanteRecepcion";
+            groupBoxComprobanteRecepcion.Size = new Size(970, 723);
+            groupBoxComprobanteRecepcion.TabIndex = 0;
+            groupBoxComprobanteRecepcion.TabStop = false;
+            groupBoxComprobanteRecepcion.Text = "Comprobante de Recepción";
             // 
             // groupBoxNotaEspacio
             // 
@@ -137,9 +137,8 @@
             groupBoxNotaEspacio.Controls.Add(radioButtonTotal);
             groupBoxNotaEspacio.Controls.Add(textBoxCantidadRechazada);
             groupBoxNotaEspacio.Controls.Add(radioButtonParcial);
-            groupBoxNotaEspacio.Controls.Add(buttonGenerarNotaInsuficiente);
             groupBoxNotaEspacio.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            groupBoxNotaEspacio.Location = new Point(18, 677);
+            groupBoxNotaEspacio.Location = new Point(0, 543);
             groupBoxNotaEspacio.Name = "groupBoxNotaEspacio";
             groupBoxNotaEspacio.Size = new Size(970, 115);
             groupBoxNotaEspacio.TabIndex = 17;
@@ -200,6 +199,7 @@
             textBoxCantidadRechazada.Name = "textBoxCantidadRechazada";
             textBoxCantidadRechazada.Size = new Size(135, 27);
             textBoxCantidadRechazada.TabIndex = 13;
+            textBoxCantidadRechazada.Validating += textBoxCantidadRechazada_Validating;
             // 
             // radioButtonParcial
             // 
@@ -213,21 +213,6 @@
             radioButtonParcial.Text = "Parcial";
             radioButtonParcial.UseVisualStyleBackColor = true;
             radioButtonParcial.CheckedChanged += radioButtonParcial_CheckedChanged;
-            // 
-            // buttonGenerarNotaInsuficiente
-            // 
-            buttonGenerarNotaInsuficiente.BackColor = Color.FromArgb(33, 150, 243);
-            buttonGenerarNotaInsuficiente.FlatAppearance.BorderSize = 0;
-            buttonGenerarNotaInsuficiente.FlatStyle = FlatStyle.Flat;
-            buttonGenerarNotaInsuficiente.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            buttonGenerarNotaInsuficiente.ForeColor = Color.White;
-            buttonGenerarNotaInsuficiente.Location = new Point(816, 76);
-            buttonGenerarNotaInsuficiente.Name = "buttonGenerarNotaInsuficiente";
-            buttonGenerarNotaInsuficiente.Size = new Size(148, 33);
-            buttonGenerarNotaInsuficiente.TabIndex = 15;
-            buttonGenerarNotaInsuficiente.Text = "Generar Nota";
-            buttonGenerarNotaInsuficiente.UseVisualStyleBackColor = false;
-            buttonGenerarNotaInsuficiente.Click += buttonGenerarNotaInsuficiente_Click;
             // 
             // labelRemito
             // 
@@ -246,6 +231,7 @@
             textBoxRemito.Name = "textBoxRemito";
             textBoxRemito.Size = new Size(130, 27);
             textBoxRemito.TabIndex = 2;
+            textBoxRemito.Validating += textBoxRemito_Validating;
             // 
             // labelCliente
             // 
@@ -267,6 +253,7 @@
             textBoxCliente.Size = new Size(186, 27);
             textBoxCliente.TabIndex = 1;
             textBoxCliente.TextChanged += textBoxCliente_TextChanged;
+            textBoxCliente.Validating += textBoxCliente_Validating;
             // 
             // buttonRestablecer
             // 
@@ -275,7 +262,7 @@
             buttonRestablecer.FlatStyle = FlatStyle.Flat;
             buttonRestablecer.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             buttonRestablecer.ForeColor = Color.White;
-            buttonRestablecer.Location = new Point(756, 552);
+            buttonRestablecer.Location = new Point(756, 664);
             buttonRestablecer.Name = "buttonRestablecer";
             buttonRestablecer.Size = new Size(208, 43);
             buttonRestablecer.TabIndex = 18;
@@ -290,7 +277,7 @@
             buttonGenerarOrdenYComprobantes.FlatStyle = FlatStyle.Flat;
             buttonGenerarOrdenYComprobantes.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             buttonGenerarOrdenYComprobantes.ForeColor = Color.White;
-            buttonGenerarOrdenYComprobantes.Location = new Point(498, 552);
+            buttonGenerarOrdenYComprobantes.Location = new Point(498, 664);
             buttonGenerarOrdenYComprobantes.Name = "buttonGenerarOrdenYComprobantes";
             buttonGenerarOrdenYComprobantes.Size = new Size(252, 43);
             buttonGenerarOrdenYComprobantes.TabIndex = 17;
@@ -373,7 +360,7 @@
             // 
             labelDNITransportista.AutoSize = true;
             labelDNITransportista.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-            labelDNITransportista.Location = new Point(8, 36);
+            labelDNITransportista.Location = new Point(221, 36);
             labelDNITransportista.Name = "labelDNITransportista";
             labelDNITransportista.Size = new Size(40, 15);
             labelDNITransportista.TabIndex = 16;
@@ -383,7 +370,7 @@
             // 
             labelNombreTransportista.AutoSize = true;
             labelNombreTransportista.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-            labelNombreTransportista.Location = new Point(220, 36);
+            labelNombreTransportista.Location = new Point(7, 36);
             labelNombreTransportista.Name = "labelNombreTransportista";
             labelNombreTransportista.Size = new Size(132, 15);
             labelNombreTransportista.TabIndex = 14;
@@ -392,18 +379,21 @@
             // textBoxDNITransportista
             // 
             textBoxDNITransportista.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            textBoxDNITransportista.Location = new Point(7, 59);
+            textBoxDNITransportista.Location = new Point(220, 59);
             textBoxDNITransportista.Name = "textBoxDNITransportista";
             textBoxDNITransportista.Size = new Size(186, 27);
             textBoxDNITransportista.TabIndex = 4;
+            textBoxDNITransportista.Validating += textBoxDNITransportista_Validating;
             // 
             // textBoxNombreTransportista
             // 
             textBoxNombreTransportista.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            textBoxNombreTransportista.Location = new Point(220, 59);
+            textBoxNombreTransportista.Location = new Point(7, 59);
             textBoxNombreTransportista.Name = "textBoxNombreTransportista";
             textBoxNombreTransportista.Size = new Size(186, 27);
             textBoxNombreTransportista.TabIndex = 5;
+            textBoxNombreTransportista.TextChanged += textBoxNombreTransportista_TextChanged;
+            textBoxNombreTransportista.Validating += textBoxNombreTransportista_Validating;
             // 
             // groupBoxMercaderias
             // 
@@ -544,12 +534,11 @@
             AutoSize = true;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1008, 804);
-            Controls.Add(groupBoxNotaEspacio);
             Controls.Add(pictureBoxLogo);
             Controls.Add(labelTitulo);
             Controls.Add(groupBoxMercaderias);
             Controls.Add(groupBoxTransportista);
-            Controls.Add(groupBoxComprobarEspacio);
+            Controls.Add(groupBoxComprobanteRecepcion);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             Name = "RecepcionarMercaderiaForm";
@@ -557,8 +546,8 @@
             Text = "RecepcionMercaderiaForm";
             Load += RecepcionarMercaderiaForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
-            groupBoxComprobarEspacio.ResumeLayout(false);
-            groupBoxComprobarEspacio.PerformLayout();
+            groupBoxComprobanteRecepcion.ResumeLayout(false);
+            groupBoxComprobanteRecepcion.PerformLayout();
             groupBoxNotaEspacio.ResumeLayout(false);
             groupBoxNotaEspacio.PerformLayout();
             groupBoxTransportista.ResumeLayout(false);
@@ -580,7 +569,7 @@
 
         private PictureBox pictureBoxLogo;
         private Label labelTitulo;
-        private GroupBox groupBoxComprobarEspacio;
+        private GroupBox groupBoxComprobanteRecepcion;
         private Label labelCliente;
         private Label labelObservaciones;
         private TextBox textBoxCliente;
@@ -595,7 +584,6 @@
         private TextBox textBoxDNITransportista;
         private TextBox textBoxNombreTransportista;
         private GroupBox groupBoxMercaderias;
-        private GroupBox groupBox3;
         private Label labelRemito;
         private TextBox textBoxRemito;
         private Button buttonGenerarOrdenYComprobantes;
@@ -618,7 +606,6 @@
         private Label label8;
         private RadioButton radioButtonTotal;
         private RadioButton radioButtonParcial;
-        private Button buttonGenerarNotaInsuficiente;
         private Button buttonRestablecer;
         private ColumnHeader columnHeaderCantidadRechazada;
         private Label labelCantidadRechazada;

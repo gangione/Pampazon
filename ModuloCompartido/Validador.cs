@@ -51,5 +51,21 @@
 
             return string.Empty;
         }
+
+        public static List<string> ValidarControles(List<ErrorProvider> controlesDeError)
+        {
+            List<string> mensajes = new();
+            foreach (var error in controlesDeError)
+            {
+                Control control = (Control)error.Tag;
+                string err = error.GetError(control);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    mensajes.Add($"{control.Tag}: {err}");
+                }
+            };
+            return mensajes;
+        }
     }
 }

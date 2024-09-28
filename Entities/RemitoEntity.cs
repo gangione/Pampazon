@@ -1,10 +1,12 @@
 ﻿namespace Pampazon.Entities;
 
-public class RemitoEntidad
+public class RemitoEntity
 {
-    public string Numero { get; set; }
-    public DateTime FechaEmision { get; set; }
+    public long Numero { get; set; }
+    public DateTime Fecha { get; set; }
     public TransportistaEntity Transportista { get; set; }
-    public DomicilioEntity DomicilioEntrega { get; set; }
+    public DomicilioEntity? DomicilioEntrega { get; set; }
+    public string Emisor { get; set; }
+    public string Receptor { get; set; }
     public string? Observaciones { get; set; }
 }
