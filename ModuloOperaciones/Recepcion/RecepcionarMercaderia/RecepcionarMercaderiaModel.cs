@@ -119,7 +119,7 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
                 _comprobantesDeRecepcion.Last().Numero + 1;
             comprobante.Numero = numeroComprobante;
 
-            long numeroOrden = _comprobantesDeRecepcion.LastOrDefault() is null ? 1 :
+            long numeroOrden = _ordenesDeRecepcion.LastOrDefault() is null ? 1 :
                 _comprobantesDeRecepcion.Last().Numero + 1;
 
             OrdenDeRecepcionEntity ordenDeRecepcion = new()

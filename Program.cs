@@ -1,3 +1,5 @@
+using Pampazon.ModuloOperaciones.Descarga.IngresarOrdenDePreparacion;
+
 namespace Pampazon
 {
     internal static class Program
@@ -12,7 +14,7 @@ namespace Pampazon
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            Application.Run(new IniciarSesionForm());
+            //Application.Run(new IniciarSesionForm());
 
             // Admin.
             //Application.Run(new AbmUsuariosForm()); 
@@ -21,7 +23,7 @@ namespace Pampazon
             //Application.Run(new RecepcionarMercaderiaForm());
 
             // Proceso OUT.
-            //Application.Run(new GenerarOrdenDePreparacionForm());
+            Application.Run(new GenerarOrdenDePreparacionForm());
             //Application.Run(new GenerarOrdenDeSeleccionForm());
             //Application.Run(new SeleccionarMercaderiasForm());
             //Application.Run(new GenerarOrdenDeEntregaForm());

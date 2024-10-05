@@ -8,5 +8,4 @@ public class MercaderiaEntity
     public string Descripcion { get; set; }
     public int Cantidad { get; set; }
     public UnidadDeMedida UnidadDeMedida { get; set; }
-    public Ubicacion Ubicacion { get; set; }
 }

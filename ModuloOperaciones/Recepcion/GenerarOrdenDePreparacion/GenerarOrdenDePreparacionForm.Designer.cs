@@ -38,30 +38,25 @@ partial class GenerarOrdenDePreparacionForm
         buttonGenerarOrden = new Button();
         textBoxObservaciones = new TextBox();
         labelObservaciones = new Label();
-        groupBoxMercaderias = new GroupBox();
-        groupBox1 = new GroupBox();
+        groupBoxMercaderiasEnStock = new GroupBox();
+        listViewMercaderiasEnStock = new ListView();
+        columnHeaderDescripcion = new ColumnHeader();
+        columnHeaderUM = new ColumnHeader();
+        columnHeaderCantidadEnStock = new ColumnHeader();
+        labelCantidadAPreparar = new Label();
+        buttonAgregar = new Button();
+        textBoxCantidadARetirar = new TextBox();
         label1 = new Label();
         button1 = new Button();
         button2 = new Button();
         button3 = new Button();
-        textBox1 = new TextBox();
         listView1 = new ListView();
         columnHeader1 = new ColumnHeader();
         columnHeader2 = new ColumnHeader();
         columnHeader3 = new ColumnHeader();
-        textBox2 = new TextBox();
         label2 = new Label();
         label3 = new Label();
         label4 = new Label();
-        textBox3 = new TextBox();
-        textBox4 = new TextBox();
-        listViewMercaderias = new ListView();
-        columnHeaderDescripcion = new ColumnHeader();
-        columnHeaderUM = new ColumnHeader();
-        columnHeaderCantidadEnStock = new ColumnHeader();
-        labelCantidadRechazada = new Label();
-        buttonAgregar = new Button();
-        textBoxCantidadRechazada = new TextBox();
         buttonEditar = new Button();
         buttonEliminar = new Button();
         groupBoxMercaderiasARetirar = new GroupBox();
@@ -70,18 +65,14 @@ partial class GenerarOrdenDePreparacionForm
         button4 = new Button();
         button5 = new Button();
         button6 = new Button();
-        textBox5 = new TextBox();
         listView2 = new ListView();
         columnHeader4 = new ColumnHeader();
         columnHeader5 = new ColumnHeader();
         columnHeader6 = new ColumnHeader();
-        textBox6 = new TextBox();
         label6 = new Label();
         label7 = new Label();
         label8 = new Label();
-        textBox7 = new TextBox();
-        textBox8 = new TextBox();
-        listView3 = new ListView();
+        listViewMercaderiasARetirar = new ListView();
         columnHeaderDescripcionMercaderiaARetirar = new ColumnHeader();
         columnHeaderUMMercaderiaARetirar = new ColumnHeader();
         columnHeaderCantidadARetirar = new ColumnHeader();
@@ -93,8 +84,7 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxTransportista = new GroupBox();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxOrdenDePreparacion.SuspendLayout();
-        groupBoxMercaderias.SuspendLayout();
-        groupBox1.SuspendLayout();
+        groupBoxMercaderiasEnStock.SuspendLayout();
         groupBoxMercaderiasARetirar.SuspendLayout();
         groupBox3.SuspendLayout();
         groupBoxTransportista.SuspendLayout();
@@ -129,7 +119,7 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxOrdenDePreparacion.Controls.Add(buttonGenerarOrden);
         groupBoxOrdenDePreparacion.Controls.Add(textBoxObservaciones);
         groupBoxOrdenDePreparacion.Controls.Add(labelObservaciones);
-        groupBoxOrdenDePreparacion.Controls.Add(groupBoxMercaderias);
+        groupBoxOrdenDePreparacion.Controls.Add(groupBoxMercaderiasEnStock);
         groupBoxOrdenDePreparacion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
         groupBoxOrdenDePreparacion.Location = new Point(18, 69);
         groupBoxOrdenDePreparacion.Name = "groupBoxOrdenDePreparacion";
@@ -137,7 +127,6 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxOrdenDePreparacion.TabIndex = 16;
         groupBoxOrdenDePreparacion.TabStop = false;
         groupBoxOrdenDePreparacion.Text = "Orden De Preparación";
-        groupBoxOrdenDePreparacion.Enter += groupBoxOrdenDePreparacion_Enter;
         // 
         // labelCliente
         // 
@@ -152,12 +141,14 @@ partial class GenerarOrdenDePreparacionForm
         // textBoxCliente
         // 
         textBoxCliente.AllowDrop = true;
+        textBoxCliente.CharacterCasing = CharacterCasing.Upper;
         textBoxCliente.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
         textBoxCliente.Location = new Point(5, 59);
         textBoxCliente.Name = "textBoxCliente";
         textBoxCliente.PlaceholderText = " Nombre / Razón Social";
         textBoxCliente.Size = new Size(186, 27);
         textBoxCliente.TabIndex = 1;
+        textBoxCliente.TextChanged += textBoxCliente_TextChanged;
         // 
         // buttonRestablecer
         // 
@@ -186,6 +177,7 @@ partial class GenerarOrdenDePreparacionForm
         buttonGenerarOrden.TabIndex = 17;
         buttonGenerarOrden.Text = "Generar Orden";
         buttonGenerarOrden.UseVisualStyleBackColor = false;
+        buttonGenerarOrden.Click += buttonGenerarOrden_Click;
         // 
         // textBoxObservaciones
         // 
@@ -194,7 +186,7 @@ partial class GenerarOrdenDePreparacionForm
         textBoxObservaciones.Multiline = true;
         textBoxObservaciones.Name = "textBoxObservaciones";
         textBoxObservaciones.Size = new Size(952, 40);
-        textBoxObservaciones.TabIndex = 0;
+        textBoxObservaciones.TabIndex = 5;
         textBoxObservaciones.TabStop = false;
         // 
         // labelObservaciones
@@ -207,42 +199,82 @@ partial class GenerarOrdenDePreparacionForm
         labelObservaciones.TabIndex = 0;
         labelObservaciones.Text = "Obsevaciones";
         // 
-        // groupBoxMercaderias
+        // groupBoxMercaderiasEnStock
         // 
-        groupBoxMercaderias.Controls.Add(groupBox1);
-        groupBoxMercaderias.Controls.Add(listViewMercaderias);
-        groupBoxMercaderias.Controls.Add(labelCantidadRechazada);
-        groupBoxMercaderias.Controls.Add(buttonAgregar);
-        groupBoxMercaderias.Controls.Add(textBoxCantidadRechazada);
-        groupBoxMercaderias.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        groupBoxMercaderias.Location = new Point(0, 92);
-        groupBoxMercaderias.Name = "groupBoxMercaderias";
-        groupBoxMercaderias.Size = new Size(970, 216);
-        groupBoxMercaderias.TabIndex = 19;
-        groupBoxMercaderias.TabStop = false;
-        groupBoxMercaderias.Text = "Mercaderías en Stock";
+        groupBoxMercaderiasEnStock.Controls.Add(listViewMercaderiasEnStock);
+        groupBoxMercaderiasEnStock.Controls.Add(labelCantidadAPreparar);
+        groupBoxMercaderiasEnStock.Controls.Add(buttonAgregar);
+        groupBoxMercaderiasEnStock.Controls.Add(textBoxCantidadARetirar);
+        groupBoxMercaderiasEnStock.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        groupBoxMercaderiasEnStock.Location = new Point(0, 92);
+        groupBoxMercaderiasEnStock.Name = "groupBoxMercaderiasEnStock";
+        groupBoxMercaderiasEnStock.Size = new Size(970, 216);
+        groupBoxMercaderiasEnStock.TabIndex = 19;
+        groupBoxMercaderiasEnStock.TabStop = false;
+        groupBoxMercaderiasEnStock.Text = "Mercaderías en Stock";
         // 
-        // groupBox1
+        // listViewMercaderiasEnStock
         // 
-        groupBox1.Controls.Add(label1);
-        groupBox1.Controls.Add(button1);
-        groupBox1.Controls.Add(button2);
-        groupBox1.Controls.Add(button3);
-        groupBox1.Controls.Add(textBox1);
-        groupBox1.Controls.Add(listView1);
-        groupBox1.Controls.Add(textBox2);
-        groupBox1.Controls.Add(label2);
-        groupBox1.Controls.Add(label3);
-        groupBox1.Controls.Add(label4);
-        groupBox1.Controls.Add(textBox3);
-        groupBox1.Controls.Add(textBox4);
-        groupBox1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        groupBox1.Location = new Point(5, 217);
-        groupBox1.Name = "groupBox1";
-        groupBox1.Size = new Size(970, 222);
-        groupBox1.TabIndex = 20;
-        groupBox1.TabStop = false;
-        groupBox1.Text = "Mercaderías en Stock";
+        listViewMercaderiasEnStock.Columns.AddRange(new ColumnHeader[] { columnHeaderDescripcion, columnHeaderUM, columnHeaderCantidadEnStock });
+        listViewMercaderiasEnStock.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        listViewMercaderiasEnStock.FullRowSelect = true;
+        listViewMercaderiasEnStock.GridLines = true;
+        listViewMercaderiasEnStock.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+        listViewMercaderiasEnStock.Location = new Point(6, 28);
+        listViewMercaderiasEnStock.MultiSelect = false;
+        listViewMercaderiasEnStock.Name = "listViewMercaderiasEnStock";
+        listViewMercaderiasEnStock.Size = new Size(956, 110);
+        listViewMercaderiasEnStock.TabIndex = 10;
+        listViewMercaderiasEnStock.UseCompatibleStateImageBehavior = false;
+        listViewMercaderiasEnStock.View = View.Details;
+        // 
+        // columnHeaderDescripcion
+        // 
+        columnHeaderDescripcion.Text = "Descripcion";
+        columnHeaderDescripcion.Width = 150;
+        // 
+        // columnHeaderUM
+        // 
+        columnHeaderUM.Text = "Unidad de Medida";
+        columnHeaderUM.Width = 150;
+        // 
+        // columnHeaderCantidadEnStock
+        // 
+        columnHeaderCantidadEnStock.Text = "Cantidad en Stock";
+        columnHeaderCantidadEnStock.Width = 150;
+        // 
+        // labelCantidadAPreparar
+        // 
+        labelCantidadAPreparar.AutoSize = true;
+        labelCantidadAPreparar.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
+        labelCantidadAPreparar.Location = new Point(711, 153);
+        labelCantidadAPreparar.Name = "labelCantidadAPreparar";
+        labelCantidadAPreparar.Size = new Size(140, 15);
+        labelCantidadAPreparar.TabIndex = 26;
+        labelCantidadAPreparar.Text = "Cantidad a preparar *";
+        // 
+        // buttonAgregar
+        // 
+        buttonAgregar.BackColor = Color.FromArgb(33, 150, 243);
+        buttonAgregar.FlatAppearance.BorderSize = 0;
+        buttonAgregar.FlatStyle = FlatStyle.Flat;
+        buttonAgregar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        buttonAgregar.ForeColor = Color.White;
+        buttonAgregar.Location = new Point(873, 177);
+        buttonAgregar.Name = "buttonAgregar";
+        buttonAgregar.Size = new Size(89, 27);
+        buttonAgregar.TabIndex = 10;
+        buttonAgregar.Text = "+ Agregar";
+        buttonAgregar.UseVisualStyleBackColor = false;
+        buttonAgregar.Click += buttonAgregar_Click;
+        // 
+        // textBoxCantidadARetirar
+        // 
+        textBoxCantidadARetirar.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+        textBoxCantidadARetirar.Location = new Point(711, 177);
+        textBoxCantidadARetirar.Name = "textBoxCantidadARetirar";
+        textBoxCantidadARetirar.Size = new Size(135, 27);
+        textBoxCantidadARetirar.TabIndex = 2;
         // 
         // label1
         // 
@@ -297,14 +329,6 @@ partial class GenerarOrdenDePreparacionForm
         button3.Text = "+ Agregar";
         button3.UseVisualStyleBackColor = false;
         // 
-        // textBox1
-        // 
-        textBox1.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox1.Location = new Point(498, 57);
-        textBox1.Name = "textBox1";
-        textBox1.Size = new Size(135, 27);
-        textBox1.TabIndex = 13;
-        // 
         // listView1
         // 
         listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
@@ -335,14 +359,6 @@ partial class GenerarOrdenDePreparacionForm
         columnHeader3.Text = "Cantidad en Stock";
         columnHeader3.Width = 150;
         // 
-        // textBox2
-        // 
-        textBox2.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox2.Location = new Point(8, 57);
-        textBox2.Name = "textBox2";
-        textBox2.Size = new Size(130, 27);
-        textBox2.TabIndex = 7;
-        // 
         // label2
         // 
         label2.AutoSize = true;
@@ -372,84 +388,6 @@ partial class GenerarOrdenDePreparacionForm
         label4.Size = new Size(131, 15);
         label4.TabIndex = 20;
         label4.Text = "Unidad De Medida *";
-        // 
-        // textBox3
-        // 
-        textBox3.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox3.Location = new Point(174, 57);
-        textBox3.Name = "textBox3";
-        textBox3.Size = new Size(131, 27);
-        textBox3.TabIndex = 8;
-        // 
-        // textBox4
-        // 
-        textBox4.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox4.Location = new Point(340, 57);
-        textBox4.Name = "textBox4";
-        textBox4.Size = new Size(127, 27);
-        textBox4.TabIndex = 9;
-        // 
-        // listViewMercaderias
-        // 
-        listViewMercaderias.Columns.AddRange(new ColumnHeader[] { columnHeaderDescripcion, columnHeaderUM, columnHeaderCantidadEnStock });
-        listViewMercaderias.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-        listViewMercaderias.FullRowSelect = true;
-        listViewMercaderias.GridLines = true;
-        listViewMercaderias.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewMercaderias.Location = new Point(6, 28);
-        listViewMercaderias.MultiSelect = false;
-        listViewMercaderias.Name = "listViewMercaderias";
-        listViewMercaderias.Size = new Size(956, 110);
-        listViewMercaderias.TabIndex = 10;
-        listViewMercaderias.UseCompatibleStateImageBehavior = false;
-        listViewMercaderias.View = View.Details;
-        // 
-        // columnHeaderDescripcion
-        // 
-        columnHeaderDescripcion.Text = "Descripcion";
-        columnHeaderDescripcion.Width = 150;
-        // 
-        // columnHeaderUM
-        // 
-        columnHeaderUM.Text = "Unidad de Medida";
-        columnHeaderUM.Width = 150;
-        // 
-        // columnHeaderCantidadEnStock
-        // 
-        columnHeaderCantidadEnStock.Text = "Cantidad en Stock";
-        columnHeaderCantidadEnStock.Width = 150;
-        // 
-        // labelCantidadRechazada
-        // 
-        labelCantidadRechazada.AutoSize = true;
-        labelCantidadRechazada.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelCantidadRechazada.Location = new Point(711, 153);
-        labelCantidadRechazada.Name = "labelCantidadRechazada";
-        labelCantidadRechazada.Size = new Size(126, 15);
-        labelCantidadRechazada.TabIndex = 26;
-        labelCantidadRechazada.Text = "Cantidad a retirar *";
-        // 
-        // buttonAgregar
-        // 
-        buttonAgregar.BackColor = Color.FromArgb(33, 150, 243);
-        buttonAgregar.FlatAppearance.BorderSize = 0;
-        buttonAgregar.FlatStyle = FlatStyle.Flat;
-        buttonAgregar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        buttonAgregar.ForeColor = Color.White;
-        buttonAgregar.Location = new Point(873, 177);
-        buttonAgregar.Name = "buttonAgregar";
-        buttonAgregar.Size = new Size(89, 27);
-        buttonAgregar.TabIndex = 10;
-        buttonAgregar.Text = "+ Agregar";
-        buttonAgregar.UseVisualStyleBackColor = false;
-        // 
-        // textBoxCantidadRechazada
-        // 
-        textBoxCantidadRechazada.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBoxCantidadRechazada.Location = new Point(711, 177);
-        textBoxCantidadRechazada.Name = "textBoxCantidadRechazada";
-        textBoxCantidadRechazada.Size = new Size(135, 27);
-        textBoxCantidadRechazada.TabIndex = 13;
         // 
         // buttonEditar
         // 
@@ -485,7 +423,7 @@ partial class GenerarOrdenDePreparacionForm
         // 
         groupBoxMercaderiasARetirar.Controls.Add(groupBox3);
         groupBoxMercaderiasARetirar.Controls.Add(buttonEditar);
-        groupBoxMercaderiasARetirar.Controls.Add(listView3);
+        groupBoxMercaderiasARetirar.Controls.Add(listViewMercaderiasARetirar);
         groupBoxMercaderiasARetirar.Controls.Add(buttonEliminar);
         groupBoxMercaderiasARetirar.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         groupBoxMercaderiasARetirar.Location = new Point(17, 371);
@@ -493,7 +431,7 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxMercaderiasARetirar.Size = new Size(970, 181);
         groupBoxMercaderiasARetirar.TabIndex = 20;
         groupBoxMercaderiasARetirar.TabStop = false;
-        groupBoxMercaderiasARetirar.Text = "Mercaderías a Retirar";
+        groupBoxMercaderiasARetirar.Text = "Mercaderías a Retirar por Transportista";
         // 
         // groupBox3
         // 
@@ -501,14 +439,10 @@ partial class GenerarOrdenDePreparacionForm
         groupBox3.Controls.Add(button4);
         groupBox3.Controls.Add(button5);
         groupBox3.Controls.Add(button6);
-        groupBox3.Controls.Add(textBox5);
         groupBox3.Controls.Add(listView2);
-        groupBox3.Controls.Add(textBox6);
         groupBox3.Controls.Add(label6);
         groupBox3.Controls.Add(label7);
         groupBox3.Controls.Add(label8);
-        groupBox3.Controls.Add(textBox7);
-        groupBox3.Controls.Add(textBox8);
         groupBox3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         groupBox3.Location = new Point(5, 217);
         groupBox3.Name = "groupBox3";
@@ -570,14 +504,6 @@ partial class GenerarOrdenDePreparacionForm
         button6.Text = "+ Agregar";
         button6.UseVisualStyleBackColor = false;
         // 
-        // textBox5
-        // 
-        textBox5.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox5.Location = new Point(498, 57);
-        textBox5.Name = "textBox5";
-        textBox5.Size = new Size(135, 27);
-        textBox5.TabIndex = 13;
-        // 
         // listView2
         // 
         listView2.Columns.AddRange(new ColumnHeader[] { columnHeader4, columnHeader5, columnHeader6 });
@@ -607,14 +533,6 @@ partial class GenerarOrdenDePreparacionForm
         // 
         columnHeader6.Text = "Cantidad en Stock";
         columnHeader6.Width = 150;
-        // 
-        // textBox6
-        // 
-        textBox6.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox6.Location = new Point(8, 57);
-        textBox6.Name = "textBox6";
-        textBox6.Size = new Size(130, 27);
-        textBox6.TabIndex = 7;
         // 
         // label6
         // 
@@ -646,36 +564,20 @@ partial class GenerarOrdenDePreparacionForm
         label8.TabIndex = 20;
         label8.Text = "Unidad De Medida *";
         // 
-        // textBox7
+        // listViewMercaderiasARetirar
         // 
-        textBox7.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox7.Location = new Point(174, 57);
-        textBox7.Name = "textBox7";
-        textBox7.Size = new Size(131, 27);
-        textBox7.TabIndex = 8;
-        // 
-        // textBox8
-        // 
-        textBox8.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox8.Location = new Point(340, 57);
-        textBox8.Name = "textBox8";
-        textBox8.Size = new Size(127, 27);
-        textBox8.TabIndex = 9;
-        // 
-        // listView3
-        // 
-        listView3.Columns.AddRange(new ColumnHeader[] { columnHeaderDescripcionMercaderiaARetirar, columnHeaderUMMercaderiaARetirar, columnHeaderCantidadARetirar, columnHeaderStockFuturo });
-        listView3.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-        listView3.FullRowSelect = true;
-        listView3.GridLines = true;
-        listView3.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listView3.Location = new Point(6, 28);
-        listView3.MultiSelect = false;
-        listView3.Name = "listView3";
-        listView3.Size = new Size(956, 110);
-        listView3.TabIndex = 10;
-        listView3.UseCompatibleStateImageBehavior = false;
-        listView3.View = View.Details;
+        listViewMercaderiasARetirar.Columns.AddRange(new ColumnHeader[] { columnHeaderDescripcionMercaderiaARetirar, columnHeaderUMMercaderiaARetirar, columnHeaderCantidadARetirar, columnHeaderStockFuturo });
+        listViewMercaderiasARetirar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        listViewMercaderiasARetirar.FullRowSelect = true;
+        listViewMercaderiasARetirar.GridLines = true;
+        listViewMercaderiasARetirar.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+        listViewMercaderiasARetirar.Location = new Point(6, 28);
+        listViewMercaderiasARetirar.MultiSelect = false;
+        listViewMercaderiasARetirar.Name = "listViewMercaderiasARetirar";
+        listViewMercaderiasARetirar.Size = new Size(956, 110);
+        listViewMercaderiasARetirar.TabIndex = 10;
+        listViewMercaderiasARetirar.UseCompatibleStateImageBehavior = false;
+        listViewMercaderiasARetirar.View = View.Details;
         // 
         // columnHeaderDescripcionMercaderiaARetirar
         // 
@@ -699,11 +601,13 @@ partial class GenerarOrdenDePreparacionForm
         // 
         // textBoxNombreTransportista
         // 
+        textBoxNombreTransportista.CharacterCasing = CharacterCasing.Upper;
         textBoxNombreTransportista.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
         textBoxNombreTransportista.Location = new Point(7, 59);
         textBoxNombreTransportista.Name = "textBoxNombreTransportista";
         textBoxNombreTransportista.Size = new Size(186, 27);
         textBoxNombreTransportista.TabIndex = 3;
+        textBoxNombreTransportista.TextChanged += textBoxNombreTransportista_TextChanged;
         // 
         // textBoxDNITransportista
         // 
@@ -761,13 +665,12 @@ partial class GenerarOrdenDePreparacionForm
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Orden De Preparacion";
         FormClosing += GenerarOrdenDePreparacionForm_FormClosing;
+        Load += GenerarOrdenDePreparacionForm_Load;
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
         groupBoxOrdenDePreparacion.ResumeLayout(false);
         groupBoxOrdenDePreparacion.PerformLayout();
-        groupBoxMercaderias.ResumeLayout(false);
-        groupBoxMercaderias.PerformLayout();
-        groupBox1.ResumeLayout(false);
-        groupBox1.PerformLayout();
+        groupBoxMercaderiasEnStock.ResumeLayout(false);
+        groupBoxMercaderiasEnStock.PerformLayout();
         groupBoxMercaderiasARetirar.ResumeLayout(false);
         groupBox3.ResumeLayout(false);
         groupBox3.PerformLayout();
@@ -788,50 +691,41 @@ partial class GenerarOrdenDePreparacionForm
     private Button buttonGenerarOrden;
     private TextBox textBoxObservaciones;
     private Label labelObservaciones;
-    private GroupBox groupBoxMercaderias;
-    private Label labelCantidadRechazada;
+    private GroupBox groupBoxMercaderiasEnStock;
+    private Label labelCantidadAPreparar;
     private Button buttonEditar;
     private Button buttonEliminar;
     private Button buttonAgregar;
-    private TextBox textBoxCantidadRechazada;
-    private ListView listViewMercaderias;
+    private TextBox textBoxCantidadARetirar;
+    private ListView listViewMercaderiasEnStock;
     private ColumnHeader columnHeaderDescripcion;
     private ColumnHeader columnHeaderUM;
     private ColumnHeader columnHeaderCantidadEnStock;
-    private GroupBox groupBox1;
     private Label label1;
     private Button button1;
     private Button button2;
     private Button button3;
-    private TextBox textBox1;
     private ListView listView1;
     private ColumnHeader columnHeader1;
     private ColumnHeader columnHeader2;
     private ColumnHeader columnHeader3;
-    private TextBox textBox2;
     private Label label2;
     private Label label3;
     private Label label4;
-    private TextBox textBox3;
-    private TextBox textBox4;
     private GroupBox groupBoxMercaderiasARetirar;
     private GroupBox groupBox3;
     private Label label5;
     private Button button4;
     private Button button5;
     private Button button6;
-    private TextBox textBox5;
     private ListView listView2;
     private ColumnHeader columnHeader4;
     private ColumnHeader columnHeader5;
     private ColumnHeader columnHeader6;
-    private TextBox textBox6;
     private Label label6;
     private Label label7;
     private Label label8;
-    private TextBox textBox7;
-    private TextBox textBox8;
-    private ListView listView3;
+    private ListView listViewMercaderiasARetirar;
     private ColumnHeader columnHeaderDescripcionMercaderiaARetirar;
     private ColumnHeader columnHeaderUMMercaderiaARetirar;
     private ColumnHeader columnHeaderStockFuturo;
