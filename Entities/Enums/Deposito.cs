@@ -1,13 +1,13 @@
 ﻿namespace Pampazon.Entities.Enums
 {
-    public enum Depositos
+    public enum Deposito
     {
-        GBAZonaNorte, 
+        GBAZonaNorte,
         GBAZonaSur,
         Rosario,
-        Cordoba, 
+        Cordoba,
         Mendoza,
-        BahiaBlanca, 
+        BahiaBlanca,
         TierraDelFuego,
         Salta,
         Neuquen,

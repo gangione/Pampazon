@@ -1,6 +1,6 @@
 ﻿namespace Pampazon.Entities.Enums
 {
-    public enum OrdenDeRecepcionEstados
+    public enum OrdenDeRecepcionEstado
     {
         Pendiente,
         Cumplida

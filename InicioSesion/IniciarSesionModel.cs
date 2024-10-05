@@ -17,22 +17,43 @@ public class IniciarSesionModel
                 Numero = 1,
                 Usuario = "admin",
                 Contrasenia = "admin",
-                Rol = Roles.Administrador
+                Rol = Rol.Administrador
             },
             new()
             {
                 Numero = 2,
-                Usuario = "ventas",
-                Contrasenia = "ventas",
-                Rol = Roles.GerenteVentas
+                Usuario = "atencionalcliente",
+                Contrasenia = "atiendob0lud0s",
+                Rol = Rol.AtencionAlCliente
             },
             new()
             {
                 Numero = 3,
-                Usuario = "operaciones",
-                Contrasenia = "operaciones",
-                Rol = Roles.GerenteOperaciones
-            }
+                Usuario = "jefedepreparacion",
+                Contrasenia = "ordeno",
+                Rol = Rol.JefeDePreparacion
+            },
+            new()
+            {
+                Numero = 4,
+                Usuario = "estibador",
+                Contrasenia = "estibo",
+                Rol = Rol.Estibador
+            },
+            new()
+            {
+                Numero = 5,
+                Usuario = "empaquetador",
+                Contrasenia = "empaqueto",
+                Rol = Rol.Preparador
+            },
+            new()
+            {
+                Numero = 6,
+                Usuario = "despachante",
+                Contrasenia = "despacho",
+                Rol = Rol.Despachante
+            },
         };
     }
 

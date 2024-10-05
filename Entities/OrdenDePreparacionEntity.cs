@@ -2,7 +2,10 @@
 {
     public class OrdenDePreparacionEntity
     {
-        public List<MercaderiaEntity>? MercaderiasAPreparar { get; set; }
+        public long Numero { get; set; }
 
+
+
+        public List<MercaderiaEntity>? MercaderiasAPreparar { get; set; }
     }
 }

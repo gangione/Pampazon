@@ -14,9 +14,18 @@ namespace Pampazon
 
             Application.Run(new IniciarSesionForm());
 
+            // Admin.
             //Application.Run(new AbmUsuariosForm()); 
-            //Application.Run(new AbmClienteForm());
+
+            // Proceso IN. Posible nueva funcionalidad del flujo IN para el área de de Recepcion.
             //Application.Run(new RecepcionarMercaderiaForm());
+
+            // Proceso OUT.
+            //Application.Run(new GenerarOrdenDePreparacionForm());
+            //Application.Run(new GenerarOrdenDeSeleccionForm());
+            //Application.Run(new SeleccionarMercaderiasForm());
+            //Application.Run(new GenerarOrdenDeEntregaForm());
+            //Application.Run(new GenerarRemitoForm());
         }
     }
 }

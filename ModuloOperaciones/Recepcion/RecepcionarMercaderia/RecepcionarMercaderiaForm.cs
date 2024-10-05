@@ -76,9 +76,13 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             textBoxCantidadMercaderia.Tag = labelCantidadMercaderia.Text;
             errorProviderCantidadMercaderia.Tag = textBoxCantidadMercaderia;
 
+            textBoxCantidadRechazada.Tag = labelCantidadRechazada.Text;
+            errorProviderCantidadRechazada.Tag = textBoxCantidadRechazada;
+
             _errores.Add("MercaderiaDescripcion", errorProviderDescripcionMercaderia);
             _errores.Add("MercaderiaUM", errorProviderUMMercaderia);
             _errores.Add("MercaderiaCantidad", errorProviderCantidadMercaderia);
+            _errores.Add("MercaderiaCantidadRechazada", errorProviderCantidadRechazada);
         }
 
         private List<string> ValidarFormularioMercaderias()
@@ -87,8 +91,12 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             {
                 _errores.GetValueOrDefault("MercaderiaDescripcion"),
                 _errores.GetValueOrDefault("MercaderiaUM"),
-                _errores.GetValueOrDefault("MercaderiaCantidad")
+                _errores.GetValueOrDefault("MercaderiaCantidad"),
             };
+
+            if (textBoxCantidadRechazada.Enabled)
+                errores.Add(_errores
+                    .GetValueOrDefault("MercaderiaCantidadRechazada"));
 
             ValidateChildren();
 
@@ -123,6 +131,8 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
         private void DeshabilitarNotaDeEspacio()
         {
             groupBoxNotaEspacio.Hide();
+            radioButtonTotal.Checked = false;
+            radioButtonParcial.Checked = false;
             MostrarCantidadRechazada(false);
         }
 
@@ -139,14 +149,9 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             else
                 listViewMercaderias.Columns.Remove(columnHeaderCantidadRechazada);
 
-            radioButtonTotal.Checked = !mostrar;
-            radioButtonParcial.Checked = mostrar;
-
             labelCantidadRechazada.Visible = mostrar;
             textBoxCantidadRechazada.Visible = mostrar;
             textBoxCantidadRechazada.Enabled = mostrar;
-
-            buttonActualizar.Visible = mostrar;
         }
         #endregion
 
@@ -165,19 +170,19 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             for (int i = 0; i < mercaderias.Count; i++)
             {
                 ListViewItem item = new(mercaderias[i].Descripcion);
-                item.SubItems.Add(mercaderias[i].UnidadDeMedida);
+                item.SubItems.Add(mercaderias[i].UnidadDeMedida.ToString());
                 item.SubItems.Add(mercaderias[i].Cantidad.ToString());
                 viewItems.Add(item);
             }
             return viewItems.ToArray();
         }
 
-        private void AgregarItemMercaderia(MercaderiaEntity mercaderia)
+        private void AgregarItemMercaderia(MercaderiaEntity mercaderia, string cantidadRechazada)
         {
             ListViewItem item = new(mercaderia.Descripcion);
-            item.SubItems.Add(mercaderia.UnidadDeMedida);
+            item.SubItems.Add(mercaderia.UnidadDeMedida.ToString());
             item.SubItems.Add(mercaderia.Cantidad.ToString());
-            item.SubItems.Add("");
+            item.SubItems.Add(cantidadRechazada);
             listViewMercaderias.Items.Add(item);
             _mercaderias.Add(mercaderia);
         }
@@ -284,12 +289,14 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             AgregarItemMercaderia(new MercaderiaEntity()
             {
                 Descripcion = textBoxDescripcionMercaderia.Text,
-                UnidadDeMedida = textBoxUMMercaderia.Text,
-                Cantidad = long.Parse(textBoxCantidadMercaderia.Text),
-            });
+                //UnidadDeMedida = textBoxUMMercaderia.Text,
+                Cantidad = int.Parse(textBoxCantidadMercaderia.Text),
+            }, textBoxCantidadRechazada.Text);
+
             textBoxDescripcionMercaderia.Clear();
             textBoxUMMercaderia.Clear();
             textBoxCantidadMercaderia.Clear();
+            textBoxCantidadRechazada.Clear();
         }
 
         private void buttonEliminar_Click(object sender, EventArgs e)
@@ -297,28 +304,56 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             EliminarItemsMercaderia();
         }
 
-        private void buttonActualizar_Click(object sender, EventArgs e)
+        private void buttonEditar_Click(object sender, EventArgs e)
         {
             if (listViewMercaderias.SelectedItems.Count > 0)
             {
                 ListViewItem selected = listViewMercaderias.SelectedItems[0];
-                selected.SubItems[3].Text = textBoxCantidadRechazada.Text;
-                textBoxCantidadRechazada.Clear();
+                textBoxDescripcionMercaderia.Text = selected.SubItems[0].Text;
+                textBoxUMMercaderia.Text = selected.SubItems[1].Text;
+                textBoxCantidadMercaderia.Text = selected.SubItems[2].Text;
+                textBoxCantidadRechazada.Text = selected.SubItems[3].Text;
+
+                var mercaderia = _mercaderias
+                    .Find(m => m.Descripcion == selected.SubItems[0].Text);
+
+                _mercaderias.Remove(mercaderia);
+                listViewMercaderias.SelectedItems[0].Remove();
             }
             else
                 Alerta.MostrarAdvertencia("Debe seleccionar una mercadería.");
+        }
+        private void radioButtonTotal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonTotal.Checked)
+            {
+                if (!listViewMercaderias.Columns.Contains(columnHeaderCantidadRechazada))
+                    MostrarCantidadRechazada(true);
+
+                for (int i = 0; i < listViewMercaderias.Items.Count; i++)
+                {
+                    var item = listViewMercaderias.Items[i];
+
+                    if (item.SubItems[2].Text != "0")
+                    {
+                        item.SubItems[3].Text = item.SubItems[2].Text;
+                        item.SubItems[2].Text = "0";
+                    }
+                }
+            }
         }
 
         private void radioButtonParcial_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonParcial.Checked)
             {
-                MostrarCantidadRechazada(true);
+                if (!listViewMercaderias.Columns.Contains(columnHeaderCantidadRechazada))
+                    MostrarCantidadRechazada(true);
+
                 Alerta.MostrarAdvertencia(
                     "Debe completar la cantidad rechazada de cada Mercadería en la lista."
                 );
             }
-            else MostrarCantidadRechazada(false);
         }
 
         private void buttonGenerarNotaInsuficiente_Click(object sender, EventArgs e)
@@ -421,12 +456,12 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
 
         private void textBoxCantidadRechazada_Validating(object sender, CancelEventArgs e)
         {
-            //string validacion = Validador.ValidarCampoNumerico(textBoxCantidadRechazada.Text);
+            string validacion = Validador.ValidarCampoNumerico(textBoxCantidadRechazada.Text);
 
-            //if (!string.IsNullOrEmpty(validacion))
-            //    errorProviderCantidadRechazada.SetError(textBoxCantidadRechazada, validacion);
-            //else
-            //    errorProviderCantidadRechazada.SetError(textBoxCantidadRechazada, "");
+            if (!string.IsNullOrEmpty(validacion))
+                errorProviderCantidadRechazada.SetError(textBoxCantidadRechazada, validacion);
+            else
+                errorProviderCantidadRechazada.SetError(textBoxCantidadRechazada, "");
         }
         #endregion
     }

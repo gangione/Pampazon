@@ -1,10 +1,12 @@
-﻿namespace Pampazon.Entities;
+﻿using Pampazon.Entities.Enums;
+
+namespace Pampazon.Entities;
 
 public class MercaderiaEntity
 {
-    public long Id { get; set; }
     public long NumeroCliente { get; set; }
     public string Descripcion { get; set; }
-    public decimal Cantidad { get; set; }
-    public string UnidadDeMedida { get; set; }
+    public int Cantidad { get; set; }
+    public UnidadDeMedida UnidadDeMedida { get; set; }
+    public Ubicacion Ubicacion { get; set; }
 }

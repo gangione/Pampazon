@@ -128,7 +128,7 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
                 Fecha = hoy,
                 NumeroComprobante = numeroComprobante,
                 MercaderiasAIngresar = comprobante.MercaderiasRecibidas,
-                Estado = OrdenDeRecepcionEstados.Pendiente
+                Estado = OrdenDeRecepcionEstado.Pendiente
             };
 
             RemitoEntity remito = new()

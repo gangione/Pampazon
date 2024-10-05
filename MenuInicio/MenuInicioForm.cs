@@ -1,6 +1,6 @@
 ﻿using Pampazon.Entities;
 using Pampazon.Entities.Enums;
-using Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia;
+using Pampazon.ModuloMenuInicio;
 using Pampazon.ModuloUsuarios.AbmUsuarios;
 
 namespace Pampazon.MenuInicio
@@ -8,28 +8,23 @@ namespace Pampazon.MenuInicio
     public partial class MenuInicioForm : Form
     {
         private readonly UsuarioEntity _usuario;
+        private readonly MenuInicioModel _modelo;
         private Dictionary<string, Form> _opciones;
         public MenuInicioForm(UsuarioEntity usuario)
         {
             _usuario = usuario;
-            _opciones = new();
+            _modelo = new MenuInicioModel();
+            _opciones = _modelo.ObtenerOpciones();
             InitializeComponent();
         }
         private void MenuInicioForm_Load(object sender, EventArgs e)
         {
             _opciones.Add("Usuarios", new AbmUsuariosForm());
-            _opciones.Add("Clientes", new AbmClientesForm());
-            _opciones.Add("RecepcionarMercaderia", new RecepcionarMercaderiaForm());
+            _modelo.MostrarMenuDeUsuario(_usuario);
 
-            // Modificar al Menú de Ventas / Operaciones según rol.
-            if (_usuario.Rol == Roles.GerenteVentas)
-            {
-                var clientesForm = _opciones["Clientes"];
-                clientesForm.ShowDialog();
+            //Deberías cerrar el formulario de menú si el Usuario no es Admin
+            if (_usuario.Rol != Rol.Administrador)
                 Dispose();
-                return;
-            }
-
         }
 
         private void buttonAdmin_Click(object sender, EventArgs e)
@@ -40,7 +35,7 @@ namespace Pampazon.MenuInicio
 
         private void buttonVentas_Click(object sender, EventArgs e)
         {
-            var clientesForm = _opciones["Clientes"];
+            var clientesForm = _opciones[Enum.GetName(Rol.AtencionAlCliente)];
             clientesForm.ShowDialog();
         }
 

@@ -34,11 +34,8 @@
             labelTitulo = new Label();
             groupBoxComprobanteRecepcion = new GroupBox();
             groupBoxNotaEspacio = new GroupBox();
-            buttonActualizar = new Button();
-            labelCantidadRechazada = new Label();
             label8 = new Label();
             radioButtonTotal = new RadioButton();
-            textBoxCantidadRechazada = new TextBox();
             radioButtonParcial = new RadioButton();
             labelRemito = new Label();
             textBoxRemito = new TextBox();
@@ -48,6 +45,9 @@
             buttonGenerarOrdenYComprobantes = new Button();
             textBoxObservaciones = new TextBox();
             labelObservaciones = new Label();
+            buttonEditar = new Button();
+            labelCantidadRechazada = new Label();
+            textBoxCantidadRechazada = new TextBox();
             labelCantidadMercaderia = new Label();
             labelUMMercaderia = new Label();
             textBoxUMMercaderia = new TextBox();
@@ -74,6 +74,7 @@
             errorProviderDescripcionMercaderia = new ErrorProvider(components);
             errorProviderUMMercaderia = new ErrorProvider(components);
             errorProviderCantidadMercaderia = new ErrorProvider(components);
+            errorProviderCantidadRechazada = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             groupBoxComprobanteRecepcion.SuspendLayout();
             groupBoxNotaEspacio.SuspendLayout();
@@ -86,6 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)errorProviderDescripcionMercaderia).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderUMMercaderia).BeginInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderCantidadMercaderia).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProviderCantidadRechazada).BeginInit();
             SuspendLayout();
             // 
             // pictureBoxLogo
@@ -131,11 +133,8 @@
             // groupBoxNotaEspacio
             // 
             groupBoxNotaEspacio.AccessibleRole = AccessibleRole.None;
-            groupBoxNotaEspacio.Controls.Add(buttonActualizar);
-            groupBoxNotaEspacio.Controls.Add(labelCantidadRechazada);
             groupBoxNotaEspacio.Controls.Add(label8);
             groupBoxNotaEspacio.Controls.Add(radioButtonTotal);
-            groupBoxNotaEspacio.Controls.Add(textBoxCantidadRechazada);
             groupBoxNotaEspacio.Controls.Add(radioButtonParcial);
             groupBoxNotaEspacio.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             groupBoxNotaEspacio.Location = new Point(0, 543);
@@ -144,31 +143,6 @@
             groupBoxNotaEspacio.TabIndex = 17;
             groupBoxNotaEspacio.TabStop = false;
             groupBoxNotaEspacio.Text = "Nota de Espacio Insuficiente";
-            // 
-            // buttonActualizar
-            // 
-            buttonActualizar.BackColor = Color.FromArgb(33, 150, 243);
-            buttonActualizar.FlatAppearance.BorderSize = 0;
-            buttonActualizar.FlatStyle = FlatStyle.Flat;
-            buttonActualizar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            buttonActualizar.ForeColor = Color.White;
-            buttonActualizar.Location = new Point(340, 62);
-            buttonActualizar.Name = "buttonActualizar";
-            buttonActualizar.Size = new Size(131, 27);
-            buttonActualizar.TabIndex = 27;
-            buttonActualizar.Text = "Actualizar";
-            buttonActualizar.UseVisualStyleBackColor = false;
-            buttonActualizar.Click += buttonActualizar_Click;
-            // 
-            // labelCantidadRechazada
-            // 
-            labelCantidadRechazada.AutoSize = true;
-            labelCantidadRechazada.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-            labelCantidadRechazada.Location = new Point(174, 38);
-            labelCantidadRechazada.Name = "labelCantidadRechazada";
-            labelCantidadRechazada.Size = new Size(139, 15);
-            labelCantidadRechazada.TabIndex = 26;
-            labelCantidadRechazada.Text = "Cantidad rechazada *";
             // 
             // label8
             // 
@@ -191,15 +165,7 @@
             radioButtonTotal.TabStop = true;
             radioButtonTotal.Text = "Total";
             radioButtonTotal.UseVisualStyleBackColor = true;
-            // 
-            // textBoxCantidadRechazada
-            // 
-            textBoxCantidadRechazada.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            textBoxCantidadRechazada.Location = new Point(174, 62);
-            textBoxCantidadRechazada.Name = "textBoxCantidadRechazada";
-            textBoxCantidadRechazada.Size = new Size(135, 27);
-            textBoxCantidadRechazada.TabIndex = 13;
-            textBoxCantidadRechazada.Validating += textBoxCantidadRechazada_Validating;
+            radioButtonTotal.CheckedChanged += radioButtonTotal_CheckedChanged;
             // 
             // radioButtonParcial
             // 
@@ -266,6 +232,7 @@
             buttonRestablecer.Name = "buttonRestablecer";
             buttonRestablecer.Size = new Size(208, 43);
             buttonRestablecer.TabIndex = 18;
+            buttonRestablecer.TabStop = false;
             buttonRestablecer.Text = "Restablecer";
             buttonRestablecer.UseVisualStyleBackColor = false;
             buttonRestablecer.Click += buttonRestablecer_Click;
@@ -281,6 +248,7 @@
             buttonGenerarOrdenYComprobantes.Name = "buttonGenerarOrdenYComprobantes";
             buttonGenerarOrdenYComprobantes.Size = new Size(252, 43);
             buttonGenerarOrdenYComprobantes.TabIndex = 17;
+            buttonGenerarOrdenYComprobantes.TabStop = false;
             buttonGenerarOrdenYComprobantes.Text = "Generar Orden y Comprobantes";
             buttonGenerarOrdenYComprobantes.UseVisualStyleBackColor = false;
             buttonGenerarOrdenYComprobantes.Click += buttonGenerarOrdenYComprobantes_Click;
@@ -304,6 +272,40 @@
             labelObservaciones.Size = new Size(92, 15);
             labelObservaciones.TabIndex = 0;
             labelObservaciones.Text = "Obsevaciones";
+            // 
+            // buttonEditar
+            // 
+            buttonEditar.BackColor = Color.FromArgb(33, 150, 243);
+            buttonEditar.FlatAppearance.BorderSize = 0;
+            buttonEditar.FlatStyle = FlatStyle.Flat;
+            buttonEditar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonEditar.ForeColor = Color.White;
+            buttonEditar.Location = new Point(866, 57);
+            buttonEditar.Name = "buttonEditar";
+            buttonEditar.Size = new Size(98, 27);
+            buttonEditar.TabIndex = 27;
+            buttonEditar.Text = "Editar";
+            buttonEditar.UseVisualStyleBackColor = false;
+            buttonEditar.Click += buttonEditar_Click;
+            // 
+            // labelCantidadRechazada
+            // 
+            labelCantidadRechazada.AutoSize = true;
+            labelCantidadRechazada.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
+            labelCantidadRechazada.Location = new Point(498, 33);
+            labelCantidadRechazada.Name = "labelCantidadRechazada";
+            labelCantidadRechazada.Size = new Size(139, 15);
+            labelCantidadRechazada.TabIndex = 26;
+            labelCantidadRechazada.Text = "Cantidad rechazada *";
+            // 
+            // textBoxCantidadRechazada
+            // 
+            textBoxCantidadRechazada.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            textBoxCantidadRechazada.Location = new Point(498, 57);
+            textBoxCantidadRechazada.Name = "textBoxCantidadRechazada";
+            textBoxCantidadRechazada.Size = new Size(135, 27);
+            textBoxCantidadRechazada.TabIndex = 13;
+            textBoxCantidadRechazada.Validating += textBoxCantidadRechazada_Validating;
             // 
             // labelCantidadMercaderia
             // 
@@ -391,14 +393,17 @@
             textBoxNombreTransportista.Location = new Point(7, 59);
             textBoxNombreTransportista.Name = "textBoxNombreTransportista";
             textBoxNombreTransportista.Size = new Size(186, 27);
-            textBoxNombreTransportista.TabIndex = 5;
+            textBoxNombreTransportista.TabIndex = 3;
             textBoxNombreTransportista.TextChanged += textBoxNombreTransportista_TextChanged;
             textBoxNombreTransportista.Validating += textBoxNombreTransportista_Validating;
             // 
             // groupBoxMercaderias
             // 
+            groupBoxMercaderias.Controls.Add(labelCantidadRechazada);
+            groupBoxMercaderias.Controls.Add(buttonEditar);
             groupBoxMercaderias.Controls.Add(buttonEliminar);
             groupBoxMercaderias.Controls.Add(buttonAgregar);
+            groupBoxMercaderias.Controls.Add(textBoxCantidadRechazada);
             groupBoxMercaderias.Controls.Add(listViewMercaderias);
             groupBoxMercaderias.Controls.Add(textBoxDescripcionMercaderia);
             groupBoxMercaderias.Controls.Add(labelDescripcionMercaderia);
@@ -421,7 +426,7 @@
             buttonEliminar.FlatStyle = FlatStyle.Flat;
             buttonEliminar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             buttonEliminar.ForeColor = Color.White;
-            buttonEliminar.Location = new Point(597, 57);
+            buttonEliminar.Location = new Point(766, 57);
             buttonEliminar.Name = "buttonEliminar";
             buttonEliminar.Size = new Size(94, 27);
             buttonEliminar.TabIndex = 11;
@@ -437,7 +442,7 @@
             buttonAgregar.FlatStyle = FlatStyle.Flat;
             buttonAgregar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             buttonAgregar.ForeColor = Color.White;
-            buttonAgregar.Location = new Point(498, 57);
+            buttonAgregar.Location = new Point(670, 57);
             buttonAgregar.Name = "buttonAgregar";
             buttonAgregar.Size = new Size(89, 27);
             buttonAgregar.TabIndex = 10;
@@ -527,6 +532,10 @@
             // 
             errorProviderCantidadMercaderia.ContainerControl = this;
             // 
+            // errorProviderCantidadRechazada
+            // 
+            errorProviderCantidadRechazada.ContainerControl = this;
+            // 
             // RecepcionarMercaderiaForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -561,6 +570,7 @@
             ((System.ComponentModel.ISupportInitialize)errorProviderDescripcionMercaderia).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderUMMercaderia).EndInit();
             ((System.ComponentModel.ISupportInitialize)errorProviderCantidadMercaderia).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProviderCantidadRechazada).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -610,6 +620,7 @@
         private ColumnHeader columnHeaderCantidadRechazada;
         private Label labelCantidadRechazada;
         private TextBox textBoxCantidadRechazada;
-        private Button buttonActualizar;
+        private Button buttonEditar;
+        private ErrorProvider errorProviderCantidadRechazada;
     }
 }

@@ -14,13 +14,4 @@
     <None Remove="ModuloRRHH\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ModuloOperaciones\Almacen\IngresarProductoAlStock\" />
-    <Folder Include="ModuloOperaciones\Despacho\GenerarRemito\" />
-    <Folder Include="ModuloOperaciones\Descarga\IngresarOrdenDePreparacion\" />
-    <Folder Include="ModuloOperaciones\Preparacion\GenerarOrdenDeEntrega\" />
-    <Folder Include="ModuloReportes\GestionDeAlmacen\" />
-    <Folder Include="ModuloVentas\AbmContratos\" />
-  </ItemGroup>
-
 </Project>

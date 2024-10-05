@@ -8,5 +8,5 @@ public class OrdenDeRecepcionEntity
     public DateTime Fecha { get; set; }
     public long NumeroComprobante { get; set; }
     public List<MercaderiaEntity>? MercaderiasAIngresar { get; set; }
-    public OrdenDeRecepcionEstados Estado { get; set; }
+    public OrdenDeRecepcionEstado Estado { get; set; }
 }

@@ -116,7 +116,7 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
         private void AbmUsuariosForm_Load(object sender, EventArgs e)
         {
             _abmUsuarioModel = new();
-            comboBoxRol.Items.AddRange(Enum.GetNames(typeof(Roles)));
+            comboBoxRol.Items.AddRange(Enum.GetNames(typeof(Rol)));
 
             Iniciar();
         }
@@ -183,7 +183,7 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
                 string rolTexto = selectedCliente.SubItems[2].Text;
 
                 // Convertir el texto en el valor correspondiente del enum
-                Roles rolSeleccionado = (Roles)Enum.Parse(typeof(Roles), rolTexto);
+                Rol rolSeleccionado = (Rol)Enum.Parse(typeof(Rol), rolTexto);
 
                 // Asignar el valor del enum al ComboBox
                 comboBoxRol.SelectedItem = rolSeleccionado.ToString();
@@ -232,7 +232,7 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
                     Numero = long.Parse(textBoxNumero.Text),
                     Usuario = textBoxNombre.Text,
                     Contrasenia = textBoxContrasenia.Text,
-                    Rol = (Roles)Enum.Parse(typeof(Roles), comboBoxRol.SelectedItem.ToString())
+                    Rol = (Rol)Enum.Parse(typeof(Rol), comboBoxRol.SelectedItem.ToString())
                 }
             );
 
@@ -272,7 +272,7 @@ namespace Pampazon.ModuloUsuarios.AbmUsuarios
                     Numero = long.Parse(textBoxNumero.Text),
                     Usuario = textBoxNombre.Text,
                     Contrasenia = textBoxContrasenia.Text,
-                    Rol = (Roles)Enum.Parse(typeof(Roles), comboBoxRol.SelectedItem.ToString())
+                    Rol = (Rol)Enum.Parse(typeof(Rol), comboBoxRol.SelectedItem.ToString())
                 }
             );
 

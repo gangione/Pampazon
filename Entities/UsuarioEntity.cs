@@ -7,7 +7,7 @@ public class UsuarioEntity
     public long Numero { get; set; }
     public string Usuario { get; set; }
     public string Contrasenia { get; set; }
-    public Roles Rol { get; set; }
+    public Rol Rol { get; set; }
 
     public override bool Equals(object obj)
     {

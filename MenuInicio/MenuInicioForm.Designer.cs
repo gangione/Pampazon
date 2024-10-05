@@ -95,7 +95,6 @@
             buttonVentas.TabIndex = 20;
             buttonVentas.Text = "Ventas";
             buttonVentas.UseVisualStyleBackColor = false;
-            buttonVentas.Click += buttonVentas_Click;
             // 
             // buttonOperaciones
             // 
