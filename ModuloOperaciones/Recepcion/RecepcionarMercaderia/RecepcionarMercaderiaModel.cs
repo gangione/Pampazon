@@ -1,17 +1,17 @@
-﻿using Pampazon.Entities;
-using Pampazon.Entities.Enums;
-using Pampazon.ModuloCompartido;
+﻿using Pampazon.ModuloOperaciones.Recepcion.RecepcionarMercaderia.Dtos;
+using Pampazon.ModuloOperaciones.Recepcion.RecepcionarMercaderia.Enums;
+using Pampazon.ModuloOperaciones.Recepcion.RecepcionarMercaderia.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
 {
     public class RecepcionarMercaderiaModel
     {
-        private List<ClienteEntity> _clientes;
-        private List<TransportistaEntity> _transportistas;
-        private List<OrdenDeRecepcionEntity> _ordenesDeRecepcion;
-        private List<ComprobanteDeRecepcionEntity> _comprobantesDeRecepcion;
-        private List<NotaDeEspacioInsuficienteEntity> _notasDeEspacioInsuficiente;
-        private List<RemitoEntity> _remitos;
+        private List<Cliente> _clientes;
+        private List<Transportista> _transportistas;
+        private List<OrdenDeRecepcion> _ordenesDeRecepcion;
+        private List<ComprobanteDeRecepcion> _comprobantesDeRecepcion;
+        private List<NotaDeEspacioInsuficiente> _notasDeEspacioInsuficiente;
+        private List<Remito> _remitos;
 
         public RecepcionarMercaderiaModel()
         {
@@ -21,40 +21,19 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
                 {
                     Numero = 1,
                     Cuit = "30518919349",
-                    Nombre = "Mercadito S.A",
-                    Domicilio = new()
-                    {
-                        CalleNumero = "Calle Falsa 123",
-                        Ciudad = "Buenos Aires",
-                        Provincia = "Buenos Aires",
-                        CodigoPostal = "0000"
-                    }
+                    Nombre = "Mercadito S.A"
                 },
                 new ()
                 {
                     Numero = 2,
                     Cuit = "12345678910",
-                    Nombre = "Membrana S.A",
-                    Domicilio = new()
-                    {
-                        CalleNumero = "Calle Falsa 123",
-                        Ciudad = "Buenos Aires",
-                        Provincia = "Buenos Aires",
-                        CodigoPostal = "0000"
-                    }
+                    Nombre = "Membrana S.A"
                 },
                 new ()
                 {
                     Numero = 2,
                     Cuit = "12345678911",
-                    Nombre = "Empresa S.A",
-                    Domicilio = new()
-                    {
-                        CalleNumero = "Calle Falsa 123",
-                        Ciudad = "Buenos Aires",
-                        Provincia = "Buenos Aires",
-                        CodigoPostal = "0000"
-                    }
+                    Nombre = "Empresa S.A"
                 }
             };
             _transportistas = new()
@@ -81,34 +60,34 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
             _comprobantesDeRecepcion = new();
             _remitos = new();
         }
-        public List<ClienteEntity> ObtenerClientes()
+        public List<Cliente> ObtenerClientes()
         {
             return _clientes;
         }
-        public List<ClienteEntity> ObtenerClientesPorFiltro(string filtro)
+        public List<Cliente> ObtenerClientesPorFiltro(string filtro)
         {
             return _clientes.Where(cliente => cliente.Nombre
                 .ToString()
                 .Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
             ).ToList();
         }
-        public List<TransportistaEntity> ObtenerTransportistas()
+        public List<Transportista> ObtenerTransportistas()
         {
             return _transportistas;
         }
-        public List<TransportistaEntity> ObtenerTransportistasPorFiltro(string filtro)
+        public List<Transportista> ObtenerTransportistasPorFiltro(string filtro)
         {
             return _transportistas.Where(transportista => transportista.NombreYApellido
                 .ToString()
                 .Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
             ).ToList();
         }
-        public Resultado<ComprobanteDeRecepcionEntity> GenerarComprobanteDeRecepcion(ComprobanteDeRecepcionEntity comprobante)
+        public Resultado<ComprobanteDeRecepcion> GenerarComprobanteDeRecepcion(ComprobanteDeRecepcion comprobante)
         {
             var resultadoEspacio = ComprobarEspacioCliente(comprobante);
 
             if (!resultadoEspacio.Exitoso)
-                return new Resultado<ComprobanteDeRecepcionEntity>(
+                return new Resultado<ComprobanteDeRecepcion>(
                     false,
                     resultadoEspacio.Mensaje,
                     comprobante
@@ -122,7 +101,7 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
             long numeroOrden = _ordenesDeRecepcion.LastOrDefault() is null ? 1 :
                 _comprobantesDeRecepcion.Last().Numero + 1;
 
-            OrdenDeRecepcionEntity ordenDeRecepcion = new()
+            OrdenDeRecepcion ordenDeRecepcion = new()
             {
                 Numero = numeroOrden,
                 Fecha = hoy,
@@ -131,7 +110,7 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
                 Estado = OrdenDeRecepcionEstado.Pendiente
             };
 
-            RemitoEntity remito = new()
+            Remito remito = new()
             {
                 Numero = comprobante.NumeroRemito,
                 Fecha = hoy,
@@ -145,13 +124,13 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
             _ordenesDeRecepcion.Add(ordenDeRecepcion);
             _remitos.Add(remito);
 
-            return new Resultado<ComprobanteDeRecepcionEntity>(
+            return new Resultado<ComprobanteDeRecepcion>(
                 true,
                 "Comprobante de Recepcion generado exitosamente!.",
                 comprobante
             );
         }
-        private Resultado<bool> ComprobarEspacioCliente(ComprobanteDeRecepcionEntity comprobante)
+        private Resultado<bool> ComprobarEspacioCliente(ComprobanteDeRecepcion comprobante)
         {
             decimal totalMercaderias = 0;
             comprobante.MercaderiasRecibidas
@@ -170,7 +149,7 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia
                 true
             );
         }
-        public void GenerarNotaEspacioInsuficiente(ComprobanteDeRecepcionEntity comprobante)
+        public void GenerarNotaEspacioInsuficiente(ComprobanteDeRecepcion comprobante)
         {
 
         }

@@ -1,4 +1,4 @@
-﻿namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
+﻿namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia
 {
     partial class RecepcionarMercaderiaForm
     {

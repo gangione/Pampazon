@@ -1,16 +1,15 @@
-﻿using Pampazon.Entities;
-using Pampazon.Entities.Enums;
+﻿using Pampazon.InicioSesion.Dtos;
+using Pampazon.InicioSesion.Enums;
 using Pampazon.ModuloMenuInicio;
-using Pampazon.ModuloUsuarios.AbmUsuarios;
 
 namespace Pampazon.MenuInicio
 {
     public partial class MenuInicioForm : Form
     {
-        private readonly UsuarioEntity _usuario;
+        private readonly Usuario _usuario;
         private readonly MenuInicioModel _modelo;
         private Dictionary<string, Form> _opciones;
-        public MenuInicioForm(UsuarioEntity usuario)
+        public MenuInicioForm(Usuario usuario)
         {
             _usuario = usuario;
             _modelo = new MenuInicioModel();
@@ -19,7 +18,6 @@ namespace Pampazon.MenuInicio
         }
         private void MenuInicioForm_Load(object sender, EventArgs e)
         {
-            _opciones.Add("Usuarios", new AbmUsuariosForm());
             _modelo.MostrarMenuDeUsuario(_usuario);
 
             //Deberías cerrar el formulario de menú si el Usuario no es Admin

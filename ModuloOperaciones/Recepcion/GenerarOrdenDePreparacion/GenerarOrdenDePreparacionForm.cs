@@ -1,13 +1,13 @@
-﻿using Pampazon.Entities;
-using Pampazon.ModuloCompartido;
+﻿using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Dtos;
+using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
 
-namespace Pampazon.ModuloOperaciones.Descarga.IngresarOrdenDePreparacion;
+namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
 public partial class GenerarOrdenDePreparacionForm : Form
 {
     private GenerarOrdenDePreparacionModel _ordenDePreparacionModel;
-    private List<ClienteEntity> _clientes;
-    private List<TransportistaEntity> _transportistas;
-    private List<MercaderiaEntity> _mercaderiasEnStock;
+    private List<Cliente> _clientes;
+    private List<Transportista> _transportistas;
+    private List<Mercaderia> _mercaderiasEnStock;
     private Dictionary<string, ErrorProvider> _errores;
     public GenerarOrdenDePreparacionForm()
     {
@@ -56,7 +56,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
     #endregion
 
     #region Listado Mercaderias en Stock
-    private void CargarListadoMercaderiasEnStockPorCliente(ClienteEntity cliente)
+    private void CargarListadoMercaderiasEnStockPorCliente(Cliente cliente)
     {
         listViewMercaderiasEnStock.Items.Clear();
         _mercaderiasEnStock = _ordenDePreparacionModel.ObtenerMercaderiasPorCliente(cliente);
@@ -64,7 +64,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
         listViewMercaderiasEnStock.Items.AddRange(ObtenerListViewMercaderiasEnStock(_mercaderiasEnStock));
     }
 
-    private static ListViewItem[] ObtenerListViewMercaderiasEnStock(List<MercaderiaEntity> mercaderias)
+    private static ListViewItem[] ObtenerListViewMercaderiasEnStock(List<Mercaderia> mercaderias)
     {
         List<ListViewItem> viewItems = new();
         for (int i = 0; i < mercaderias.Count; i++)
@@ -78,7 +78,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
     }
     #endregion
     #region Listado Mercaderías A Retirar
-    private void AgregarItemMercaderiaARetirar(MercaderiaEntity mercaderia, string stockFuturo)
+    private void AgregarItemMercaderiaARetirar(Mercaderia mercaderia, string stockFuturo)
     {
         ListViewItem item = new(mercaderia.Descripcion);
         item.SubItems.Add(mercaderia.UnidadDeMedida.ToString());
@@ -95,7 +95,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
         var mercaderias = listViewMercaderiasEnStock.SelectedItems;
         for (int i = 0; i < mercaderias.Count; i++)
         {
-            MercaderiaEntity? mercaderia = _mercaderiasEnStock
+            Mercaderia? mercaderia = _mercaderiasEnStock
                 .Find(m => m.Descripcion == mercaderias[i].Text);
 
             _mercaderiasEnStock.Remove(mercaderia);
@@ -174,7 +174,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
         if (listViewMercaderiasEnStock.SelectedItems.Count > 0)
         {
             ListViewItem selected = listViewMercaderiasEnStock.SelectedItems[0];
-            MercaderiaEntity mercaderia = new()
+            Mercaderia mercaderia = new()
             {
                 //NumeroCliente = 
                 Descripcion = selected.SubItems[0].Text,

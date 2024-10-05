@@ -1,4 +1,4 @@
-using Pampazon.ModuloOperaciones.Descarga.IngresarOrdenDePreparacion;
+using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
 
 namespace Pampazon
 {

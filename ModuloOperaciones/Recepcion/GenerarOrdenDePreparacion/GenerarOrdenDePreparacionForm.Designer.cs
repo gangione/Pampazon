@@ -1,4 +1,4 @@
-﻿namespace Pampazon.ModuloOperaciones.Descarga.IngresarOrdenDePreparacion;
+﻿namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
 
 partial class GenerarOrdenDePreparacionForm
 {
@@ -88,7 +88,6 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxMercaderiasARetirar.SuspendLayout();
         groupBox3.SuspendLayout();
         groupBoxTransportista.SuspendLayout();
-        SuspendLayout();
         // 
         // pictureBoxLogo
         // 

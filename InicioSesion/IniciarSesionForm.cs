@@ -1,7 +1,7 @@
-﻿using Pampazon.Entities;
+﻿using Pampazon.InicioSesion.Dtos;
 using Pampazon.MenuInicio;
-using Pampazon.ModuloCompartido;
 using Pampazon.ModuloInicioSesion;
+using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
 
 namespace Pampazon
 {
@@ -74,7 +74,7 @@ namespace Pampazon
             string username = textBoxUsuario.Text;
             string pw = textBoxContrasenia.Text;
 
-            Resultado<UsuarioEntity?> resultado = _iniciarSesionModel.ValidarCredenciales(
+            Resultado<Usuario?> resultado = _iniciarSesionModel.ValidarCredenciales(
                 username, pw
             );
 

@@ -1,16 +1,16 @@
-﻿using Pampazon.Entities;
-using Pampazon.ModuloCompartido;
+﻿using Pampazon.ModuloOperaciones.Recepcion.RecepcionarMercaderia.Dtos;
+using Pampazon.ModuloOperaciones.Recepcion.RecepcionarMercaderia.Utilidades;
 using Pampazon.ModuloOperaciones.Recepcion.RecibirMercaderia;
 using System.ComponentModel;
 
-namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
+namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia
 {
     public partial class RecepcionarMercaderiaForm : Form
     {
         private RecepcionarMercaderiaModel _recepcionModel;
-        private List<ClienteEntity> _clientes;
-        private List<TransportistaEntity> _transportistas;
-        private List<MercaderiaEntity> _mercaderias;
+        private List<Cliente> _clientes;
+        private List<Transportista> _transportistas;
+        private List<Mercaderia> _mercaderias;
         private Dictionary<string, ErrorProvider> _errores;
         public RecepcionarMercaderiaForm()
         {
@@ -164,7 +164,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             listViewMercaderias.Columns.Remove(columnHeaderCantidadRechazada);
         }
 
-        private static ListViewItem[] ObtenerListViewMercaderias(List<MercaderiaEntity> mercaderias)
+        private static ListViewItem[] ObtenerListViewMercaderias(List<Mercaderia> mercaderias)
         {
             List<ListViewItem> viewItems = new();
             for (int i = 0; i < mercaderias.Count; i++)
@@ -177,7 +177,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             return viewItems.ToArray();
         }
 
-        private void AgregarItemMercaderia(MercaderiaEntity mercaderia, string cantidadRechazada)
+        private void AgregarItemMercaderia(Mercaderia mercaderia, string cantidadRechazada)
         {
             ListViewItem item = new(mercaderia.Descripcion);
             item.SubItems.Add(mercaderia.UnidadDeMedida.ToString());
@@ -192,7 +192,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
             var mercaderias = listViewMercaderias.SelectedItems;
             for (int i = 0; i < mercaderias.Count; i++)
             {
-                MercaderiaEntity? mercaderia = _mercaderias
+                Mercaderia? mercaderia = _mercaderias
                     .Find(m => m.Descripcion == mercaderias[i].Text);
 
                 _mercaderias.Remove(mercaderia);
@@ -286,7 +286,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
                 return;
             }
 
-            AgregarItemMercaderia(new MercaderiaEntity()
+            AgregarItemMercaderia(new Mercaderia()
             {
                 Descripcion = textBoxDescripcionMercaderia.Text,
                 //UnidadDeMedida = textBoxUMMercaderia.Text,
@@ -386,7 +386,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
                 return;
             }
 
-            ComprobanteDeRecepcionEntity comprobante = new()
+            ComprobanteDeRecepcion comprobante = new()
             {
                 NumeroRemito = long.Parse(textBoxRemito.Text),
                 Cliente = _clientes.First(),
@@ -395,7 +395,7 @@ namespace Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia
                 Observaciones = textBoxObservaciones.Text
             };
 
-            Resultado<ComprobanteDeRecepcionEntity> resultado = _recepcionModel
+            Resultado<ComprobanteDeRecepcion> resultado = _recepcionModel
                 .GenerarComprobanteDeRecepcion(comprobante);
 
             if (!resultado.Exitoso)

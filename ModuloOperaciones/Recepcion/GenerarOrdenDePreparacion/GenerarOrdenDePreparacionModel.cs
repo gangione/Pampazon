@@ -1,14 +1,14 @@
-﻿using Pampazon.Entities;
-using Pampazon.Entities.Enums;
-using Pampazon.ModuloCompartido;
+﻿using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Dtos;
+using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Enums;
+using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
 
-namespace Pampazon.ModuloOperaciones.Descarga.IngresarOrdenDePreparacion;
+namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
 public class GenerarOrdenDePreparacionModel
 {
-    private List<ClienteEntity> _clientes;
-    private List<TransportistaEntity> _transportistas;
-    private List<OrdenDeRecepcionEntity> _ordenesDeRecepcion;
-    private List<MercaderiaEntity> _mercaderias;
+    private List<Cliente> _clientes;
+    private List<Transportista> _transportistas;
+    private List<OrdenDePreparacion> _ordenesDePreparacion;
+    private List<Mercaderia> _mercaderias;
 
     public GenerarOrdenDePreparacionModel()
     {
@@ -19,39 +19,18 @@ public class GenerarOrdenDePreparacionModel
                     Numero = 1,
                     Cuit = "30518919349",
                     Nombre = "Mercadito S.A",
-                    Domicilio = new()
-                    {
-                        CalleNumero = "Calle Falsa 123",
-                        Ciudad = "Buenos Aires",
-                        Provincia = "Buenos Aires",
-                        CodigoPostal = "0000"
-                    }
                 },
                 new ()
                 {
                     Numero = 2,
                     Cuit = "12345678910",
                     Nombre = "Membrana S.A",
-                    Domicilio = new()
-                    {
-                        CalleNumero = "Calle Falsa 123",
-                        Ciudad = "Buenos Aires",
-                        Provincia = "Buenos Aires",
-                        CodigoPostal = "0000"
-                    }
                 },
                 new ()
                 {
                     Numero = 2,
                     Cuit = "12345678911",
                     Nombre = "Empresa S.A",
-                    Domicilio = new()
-                    {
-                        CalleNumero = "Calle Falsa 123",
-                        Ciudad = "Buenos Aires",
-                        Provincia = "Buenos Aires",
-                        CodigoPostal = "0000"
-                    }
                 }
             };
         _transportistas = new()
@@ -114,29 +93,29 @@ public class GenerarOrdenDePreparacionModel
             }
         };
     }
-    public List<ClienteEntity> ObtenerClientes()
+    public List<Cliente> ObtenerClientes()
     {
         return _clientes;
     }
-    public List<ClienteEntity> ObtenerClientesPorFiltro(string filtro)
+    public List<Cliente> ObtenerClientesPorFiltro(string filtro)
     {
         return _clientes.Where(cliente => cliente.Nombre
             .ToString()
             .Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
         ).ToList();
     }
-    public List<TransportistaEntity> ObtenerTransportistas()
+    public List<Transportista> ObtenerTransportistas()
     {
         return _transportistas;
     }
-    public List<TransportistaEntity> ObtenerTransportistasPorFiltro(string filtro)
+    public List<Transportista> ObtenerTransportistasPorFiltro(string filtro)
     {
         return _transportistas.Where(transportista => transportista.NombreYApellido
             .ToString()
             .Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
         ).ToList();
     }
-    public List<MercaderiaEntity> ObtenerMercaderiasPorCliente(ClienteEntity cliente)
+    public List<Mercaderia> ObtenerMercaderiasPorCliente(Cliente cliente)
     {
         return _mercaderias
             .Where(mercaderia => mercaderia.NumeroCliente == cliente.Numero

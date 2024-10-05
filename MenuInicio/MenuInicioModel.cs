@@ -1,11 +1,11 @@
-﻿using Pampazon.Entities;
-using Pampazon.Entities.Enums;
+﻿using Pampazon.InicioSesion.Dtos;
+using Pampazon.InicioSesion.Enums;
 using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias;
-using Pampazon.ModuloOperaciones.Descarga.IngresarOrdenDePreparacion;
-using Pampazon.ModuloOperaciones.Descarga.RecepcionMercaderia;
 using Pampazon.ModuloOperaciones.Despacho.GenerarRemito;
 using Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeEntrega;
 using Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeSeleccion;
+using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
+using Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia;
 
 namespace Pampazon.ModuloMenuInicio;
 
@@ -32,7 +32,7 @@ public class MenuInicioModel
          */
         _opciones.Add("RecepcionarMercaderia", new RecepcionarMercaderiaForm());
     }
-    public void MostrarMenuDeUsuario(UsuarioEntity usuario)
+    public void MostrarMenuDeUsuario(Usuario usuario)
     {
         switch (usuario.Rol)
         {
