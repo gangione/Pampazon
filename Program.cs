@@ -1,4 +1,6 @@
+using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias;
 using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
+using Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeEntrega;
 
 namespace Pampazon
 {
@@ -23,10 +25,10 @@ namespace Pampazon
             //Application.Run(new RecepcionarMercaderiaForm());
 
             // Proceso OUT.
-            Application.Run(new GenerarOrdenDePreparacionForm());
+            //Application.Run(new GenerarOrdenDePreparacionForm());
             //Application.Run(new GenerarOrdenDeSeleccionForm());
             //Application.Run(new SeleccionarMercaderiasForm());
-            //Application.Run(new GenerarOrdenDeEntregaForm());
+            Application.Run(new GenerarOrdenDeEntregaForm());
             //Application.Run(new GenerarRemitoForm());
         }
     }
