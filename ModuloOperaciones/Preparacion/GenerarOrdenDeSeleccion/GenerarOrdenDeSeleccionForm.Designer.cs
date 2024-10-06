@@ -36,9 +36,17 @@ partial class GenerarOrdenDeSeleccionForm
         columnHeaderCuit = new ColumnHeader();
         columnHeaderCantidadMercaderia = new ColumnHeader();
         groupBoxTransportista = new GroupBox();
-        label1 = new Label();
         labelCliente = new Label();
         textBoxCliente = new TextBox();
+        label1 = new Label();
+        label2 = new Label();
+        listView1 = new ListView();
+        columnHeader1 = new ColumnHeader();
+        columnHeader2 = new ColumnHeader();
+        columnHeader3 = new ColumnHeader();
+        buttonEliminar = new Button();
+        buttonAgregar = new Button();
+        buttonGenerarOrden = new Button();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxTransportista.SuspendLayout();
         SuspendLayout();
@@ -96,6 +104,11 @@ partial class GenerarOrdenDeSeleccionForm
         // 
         // groupBoxTransportista
         // 
+        groupBoxTransportista.Controls.Add(buttonGenerarOrden);
+        groupBoxTransportista.Controls.Add(buttonAgregar);
+        groupBoxTransportista.Controls.Add(buttonEliminar);
+        groupBoxTransportista.Controls.Add(label2);
+        groupBoxTransportista.Controls.Add(listView1);
         groupBoxTransportista.Controls.Add(labelCliente);
         groupBoxTransportista.Controls.Add(textBoxCliente);
         groupBoxTransportista.Controls.Add(label1);
@@ -103,20 +116,10 @@ partial class GenerarOrdenDeSeleccionForm
         groupBoxTransportista.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         groupBoxTransportista.Location = new Point(18, 75);
         groupBoxTransportista.Name = "groupBoxTransportista";
-        groupBoxTransportista.Size = new Size(970, 363);
+        groupBoxTransportista.Size = new Size(970, 556);
         groupBoxTransportista.TabIndex = 31;
         groupBoxTransportista.TabStop = false;
         groupBoxTransportista.Text = "Orden de Selección";
-        // 
-        // label1
-        // 
-        label1.AutoSize = true;
-        label1.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        label1.Location = new Point(7, 101);
-        label1.Name = "label1";
-        label1.Size = new Size(155, 15);
-        label1.TabIndex = 19;
-        label1.Text = "Ordenes de Preparación";
         // 
         // labelCliente
         // 
@@ -138,11 +141,105 @@ partial class GenerarOrdenDeSeleccionForm
         textBoxCliente.Size = new Size(186, 27);
         textBoxCliente.TabIndex = 20;
         // 
+        // label1
+        // 
+        label1.AutoSize = true;
+        label1.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
+        label1.Location = new Point(7, 101);
+        label1.Name = "label1";
+        label1.Size = new Size(155, 15);
+        label1.TabIndex = 19;
+        label1.Text = "Ordenes de Preparación";
+        // 
+        // label2
+        // 
+        label2.AutoSize = true;
+        label2.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
+        label2.Location = new Point(6, 308);
+        label2.Name = "label2";
+        label2.Size = new Size(127, 15);
+        label2.TabIndex = 23;
+        label2.Text = "Orden de Selección";
+        label2.Click += label2_Click;
+        // 
+        // listView1
+        // 
+        listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
+        listView1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        listView1.FullRowSelect = true;
+        listView1.GridLines = true;
+        listView1.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+        listView1.Location = new Point(6, 326);
+        listView1.MultiSelect = false;
+        listView1.Name = "listView1";
+        listView1.Size = new Size(952, 120);
+        listView1.TabIndex = 22;
+        listView1.UseCompatibleStateImageBehavior = false;
+        listView1.View = View.Details;
+        // 
+        // columnHeader1
+        // 
+        columnHeader1.Text = "Numero Orden";
+        columnHeader1.Width = 160;
+        // 
+        // columnHeader2
+        // 
+        columnHeader2.Text = "CUIT";
+        columnHeader2.Width = 125;
+        // 
+        // columnHeader3
+        // 
+        columnHeader3.Text = "Mercaderia";
+        columnHeader3.Width = 125;
+        // 
+        // buttonEliminar
+        // 
+        buttonEliminar.BackColor = Color.FromArgb(33, 150, 243);
+        buttonEliminar.FlatAppearance.BorderSize = 0;
+        buttonEliminar.FlatStyle = FlatStyle.Flat;
+        buttonEliminar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        buttonEliminar.ForeColor = Color.White;
+        buttonEliminar.Location = new Point(9, 452);
+        buttonEliminar.Name = "buttonEliminar";
+        buttonEliminar.Size = new Size(94, 27);
+        buttonEliminar.TabIndex = 24;
+        buttonEliminar.TabStop = false;
+        buttonEliminar.Text = "- Eliminar";
+        buttonEliminar.UseVisualStyleBackColor = false;
+        // 
+        // buttonAgregar
+        // 
+        buttonAgregar.BackColor = Color.FromArgb(33, 150, 243);
+        buttonAgregar.FlatAppearance.BorderSize = 0;
+        buttonAgregar.FlatStyle = FlatStyle.Flat;
+        buttonAgregar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        buttonAgregar.ForeColor = Color.White;
+        buttonAgregar.Location = new Point(9, 245);
+        buttonAgregar.Name = "buttonAgregar";
+        buttonAgregar.Size = new Size(89, 27);
+        buttonAgregar.TabIndex = 25;
+        buttonAgregar.Text = "+ Agregar";
+        buttonAgregar.UseVisualStyleBackColor = false;
+        // 
+        // buttonGenerarOrden
+        // 
+        buttonGenerarOrden.BackColor = Color.FromArgb(33, 150, 243);
+        buttonGenerarOrden.FlatAppearance.BorderSize = 0;
+        buttonGenerarOrden.FlatStyle = FlatStyle.Flat;
+        buttonGenerarOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        buttonGenerarOrden.ForeColor = Color.White;
+        buttonGenerarOrden.Location = new Point(750, 496);
+        buttonGenerarOrden.Name = "buttonGenerarOrden";
+        buttonGenerarOrden.Size = new Size(199, 43);
+        buttonGenerarOrden.TabIndex = 26;
+        buttonGenerarOrden.Text = "Generar Orden";
+        buttonGenerarOrden.UseVisualStyleBackColor = false;
+        // 
         // GenerarOrdenDeSeleccionForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1008, 450);
+        ClientSize = new Size(1008, 643);
         Controls.Add(groupBoxTransportista);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
@@ -169,4 +266,12 @@ partial class GenerarOrdenDeSeleccionForm
     private Label label1;
     private Label labelCliente;
     private TextBox textBoxCliente;
+    private Label label2;
+    private ListView listView1;
+    private ColumnHeader columnHeader1;
+    private ColumnHeader columnHeader2;
+    private ColumnHeader columnHeader3;
+    private Button buttonEliminar;
+    private Button buttonAgregar;
+    private Button buttonGenerarOrden;
 }

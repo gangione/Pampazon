@@ -10,4 +10,9 @@ public partial class GenerarOrdenDeSeleccionForm : Form
     {
 
     }
+
+    private void label2_Click(object sender, EventArgs e)
+    {
+
+    }
 }
