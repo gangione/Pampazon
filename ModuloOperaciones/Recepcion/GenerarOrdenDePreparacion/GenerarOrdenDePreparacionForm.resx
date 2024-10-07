@@ -328,4 +328,19 @@
         SyyxxGZE8+QSSyyxxGZE8+QSSyyxxObDDa/4/5Gguof3HtiIAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="errorProviderCliente.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>34, 9</value>
+  </metadata>
+  <metadata name="errorProviderFechaADespachar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>195, 15</value>
+  </metadata>
+  <metadata name="errorProviderTransportistaDNI.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>276, 45</value>
+  </metadata>
+  <metadata name="errorProviderTransportistaNombre.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>43, 37</value>
+  </metadata>
+  <metadata name="errorProviderCantidadAPreparar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>417, 15</value>
+  </metadata>
 </root>

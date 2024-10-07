@@ -35,7 +35,7 @@ partial class GenerarOrdenDeEntregaForm
         button1 = new Button();
         label1 = new Label();
         listView1 = new ListView();
-        columnDescripcionProducto = new ColumnHeader();
+        columnMercaderia = new ColumnHeader();
         columnCantidad = new ColumnHeader();
         button2 = new Button();
         listViewOrdenesDePreparacion = new ListView();
@@ -109,7 +109,7 @@ partial class GenerarOrdenDeEntregaForm
         // 
         // listView1
         // 
-        listView1.Columns.AddRange(new ColumnHeader[] { columnDescripcionProducto, columnCantidad });
+        listView1.Columns.AddRange(new ColumnHeader[] { columnMercaderia, columnCantidad });
         listView1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listView1.FullRowSelect = true;
         listView1.GridLines = true;
@@ -122,10 +122,10 @@ partial class GenerarOrdenDeEntregaForm
         listView1.UseCompatibleStateImageBehavior = false;
         listView1.View = View.Details;
         // 
-        // columnDescripcionProducto
+        // columnMercaderia
         // 
-        columnDescripcionProducto.Text = "Descripcion Producto";
-        columnDescripcionProducto.Width = 150;
+        columnMercaderia.Text = "Mercadería";
+        columnMercaderia.Width = 150;
         // 
         // columnCantidad
         // 
@@ -210,7 +210,7 @@ partial class GenerarOrdenDeEntregaForm
     private Button button1;
     private Label label1;
     private ListView listView1;
-    private ColumnHeader columnDescripcionProducto;
+    private ColumnHeader columnMercaderia;
     private ColumnHeader columnCantidad;
     private Button button2;
     private ListView listViewOrdenesDePreparacion;

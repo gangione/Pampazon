@@ -1,4 +1,6 @@
-﻿namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
+﻿using System.Globalization;
+
+namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
 
 public static class Validador
 {
@@ -10,20 +12,16 @@ public static class Validador
         return string.Empty;
     }
 
-    public static string ValidarCuit(string texto)
+    public static string ValidarFecha(string texto)
     {
         if (string.IsNullOrEmpty(texto))
             return "El campo no puede estar vacío.";
 
-        // Verificar que solo contenga números
-        if (!long.TryParse(texto, out _))
-            return "El CUIT solo debe contener números.";
+        if (!DateTime.TryParseExact(
+            texto, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _
+        ))
+            return "La fecha debe ser el formato Dia/Mes/Año.";
 
-        // Verificar que tenga exactamente 11 dígitos
-        if (texto.Length != 11)
-            return "El CUIT debe tener 11 dígitos.";
-
-        // Si pasa las validaciones, se devuelve Empty
         return string.Empty;
     }
 
@@ -32,22 +30,16 @@ public static class Validador
         if (string.IsNullOrEmpty(texto))
             return "El campo no puede estar vacío.";
 
-        // Verificar que solo contenga números
         if (!long.TryParse(texto, out _))
             return "El campo solo debe contener números.";
 
         return string.Empty;
     }
 
-    public static string ValidarFormatoImporte(string texto)
-    {
-        return string.Empty;
-    }
-
     public static string ValidarListadoCompleto(int cantidadItems)
     {
         if (cantidadItems == 0)
-            return "El listado no puede estar vacío.";
+            return "El listado de mercaderías a retirar no puede estar vacío.";
 
         return string.Empty;
     }
@@ -55,16 +47,20 @@ public static class Validador
     public static List<string> ValidarControles(List<ErrorProvider> controlesDeError)
     {
         List<string> mensajes = new();
-        foreach (var error in controlesDeError)
+        for (int i = 0; i < controlesDeError.Count; i++)
         {
-            Control control = (Control)error.Tag;
-            string err = error.GetError(control);
-
-            if (!string.IsNullOrEmpty(err))
+            if (controlesDeError[i] is not null)
             {
-                mensajes.Add($"{control.Tag}: {err}");
+                Control? control = (Control?)controlesDeError[i].Tag;
+                string err = controlesDeError[i].GetError(control);
+
+                if (!string.IsNullOrEmpty(err))
+                {
+                    mensajes.Add($"{control.Tag}: {err}");
+                }
             }
-        };
+        }
+
         return mensajes;
     }
 }

@@ -28,13 +28,15 @@ partial class GenerarOrdenDePreparacionForm
     /// </summary>
     private void InitializeComponent()
     {
+        components = new System.ComponentModel.Container();
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenerarOrdenDePreparacionForm));
         pictureBoxLogo = new PictureBox();
         labelTitulo = new Label();
         groupBoxOrdenDePreparacion = new GroupBox();
+        labelFechaADespachar = new Label();
         labelCliente = new Label();
+        textBoxFechaADespachar = new TextBox();
         textBoxCliente = new TextBox();
-        buttonRestablecer = new Button();
         buttonGenerarOrden = new Button();
         textBoxObservaciones = new TextBox();
         labelObservaciones = new Label();
@@ -45,7 +47,7 @@ partial class GenerarOrdenDePreparacionForm
         columnHeaderCantidadEnStock = new ColumnHeader();
         labelCantidadAPreparar = new Label();
         buttonAgregar = new Button();
-        textBoxCantidadARetirar = new TextBox();
+        textBoxCantidadAPreparar = new TextBox();
         label1 = new Label();
         button1 = new Button();
         button2 = new Button();
@@ -57,7 +59,6 @@ partial class GenerarOrdenDePreparacionForm
         label2 = new Label();
         label3 = new Label();
         label4 = new Label();
-        buttonEditar = new Button();
         buttonEliminar = new Button();
         groupBoxMercaderiasARetirar = new GroupBox();
         groupBox3 = new GroupBox();
@@ -82,12 +83,23 @@ partial class GenerarOrdenDePreparacionForm
         labelNombreTransportista = new Label();
         labelDNITransportista = new Label();
         groupBoxTransportista = new GroupBox();
+        errorProviderCliente = new ErrorProvider(components);
+        errorProviderFechaADespachar = new ErrorProvider(components);
+        errorProviderTransportistaDNI = new ErrorProvider(components);
+        errorProviderTransportistaNombre = new ErrorProvider(components);
+        errorProviderCantidadAPreparar = new ErrorProvider(components);
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxOrdenDePreparacion.SuspendLayout();
         groupBoxMercaderiasEnStock.SuspendLayout();
         groupBoxMercaderiasARetirar.SuspendLayout();
         groupBox3.SuspendLayout();
         groupBoxTransportista.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)errorProviderCliente).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)errorProviderFechaADespachar).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)errorProviderTransportistaDNI).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)errorProviderTransportistaNombre).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)errorProviderCantidadAPreparar).BeginInit();
+        SuspendLayout();
         // 
         // pictureBoxLogo
         // 
@@ -112,9 +124,10 @@ partial class GenerarOrdenDePreparacionForm
         // 
         // groupBoxOrdenDePreparacion
         // 
+        groupBoxOrdenDePreparacion.Controls.Add(labelFechaADespachar);
         groupBoxOrdenDePreparacion.Controls.Add(labelCliente);
+        groupBoxOrdenDePreparacion.Controls.Add(textBoxFechaADespachar);
         groupBoxOrdenDePreparacion.Controls.Add(textBoxCliente);
-        groupBoxOrdenDePreparacion.Controls.Add(buttonRestablecer);
         groupBoxOrdenDePreparacion.Controls.Add(buttonGenerarOrden);
         groupBoxOrdenDePreparacion.Controls.Add(textBoxObservaciones);
         groupBoxOrdenDePreparacion.Controls.Add(labelObservaciones);
@@ -127,15 +140,37 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxOrdenDePreparacion.TabStop = false;
         groupBoxOrdenDePreparacion.Text = "Orden De Preparación";
         // 
+        // labelFechaADespachar
+        // 
+        labelFechaADespachar.AutoSize = true;
+        labelFechaADespachar.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
+        labelFechaADespachar.Location = new Point(220, 36);
+        labelFechaADespachar.Name = "labelFechaADespachar";
+        labelFechaADespachar.Size = new Size(152, 19);
+        labelFechaADespachar.TabIndex = 16;
+        labelFechaADespachar.Text = "Fecha a Despachar *";
+        // 
         // labelCliente
         // 
         labelCliente.AutoSize = true;
         labelCliente.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
         labelCliente.Location = new Point(7, 36);
         labelCliente.Name = "labelCliente";
-        labelCliente.Size = new Size(58, 19);
+        labelCliente.Size = new Size(70, 19);
         labelCliente.TabIndex = 16;
-        labelCliente.Text = "Cliente";
+        labelCliente.Text = "Cliente *";
+        // 
+        // textBoxFechaADespachar
+        // 
+        textBoxFechaADespachar.AllowDrop = true;
+        textBoxFechaADespachar.CharacterCasing = CharacterCasing.Upper;
+        textBoxFechaADespachar.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+        textBoxFechaADespachar.Location = new Point(220, 59);
+        textBoxFechaADespachar.Name = "textBoxFechaADespachar";
+        textBoxFechaADespachar.PlaceholderText = "Dia / Mes / Año";
+        textBoxFechaADespachar.Size = new Size(186, 27);
+        textBoxFechaADespachar.TabIndex = 2;
+        textBoxFechaADespachar.TextChanged += textBoxCliente_TextChanged;
         // 
         // textBoxCliente
         // 
@@ -149,20 +184,6 @@ partial class GenerarOrdenDePreparacionForm
         textBoxCliente.TabIndex = 1;
         textBoxCliente.TextChanged += textBoxCliente_TextChanged;
         // 
-        // buttonRestablecer
-        // 
-        buttonRestablecer.BackColor = Color.FromArgb(33, 150, 243);
-        buttonRestablecer.FlatAppearance.BorderSize = 0;
-        buttonRestablecer.FlatStyle = FlatStyle.Flat;
-        buttonRestablecer.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        buttonRestablecer.ForeColor = Color.White;
-        buttonRestablecer.Location = new Point(752, 645);
-        buttonRestablecer.Name = "buttonRestablecer";
-        buttonRestablecer.Size = new Size(208, 43);
-        buttonRestablecer.TabIndex = 18;
-        buttonRestablecer.Text = "Restablecer";
-        buttonRestablecer.UseVisualStyleBackColor = false;
-        // 
         // buttonGenerarOrden
         // 
         buttonGenerarOrden.BackColor = Color.FromArgb(33, 150, 243);
@@ -170,10 +191,10 @@ partial class GenerarOrdenDePreparacionForm
         buttonGenerarOrden.FlatStyle = FlatStyle.Flat;
         buttonGenerarOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonGenerarOrden.ForeColor = Color.White;
-        buttonGenerarOrden.Location = new Point(547, 645);
+        buttonGenerarOrden.Location = new Point(761, 645);
         buttonGenerarOrden.Name = "buttonGenerarOrden";
         buttonGenerarOrden.Size = new Size(199, 43);
-        buttonGenerarOrden.TabIndex = 17;
+        buttonGenerarOrden.TabIndex = 7;
         buttonGenerarOrden.Text = "Generar Orden";
         buttonGenerarOrden.UseVisualStyleBackColor = false;
         buttonGenerarOrden.Click += buttonGenerarOrden_Click;
@@ -185,7 +206,7 @@ partial class GenerarOrdenDePreparacionForm
         textBoxObservaciones.Multiline = true;
         textBoxObservaciones.Name = "textBoxObservaciones";
         textBoxObservaciones.Size = new Size(952, 40);
-        textBoxObservaciones.TabIndex = 5;
+        textBoxObservaciones.TabIndex = 6;
         textBoxObservaciones.TabStop = false;
         // 
         // labelObservaciones
@@ -203,7 +224,7 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxMercaderiasEnStock.Controls.Add(listViewMercaderiasEnStock);
         groupBoxMercaderiasEnStock.Controls.Add(labelCantidadAPreparar);
         groupBoxMercaderiasEnStock.Controls.Add(buttonAgregar);
-        groupBoxMercaderiasEnStock.Controls.Add(textBoxCantidadARetirar);
+        groupBoxMercaderiasEnStock.Controls.Add(textBoxCantidadAPreparar);
         groupBoxMercaderiasEnStock.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         groupBoxMercaderiasEnStock.Location = new Point(0, 92);
         groupBoxMercaderiasEnStock.Name = "groupBoxMercaderiasEnStock";
@@ -267,13 +288,13 @@ partial class GenerarOrdenDePreparacionForm
         buttonAgregar.UseVisualStyleBackColor = false;
         buttonAgregar.Click += buttonAgregar_Click;
         // 
-        // textBoxCantidadARetirar
+        // textBoxCantidadAPreparar
         // 
-        textBoxCantidadARetirar.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBoxCantidadARetirar.Location = new Point(711, 177);
-        textBoxCantidadARetirar.Name = "textBoxCantidadARetirar";
-        textBoxCantidadARetirar.Size = new Size(135, 27);
-        textBoxCantidadARetirar.TabIndex = 2;
+        textBoxCantidadAPreparar.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+        textBoxCantidadAPreparar.Location = new Point(711, 177);
+        textBoxCantidadAPreparar.Name = "textBoxCantidadAPreparar";
+        textBoxCantidadAPreparar.Size = new Size(135, 27);
+        textBoxCantidadAPreparar.TabIndex = 3;
         // 
         // label1
         // 
@@ -388,21 +409,6 @@ partial class GenerarOrdenDePreparacionForm
         label4.TabIndex = 20;
         label4.Text = "Unidad De Medida *";
         // 
-        // buttonEditar
-        // 
-        buttonEditar.BackColor = Color.FromArgb(33, 150, 243);
-        buttonEditar.FlatAppearance.BorderSize = 0;
-        buttonEditar.FlatStyle = FlatStyle.Flat;
-        buttonEditar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        buttonEditar.ForeColor = Color.White;
-        buttonEditar.Location = new Point(863, 144);
-        buttonEditar.Name = "buttonEditar";
-        buttonEditar.Size = new Size(98, 27);
-        buttonEditar.TabIndex = 27;
-        buttonEditar.Text = "Editar";
-        buttonEditar.UseVisualStyleBackColor = false;
-        buttonEditar.Click += buttonEditar_Click;
-        // 
         // buttonEliminar
         // 
         buttonEliminar.BackColor = Color.FromArgb(33, 150, 243);
@@ -410,18 +416,18 @@ partial class GenerarOrdenDePreparacionForm
         buttonEliminar.FlatStyle = FlatStyle.Flat;
         buttonEliminar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonEliminar.ForeColor = Color.White;
-        buttonEliminar.Location = new Point(753, 144);
+        buttonEliminar.Location = new Point(867, 144);
         buttonEliminar.Name = "buttonEliminar";
         buttonEliminar.Size = new Size(94, 27);
         buttonEliminar.TabIndex = 11;
         buttonEliminar.TabStop = false;
         buttonEliminar.Text = "- Eliminar";
         buttonEliminar.UseVisualStyleBackColor = false;
+        buttonEliminar.Click += buttonEliminar_Click;
         // 
         // groupBoxMercaderiasARetirar
         // 
         groupBoxMercaderiasARetirar.Controls.Add(groupBox3);
-        groupBoxMercaderiasARetirar.Controls.Add(buttonEditar);
         groupBoxMercaderiasARetirar.Controls.Add(listViewMercaderiasARetirar);
         groupBoxMercaderiasARetirar.Controls.Add(buttonEliminar);
         groupBoxMercaderiasARetirar.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -595,7 +601,7 @@ partial class GenerarOrdenDePreparacionForm
         // 
         // columnHeaderStockFuturo
         // 
-        columnHeaderStockFuturo.Text = "Stock futuro";
+        columnHeaderStockFuturo.Text = "Stock a Actualizar";
         columnHeaderStockFuturo.Width = 150;
         // 
         // textBoxNombreTransportista
@@ -605,7 +611,7 @@ partial class GenerarOrdenDePreparacionForm
         textBoxNombreTransportista.Location = new Point(7, 59);
         textBoxNombreTransportista.Name = "textBoxNombreTransportista";
         textBoxNombreTransportista.Size = new Size(186, 27);
-        textBoxNombreTransportista.TabIndex = 3;
+        textBoxNombreTransportista.TabIndex = 4;
         textBoxNombreTransportista.TextChanged += textBoxNombreTransportista_TextChanged;
         // 
         // textBoxDNITransportista
@@ -614,7 +620,7 @@ partial class GenerarOrdenDePreparacionForm
         textBoxDNITransportista.Location = new Point(220, 59);
         textBoxDNITransportista.Name = "textBoxDNITransportista";
         textBoxDNITransportista.Size = new Size(186, 27);
-        textBoxDNITransportista.TabIndex = 4;
+        textBoxDNITransportista.TabIndex = 5;
         // 
         // labelNombreTransportista
         // 
@@ -650,6 +656,26 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxTransportista.TabStop = false;
         groupBoxTransportista.Text = "Transportista";
         // 
+        // errorProviderCliente
+        // 
+        errorProviderCliente.ContainerControl = this;
+        // 
+        // errorProviderFechaADespachar
+        // 
+        errorProviderFechaADespachar.ContainerControl = this;
+        // 
+        // errorProviderTransportistaDNI
+        // 
+        errorProviderTransportistaDNI.ContainerControl = this;
+        // 
+        // errorProviderTransportistaNombre
+        // 
+        errorProviderTransportistaNombre.ContainerControl = this;
+        // 
+        // errorProviderCantidadAPreparar
+        // 
+        errorProviderCantidadAPreparar.ContainerControl = this;
+        // 
         // GenerarOrdenDePreparacionForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -675,6 +701,11 @@ partial class GenerarOrdenDePreparacionForm
         groupBox3.PerformLayout();
         groupBoxTransportista.ResumeLayout(false);
         groupBoxTransportista.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)errorProviderCliente).EndInit();
+        ((System.ComponentModel.ISupportInitialize)errorProviderFechaADespachar).EndInit();
+        ((System.ComponentModel.ISupportInitialize)errorProviderTransportistaDNI).EndInit();
+        ((System.ComponentModel.ISupportInitialize)errorProviderTransportistaNombre).EndInit();
+        ((System.ComponentModel.ISupportInitialize)errorProviderCantidadAPreparar).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -686,16 +717,14 @@ partial class GenerarOrdenDePreparacionForm
     private GroupBox groupBoxOrdenDePreparacion;
     private Label labelCliente;
     private TextBox textBoxCliente;
-    private Button buttonRestablecer;
     private Button buttonGenerarOrden;
     private TextBox textBoxObservaciones;
     private Label labelObservaciones;
     private GroupBox groupBoxMercaderiasEnStock;
     private Label labelCantidadAPreparar;
-    private Button buttonEditar;
     private Button buttonEliminar;
     private Button buttonAgregar;
-    private TextBox textBoxCantidadARetirar;
+    private TextBox textBoxCantidadAPreparar;
     private ListView listViewMercaderiasEnStock;
     private ColumnHeader columnHeaderDescripcion;
     private ColumnHeader columnHeaderUM;
@@ -734,4 +763,11 @@ partial class GenerarOrdenDePreparacionForm
     private Label labelNombreTransportista;
     private Label labelDNITransportista;
     private GroupBox groupBoxTransportista;
+    private Label labelFechaADespachar;
+    private TextBox textBoxFechaADespachar;
+    private ErrorProvider errorProviderCliente;
+    private ErrorProvider errorProviderFechaADespachar;
+    private ErrorProvider errorProviderTransportistaDNI;
+    private ErrorProvider errorProviderTransportistaNombre;
+    private ErrorProvider errorProviderCantidadAPreparar;
 }

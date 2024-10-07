@@ -11,7 +11,6 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia
         private List<Cliente> _clientes;
         private List<Transportista> _transportistas;
         private List<Mercaderia> _mercaderias;
-        private Dictionary<string, ErrorProvider> _errores;
         public RecepcionarMercaderiaForm()
         {
             InitializeComponent();
@@ -37,15 +36,14 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia
             textBoxUMMercaderia.Clear();
             textBoxCantidadMercaderia.Clear();
 
-            CrearValidadores();
+            ConfigurarValidadores();
             ConfigurarAutocompleteClientes();
             ConfigurarAutocompleteTransportistas();
             DeshabilitarNotaDeEspacio();
         }
 
-        private void CrearValidadores()
+        private void ConfigurarValidadores()
         {
-            _errores = new();
             // Cliente
             textBoxCliente.Tag = labelCliente.Text;
             errorProviderCliente.Tag = textBoxCliente;
@@ -53,18 +51,12 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia
             textBoxRemito.Tag = labelRemito.Text;
             errorProviderNroRemito.Tag = textBoxRemito;
 
-            _errores.Add("Cliente", errorProviderCliente);
-            _errores.Add("ClienteRemito", errorProviderNroRemito);
-
             // Transportista
             textBoxDNITransportista.Tag = labelDNITransportista.Text;
             errorProviderDNITransportista.Tag = textBoxDNITransportista;
 
             textBoxNombreTransportista.Tag = labelNombreTransportista.Text;
             errorProviderNombreTransportista.Tag = textBoxNombreTransportista;
-
-            _errores.Add("TransportistaDNI", errorProviderDNITransportista);
-            _errores.Add("TransportistaNombre", errorProviderNombreTransportista);
 
             // Mercaderias
             textBoxDescripcionMercaderia.Tag = labelDescripcionMercaderia.Text;
@@ -78,24 +70,26 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia
 
             textBoxCantidadRechazada.Tag = labelCantidadRechazada.Text;
             errorProviderCantidadRechazada.Tag = textBoxCantidadRechazada;
-
-            _errores.Add("MercaderiaDescripcion", errorProviderDescripcionMercaderia);
-            _errores.Add("MercaderiaUM", errorProviderUMMercaderia);
-            _errores.Add("MercaderiaCantidad", errorProviderCantidadMercaderia);
-            _errores.Add("MercaderiaCantidadRechazada", errorProviderCantidadRechazada);
         }
 
         private List<string> ValidarFormularioMercaderias()
         {
+            Dictionary<string, ErrorProvider> errorProviders = new();
+
+            errorProviders.Add("MercaderiaDescripcion", errorProviderDescripcionMercaderia);
+            errorProviders.Add("MercaderiaUM", errorProviderUMMercaderia);
+            errorProviders.Add("MercaderiaCantidad", errorProviderCantidadMercaderia);
+            errorProviders.Add("MercaderiaCantidadRechazada", errorProviderCantidadRechazada);
+
             List<ErrorProvider> errores = new()
             {
-                _errores.GetValueOrDefault("MercaderiaDescripcion"),
-                _errores.GetValueOrDefault("MercaderiaUM"),
-                _errores.GetValueOrDefault("MercaderiaCantidad"),
+                errorProviders.GetValueOrDefault("MercaderiaDescripcion"),
+                errorProviders.GetValueOrDefault("MercaderiaUM"),
+                errorProviders.GetValueOrDefault("MercaderiaCantidad"),
             };
 
             if (textBoxCantidadRechazada.Enabled)
-                errores.Add(_errores
+                errores.Add(errorProviders
                     .GetValueOrDefault("MercaderiaCantidadRechazada"));
 
             ValidateChildren();
@@ -107,12 +101,14 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia
 
         private List<string> ValidarFormularioOrdenDeRecepcion()
         {
+            Dictionary<string, ErrorProvider> errorProviders = new();
+
             List<ErrorProvider> errores = new()
             {
-                _errores.GetValueOrDefault("Cliente"),
-                _errores.GetValueOrDefault("ClienteRemito"),
-                _errores.GetValueOrDefault("TransportistaDNI"),
-                _errores.GetValueOrDefault("TransportistaNombre")
+                errorProviders.GetValueOrDefault("Cliente"),
+                errorProviders.GetValueOrDefault("ClienteRemito"),
+                errorProviders.GetValueOrDefault("TransportistaDNI"),
+                errorProviders.GetValueOrDefault("TransportistaNombre")
             };
 
             ValidateChildren();
@@ -248,7 +244,8 @@ namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia
 
         private void textBoxCliente_TextChanged(object sender, EventArgs e)
         {
-            _clientes = _recepcionModel.ObtenerClientesPorFiltro(textBoxCliente.Text);
+            List<Cliente> clientes = _recepcionModel.ObtenerClientesPorFiltro(textBoxCliente.Text);
+
         }
 
         private void textBoxNombreTransportista_TextChanged(object sender, EventArgs e)

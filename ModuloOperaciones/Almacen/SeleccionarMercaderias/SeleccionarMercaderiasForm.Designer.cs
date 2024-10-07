@@ -34,7 +34,7 @@ partial class SeleccionarMercaderiasForm
         labelTitulo = new Label();
         listViewMercaderiasEnStock = new ListView();
         columnHeaderNumeroDeOrden = new ColumnHeader();
-        columnDescripcion = new ColumnHeader();
+        columnMercaderia = new ColumnHeader();
         columnHeaderCantidad = new ColumnHeader();
         columnUbicacion = new ColumnHeader();
         buttonSeleccionar = new Button();
@@ -69,7 +69,7 @@ partial class SeleccionarMercaderiasForm
         // 
         // listViewMercaderiasEnStock
         // 
-        listViewMercaderiasEnStock.Columns.AddRange(new ColumnHeader[] { columnHeaderNumeroDeOrden, columnDescripcion, columnHeaderCantidad, columnUbicacion });
+        listViewMercaderiasEnStock.Columns.AddRange(new ColumnHeader[] { columnHeaderNumeroDeOrden, columnMercaderia, columnHeaderCantidad, columnUbicacion });
         listViewMercaderiasEnStock.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listViewMercaderiasEnStock.FullRowSelect = true;
         listViewMercaderiasEnStock.GridLines = true;
@@ -88,10 +88,10 @@ partial class SeleccionarMercaderiasForm
         columnHeaderNumeroDeOrden.Text = "Numero de Orden";
         columnHeaderNumeroDeOrden.Width = 150;
         // 
-        // columnDescripcion
+        // columnMercaderia
         // 
-        columnDescripcion.Text = "Descripcion Producto";
-        columnDescripcion.Width = 150;
+        columnMercaderia.Text = "Mercadería";
+        columnMercaderia.Width = 150;
         // 
         // columnHeaderCantidad
         // 
@@ -116,7 +116,6 @@ partial class SeleccionarMercaderiasForm
         buttonSeleccionar.TabIndex = 21;
         buttonSeleccionar.Text = "Confirmar seleccion";
         buttonSeleccionar.UseVisualStyleBackColor = false;
-    
         buttonSeleccionar.Click += buttonSeleccionar_Click;
         // 
         // groupBoxOrdenDeSeleccion
@@ -186,7 +185,7 @@ partial class SeleccionarMercaderiasForm
         PerformLayout();
     }
 
-   
+
     #endregion
 
     private PictureBox pictureBoxLogo;
@@ -198,7 +197,7 @@ partial class SeleccionarMercaderiasForm
     private GroupBox groupBoxOrdenDeSeleccion;
     private Label labelNumeroDeOrden;
     private TextBox textBox2;
-    private ColumnHeader columnDescripcion;
+    private ColumnHeader columnMercaderia;
     private ColumnHeader columnUbicacion;
     private Button button1;
 }
