@@ -1,15 +1,12 @@
 ﻿using Pampazon.InicioSesion.Dtos;
+using Pampazon.InicioSesion.Utilidades;
 using Pampazon.MenuInicio;
-using Pampazon.ModuloInicioSesion;
-using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
 
-namespace Pampazon
+namespace Pampazon.InicioSesion
 {
     public partial class IniciarSesionForm : Form
     {
         private IniciarSesionModel _iniciarSesionModel;
-        private List<ErrorProvider> _errores;
-        private List<string> _mensajes;
         public IniciarSesionForm()
         {
             InitializeComponent();
@@ -17,9 +14,7 @@ namespace Pampazon
         private void IniciarSesionForm_Load(object sender, EventArgs e)
         {
             _iniciarSesionModel = new();
-            _mensajes = new();
             CrearValidaciones();
-            _mensajes.Clear();
         }
 
         #region Formulario - Datos Usuario
@@ -33,29 +28,38 @@ namespace Pampazon
             // Contrasenia
             textBoxContrasenia.Tag = labelContrasenia.Text;
             errorProviderContrasenia.Tag = textBoxContrasenia;
-
-            _errores = [
-                errorProviderUsuario,
-                errorProviderContrasenia
-            ];
         }
 
         protected List<string> ValidarFormulario()
         {
-            _mensajes.Clear();
+            string usuario = Validador.ValidarCampoVacio(textBoxUsuario.Text);
+
+            if (!string.IsNullOrEmpty(usuario))
+                errorProviderUsuario.SetError(textBoxUsuario, usuario);
+            else
+                errorProviderUsuario.SetError(textBoxUsuario, "");
+
+            string password = Validador.ValidarCampoVacio(textBoxContrasenia.Text);
+
+            if (!string.IsNullOrEmpty(password))
+                errorProviderContrasenia.SetError(textBoxContrasenia, password);
+            else
+                errorProviderContrasenia.SetError(textBoxContrasenia, "");
+
+            List<ErrorProvider> errores = new()
+            {
+                errorProviderUsuario,
+                errorProviderContrasenia
+            };
+
             ValidateChildren();
 
-            foreach (var error in _errores)
-            {
-                Control control = (Control)error.Tag;
-                string err = error.GetError(control);
+            List<string> mensajes =
+            [
+                .. Validador.ValidarControles(errores),
+            ];
 
-                if (!string.IsNullOrEmpty(err))
-                {
-                    _mensajes.Add($"{control.Tag}: {err}");
-                }
-            };
-            return _mensajes;
+            return mensajes;
         }
 
         #endregion
@@ -84,28 +88,8 @@ namespace Pampazon
                 return;
             }
 
-            MenuInicioForm menuForm = new(resultado.Datos);
+            MenuInicioForm menuForm = new();
             menuForm.ShowDialog();
-        }
-
-        private void textBoxUsuario_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            string validacion = Validador.ValidarCampoVacio(textBoxUsuario.Text);
-
-            if (!string.IsNullOrEmpty(validacion))
-                errorProviderUsuario.SetError(textBoxUsuario, validacion);
-            else
-                errorProviderUsuario.SetError(textBoxUsuario, "");
-        }
-
-        private void textBoxContrasenia_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            string validacion = Validador.ValidarCampoVacio(textBoxContrasenia.Text);
-
-            if (!string.IsNullOrEmpty(validacion))
-                errorProviderContrasenia.SetError(textBoxContrasenia, validacion);
-            else
-                errorProviderContrasenia.SetError(textBoxContrasenia, "");
         }
 
         #endregion

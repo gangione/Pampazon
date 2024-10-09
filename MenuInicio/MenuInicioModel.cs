@@ -1,10 +1,5 @@
 ﻿using Pampazon.InicioSesion.Dtos;
 using Pampazon.InicioSesion.Enums;
-using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias;
-using Pampazon.ModuloOperaciones.Despacho.GenerarRemito;
-using Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeEntrega;
-using Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeSeleccion;
-using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
 using Pampazon.ModuloOperaciones.Recepcion.RecepcionMercaderia;
 
 namespace Pampazon.ModuloMenuInicio;
@@ -18,11 +13,7 @@ public class MenuInicioModel
         _opciones = new()
         {
             //{ Enum.GetName(Rol.Administrador), new AbmUsuariosForm() },
-            { Enum.GetName(Rol.AtencionAlCliente), new GenerarOrdenDePreparacionForm() },
-            { Enum.GetName(Rol.JefeDePreparacion), new GenerarOrdenDeSeleccionForm() },
-            { Enum.GetName(Rol.Estibador), new SeleccionarMercaderiasForm() },
-            { Enum.GetName(Rol.Preparador), new GenerarOrdenDeEntregaForm() },
-            { Enum.GetName(Rol.Despachante), new GenerarRemitoForm() },
+
         };
 
         // Ejemplo de Recepción de Mercadería (Poceso IN).

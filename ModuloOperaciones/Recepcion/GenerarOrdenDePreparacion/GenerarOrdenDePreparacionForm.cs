@@ -22,6 +22,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
         textBoxCantidadAPreparar.Clear();
         textBoxDNITransportista.Clear();
         textBoxNombreTransportista.Clear();
+        textBoxObservaciones.Clear();
 
         ConfigurarValidadores();
         ConfigurarAutocompleteClientes(clientes);
@@ -231,6 +232,16 @@ public partial class GenerarOrdenDePreparacionForm : Form
             }
 
             ListViewItem selected = listViewMercaderiasEnStock.SelectedItems[0];
+
+            foreach (ListViewItem item in listViewMercaderiasARetirar.Items)
+            {
+                if (item.SubItems[0].Text.ToUpper() == selected.SubItems[0].Text.ToUpper())
+                {
+                    Alerta.MostrarAdvertencia("Esta mercadería ya ha sido agregada. \n" +
+                        "Eliminela de la orden e ingresela nuevamente.");
+                    return;
+                }
+            }
             Mercaderia mercaderia = new()
             {
                 //NumeroCliente = 
@@ -241,6 +252,12 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
             int stockFuturo = int.Parse(selected.SubItems[2].Text) -
                 int.Parse(textBoxCantidadAPreparar.Text);
+
+            if (stockFuturo < 0)
+            {
+                Alerta.MostrarAdvertencia("La mercadería a preparar no puede superar la cantidad en stock.");
+                return;
+            }
 
             AgregarItemMercaderiaARetirar(
                 mercaderia,

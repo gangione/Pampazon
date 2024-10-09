@@ -68,28 +68,32 @@ public class GenerarOrdenDePreparacionModel
                 NumeroCliente = 1,
                 Descripcion = "Cemento",
                 Cantidad = 2,
-                UnidadDeMedida = UnidadDeMedida.Bolsas
+                UnidadDeMedida = UnidadDeMedida.Bolsas,
+                Estado = MercaderiaEstado.EnAlmacen,
             },
             new ()
             {
                 NumeroCliente = 1,
                 Descripcion = "Arena",
                 Cantidad = 5,
-                UnidadDeMedida = UnidadDeMedida.Bolsas
+                UnidadDeMedida = UnidadDeMedida.Bolsas,
+                Estado = MercaderiaEstado.EnAlmacen
             },
             new ()
             {
                 NumeroCliente = 1,
                 Descripcion = "Ladrillos",
                 Cantidad = 500,
-                UnidadDeMedida = UnidadDeMedida.Unidades
+                UnidadDeMedida = UnidadDeMedida.Unidades,
+                Estado = MercaderiaEstado.EnAlmacen
             },
             new ()
             {
                 NumeroCliente = 2,
                 Descripcion = "Palets",
                 Cantidad = 100,
-                UnidadDeMedida = UnidadDeMedida.Unidades
+                UnidadDeMedida = UnidadDeMedida.Unidades,
+                Estado = MercaderiaEstado.EnAlmacen
             }
         };
     }

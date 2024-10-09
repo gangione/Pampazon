@@ -76,7 +76,7 @@ partial class GenerarOrdenDePreparacionForm
         listViewMercaderiasARetirar = new ListView();
         columnHeaderDescripcionMercaderiaARetirar = new ColumnHeader();
         columnHeaderUMMercaderiaARetirar = new ColumnHeader();
-        columnHeaderCantidadARetirar = new ColumnHeader();
+        columnHeaderCantidadAPreparar = new ColumnHeader();
         columnHeaderStockFuturo = new ColumnHeader();
         textBoxNombreTransportista = new TextBox();
         textBoxDNITransportista = new TextBox();
@@ -571,7 +571,7 @@ partial class GenerarOrdenDePreparacionForm
         // 
         // listViewMercaderiasARetirar
         // 
-        listViewMercaderiasARetirar.Columns.AddRange(new ColumnHeader[] { columnHeaderDescripcionMercaderiaARetirar, columnHeaderUMMercaderiaARetirar, columnHeaderCantidadARetirar, columnHeaderStockFuturo });
+        listViewMercaderiasARetirar.Columns.AddRange(new ColumnHeader[] { columnHeaderDescripcionMercaderiaARetirar, columnHeaderUMMercaderiaARetirar, columnHeaderCantidadAPreparar, columnHeaderStockFuturo });
         listViewMercaderiasARetirar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listViewMercaderiasARetirar.FullRowSelect = true;
         listViewMercaderiasARetirar.GridLines = true;
@@ -594,10 +594,10 @@ partial class GenerarOrdenDePreparacionForm
         columnHeaderUMMercaderiaARetirar.Text = "Unidad de Medida";
         columnHeaderUMMercaderiaARetirar.Width = 150;
         // 
-        // columnHeaderCantidadARetirar
+        // columnHeaderCantidadAPreparar
         // 
-        columnHeaderCantidadARetirar.Text = "Cantidad";
-        columnHeaderCantidadARetirar.Width = 100;
+        columnHeaderCantidadAPreparar.Text = "Cantidad a Preparar";
+        columnHeaderCantidadAPreparar.Width = 150;
         // 
         // columnHeaderStockFuturo
         // 
@@ -757,7 +757,7 @@ partial class GenerarOrdenDePreparacionForm
     private ColumnHeader columnHeaderDescripcionMercaderiaARetirar;
     private ColumnHeader columnHeaderUMMercaderiaARetirar;
     private ColumnHeader columnHeaderStockFuturo;
-    private ColumnHeader columnHeaderCantidadARetirar;
+    private ColumnHeader columnHeaderCantidadAPreparar;
     private TextBox textBoxNombreTransportista;
     private TextBox textBoxDNITransportista;
     private Label labelNombreTransportista;

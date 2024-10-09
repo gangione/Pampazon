@@ -4,5 +4,6 @@ public enum UnidadDeMedida
 {
     Unidades,
     Cajas,
-    Bolsas
+    Bolsas,
+    Palets
 }

@@ -1,8 +1,8 @@
 ﻿using Pampazon.InicioSesion.Dtos;
 using Pampazon.InicioSesion.Enums;
-using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
+using Pampazon.InicioSesion.Utilidades;
 
-namespace Pampazon.ModuloInicioSesion;
+namespace Pampazon.InicioSesion;
 
 public class IniciarSesionModel
 {

@@ -17,10 +17,14 @@ public static class Validador
         if (string.IsNullOrEmpty(texto))
             return "El campo no puede estar vacío.";
 
+        DateTime fechaValida;
         if (!DateTime.TryParseExact(
-            texto, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _
+            texto, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaValida
         ))
             return "La fecha debe ser el formato Dia/Mes/Año.";
+
+        if (fechaValida.Date < DateTime.Today.Date)
+            return "La fecha ingresada debe ser mayor o igual al día de hoy.";
 
         return string.Empty;
     }

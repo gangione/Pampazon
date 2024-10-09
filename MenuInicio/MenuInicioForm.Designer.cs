@@ -31,10 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuInicioForm));
             pictureBox1 = new PictureBox();
             labelTitulo = new Label();
-            buttonAdmin = new Button();
+            buttonOrdenDePreparacion = new Button();
             groupBox1 = new GroupBox();
-            buttonVentas = new Button();
-            buttonOperaciones = new Button();
+            buttonDespachar = new Button();
+            buttonEmpaquetar = new Button();
+            buttonSeleccionMercaderias = new Button();
+            buttonOrdenDeSeleccion = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -43,7 +45,7 @@
             // 
             pictureBox1.BackgroundImageLayout = ImageLayout.None;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(687, 9);
+            pictureBox1.Location = new Point(140, 9);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(300, 60);
             pictureBox1.TabIndex = 17;
@@ -54,66 +56,95 @@
             labelTitulo.AutoSize = true;
             labelTitulo.Font = new Font("Segoe UI Black", 18F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             labelTitulo.ForeColor = Color.FromArgb(64, 64, 64);
-            labelTitulo.Location = new Point(22, 9);
+            labelTitulo.Location = new Point(112, 72);
             labelTitulo.Name = "labelTitulo";
-            labelTitulo.Size = new Size(185, 32);
+            labelTitulo.Size = new Size(351, 32);
             labelTitulo.TabIndex = 16;
-            labelTitulo.Text = "Menú de Inicio";
+            labelTitulo.Text = "Menú de Inicio - Operaciones";
             // 
-            // buttonAdmin
+            // buttonOrdenDePreparacion
             // 
-            buttonAdmin.BackColor = Color.FromArgb(33, 150, 243);
-            buttonAdmin.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            buttonAdmin.ForeColor = Color.White;
-            buttonAdmin.Location = new Point(145, 114);
-            buttonAdmin.Name = "buttonAdmin";
-            buttonAdmin.Size = new Size(200, 150);
-            buttonAdmin.TabIndex = 18;
-            buttonAdmin.Text = "Administración de Sistema";
-            buttonAdmin.UseVisualStyleBackColor = false;
-            buttonAdmin.Click += buttonAdmin_Click;
+            buttonOrdenDePreparacion.BackColor = Color.FromArgb(33, 150, 243);
+            buttonOrdenDePreparacion.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonOrdenDePreparacion.ForeColor = Color.White;
+            buttonOrdenDePreparacion.Location = new Point(6, 22);
+            buttonOrdenDePreparacion.Name = "buttonOrdenDePreparacion";
+            buttonOrdenDePreparacion.Size = new Size(200, 87);
+            buttonOrdenDePreparacion.TabIndex = 18;
+            buttonOrdenDePreparacion.Text = "1. Pedir Mercaderias de Cliente";
+            buttonOrdenDePreparacion.UseVisualStyleBackColor = false;
+            buttonOrdenDePreparacion.Click += buttonPedirMercaderiasDeCliente_Click;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(buttonAdmin);
-            groupBox1.Controls.Add(buttonVentas);
-            groupBox1.Controls.Add(buttonOperaciones);
-            groupBox1.Location = new Point(22, 78);
+            groupBox1.Controls.Add(buttonDespachar);
+            groupBox1.Controls.Add(buttonEmpaquetar);
+            groupBox1.Controls.Add(buttonOrdenDePreparacion);
+            groupBox1.Controls.Add(buttonSeleccionMercaderias);
+            groupBox1.Controls.Add(buttonOrdenDeSeleccion);
+            groupBox1.Location = new Point(181, 107);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(965, 421);
+            groupBox1.Size = new Size(220, 493);
             groupBox1.TabIndex = 19;
             groupBox1.TabStop = false;
             // 
-            // buttonVentas
+            // buttonDespachar
             // 
-            buttonVentas.BackColor = Color.FromArgb(33, 150, 243);
-            buttonVentas.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            buttonVentas.ForeColor = Color.White;
-            buttonVentas.Location = new Point(623, 114);
-            buttonVentas.Name = "buttonVentas";
-            buttonVentas.Size = new Size(200, 150);
-            buttonVentas.TabIndex = 20;
-            buttonVentas.Text = "Ventas";
-            buttonVentas.UseVisualStyleBackColor = false;
+            buttonDespachar.BackColor = Color.FromArgb(33, 150, 243);
+            buttonDespachar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonDespachar.ForeColor = Color.White;
+            buttonDespachar.Location = new Point(6, 394);
+            buttonDespachar.Name = "buttonDespachar";
+            buttonDespachar.Size = new Size(200, 87);
+            buttonDespachar.TabIndex = 22;
+            buttonDespachar.Text = "5. Despachar pedidos / Generar Remito.";
+            buttonDespachar.UseVisualStyleBackColor = false;
+            buttonDespachar.Click += buttonDespachar_Click;
             // 
-            // buttonOperaciones
+            // buttonEmpaquetar
             // 
-            buttonOperaciones.BackColor = Color.FromArgb(33, 150, 243);
-            buttonOperaciones.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            buttonOperaciones.ForeColor = Color.White;
-            buttonOperaciones.Location = new Point(385, 114);
-            buttonOperaciones.Name = "buttonOperaciones";
-            buttonOperaciones.Size = new Size(200, 150);
-            buttonOperaciones.TabIndex = 19;
-            buttonOperaciones.Text = "Operaciones";
-            buttonOperaciones.UseVisualStyleBackColor = false;
-            buttonOperaciones.Click += buttonOperaciones_Click;
+            buttonEmpaquetar.BackColor = Color.FromArgb(33, 150, 243);
+            buttonEmpaquetar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonEmpaquetar.ForeColor = Color.White;
+            buttonEmpaquetar.Location = new Point(6, 301);
+            buttonEmpaquetar.Name = "buttonEmpaquetar";
+            buttonEmpaquetar.Size = new Size(200, 87);
+            buttonEmpaquetar.TabIndex = 21;
+            buttonEmpaquetar.Text = "4. Empaquetar / Preparar pedidos.";
+            buttonEmpaquetar.UseVisualStyleBackColor = false;
+            buttonEmpaquetar.Click += buttonEmpaquetar_Click;
+            // 
+            // buttonSeleccionMercaderias
+            // 
+            buttonSeleccionMercaderias.BackColor = Color.FromArgb(33, 150, 243);
+            buttonSeleccionMercaderias.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonSeleccionMercaderias.ForeColor = Color.White;
+            buttonSeleccionMercaderias.Location = new Point(6, 208);
+            buttonSeleccionMercaderias.Name = "buttonSeleccionMercaderias";
+            buttonSeleccionMercaderias.Size = new Size(200, 87);
+            buttonSeleccionMercaderias.TabIndex = 20;
+            buttonSeleccionMercaderias.Text = "3. Selección de Mercaderías / Baja de Almacen";
+            buttonSeleccionMercaderias.UseVisualStyleBackColor = false;
+            buttonSeleccionMercaderias.Click += buttonSeleccionMercaderias_Click;
+            // 
+            // buttonOrdenDeSeleccion
+            // 
+            buttonOrdenDeSeleccion.BackColor = Color.FromArgb(33, 150, 243);
+            buttonOrdenDeSeleccion.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            buttonOrdenDeSeleccion.ForeColor = Color.White;
+            buttonOrdenDeSeleccion.Location = new Point(6, 115);
+            buttonOrdenDeSeleccion.Name = "buttonOrdenDeSeleccion";
+            buttonOrdenDeSeleccion.Size = new Size(200, 87);
+            buttonOrdenDeSeleccion.TabIndex = 19;
+            buttonOrdenDeSeleccion.Text = "2. Ordenar selección de pedidos";
+            buttonOrdenDeSeleccion.UseVisualStyleBackColor = false;
+            buttonOrdenDeSeleccion.Click += buttonOrdenDeSeleccion_Click;
             // 
             // MenuInicioForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1014, 511);
+            ClientSize = new Size(583, 604);
             Controls.Add(pictureBox1);
             Controls.Add(labelTitulo);
             Controls.Add(groupBox1);
@@ -131,9 +162,11 @@
 
         private PictureBox pictureBox1;
         private Label labelTitulo;
-        private Button buttonAdmin;
+        private Button buttonOrdenDePreparacion;
         private GroupBox groupBox1;
-        private Button buttonVentas;
-        private Button buttonOperaciones;
+        private Button buttonSeleccionMercaderias;
+        private Button buttonOrdenDeSeleccion;
+        private Button buttonEmpaquetar;
+        private Button buttonDespachar;
     }
 }
