@@ -1,4 +1,4 @@
-﻿namespace Pampazon
+﻿namespace Pampazon.InicioSesion
 {
     partial class IniciarSesionForm
     {
@@ -54,7 +54,6 @@
             textBoxContrasenia.PasswordChar = '*';
             textBoxContrasenia.Size = new Size(218, 33);
             textBoxContrasenia.TabIndex = 2;
-            textBoxContrasenia.Validating += textBoxContrasenia_Validating;
             // 
             // textBoxUsuario
             // 
@@ -63,7 +62,6 @@
             textBoxUsuario.Name = "textBoxUsuario";
             textBoxUsuario.Size = new Size(218, 33);
             textBoxUsuario.TabIndex = 1;
-            textBoxUsuario.Validating += textBoxUsuario_Validating;
             // 
             // buttonIniciarSesion
             // 

@@ -1,8 +1,8 @@
 ﻿using Pampazon.InicioSesion.Dtos;
 using Pampazon.InicioSesion.Enums;
-using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
+using Pampazon.InicioSesion.Utilidades;
 
-namespace Pampazon.ModuloInicioSesion;
+namespace Pampazon.InicioSesion;
 
 public class IniciarSesionModel
 {
@@ -23,7 +23,7 @@ public class IniciarSesionModel
             {
                 Numero = 2,
                 Nombre = "atencionalcliente",
-                Contrasenia = "atiendob0lud0s",
+                Contrasenia = "cliente",
                 Rol = Rol.AtencionAlCliente
             },
             new()

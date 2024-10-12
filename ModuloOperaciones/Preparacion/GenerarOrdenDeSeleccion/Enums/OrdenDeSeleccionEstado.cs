@@ -2,6 +2,5 @@
 public enum OrdenDeSeleccionEstado
 {
     Pendiente,
-    Preparada,
-    Despachada
+    Cumplida,
 }

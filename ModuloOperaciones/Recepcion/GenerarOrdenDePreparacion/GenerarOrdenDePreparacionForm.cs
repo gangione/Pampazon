@@ -22,6 +22,9 @@ public partial class GenerarOrdenDePreparacionForm : Form
         textBoxCantidadAPreparar.Clear();
         textBoxDNITransportista.Clear();
         textBoxNombreTransportista.Clear();
+        textBoxObservaciones.Clear();
+        listViewMercaderiasEnStock.Items.Clear();
+        listViewMercaderiasARetirar.Items.Clear();
 
         ConfigurarValidadores();
         ConfigurarAutocompleteClientes(clientes);
@@ -48,6 +51,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
         textBoxCantidadAPreparar.Tag = labelCantidadAPreparar.Text;
         errorProviderCantidadAPreparar.Tag = textBoxCantidadAPreparar;
     }
+
     private List<string> ValidarFormularioMercaderias()
     {
         string cantidad = Validador.ValidarCampoNumerico(textBoxCantidadAPreparar.Text);
@@ -55,7 +59,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
         if (!string.IsNullOrEmpty(cantidad))
             errorProviderCantidadAPreparar.SetError(textBoxCantidadAPreparar, cantidad);
         else
-            errorProviderCantidadAPreparar.SetError(textBoxCantidadAPreparar, "");
+            errorProviderCantidadAPreparar.SetError(textBoxCantidadAPreparar, string.Empty);
 
         List<ErrorProvider> errores = new()
         {
@@ -71,6 +75,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
         return mensajes;
     }
+
     private List<string> ValidarFormularioOrdenDePreparacion()
     {
         string cliente = Validador.ValidarCampoVacio(textBoxCliente.Text);
@@ -78,28 +83,28 @@ public partial class GenerarOrdenDePreparacionForm : Form
         if (!string.IsNullOrEmpty(cliente))
             errorProviderCliente.SetError(textBoxCliente, cliente);
         else
-            errorProviderCliente.SetError(textBoxCliente, "");
+            errorProviderCliente.SetError(textBoxCliente, string.Empty);
 
         string fecha = Validador.ValidarFecha(textBoxFechaADespachar.Text);
 
         if (!string.IsNullOrEmpty(fecha))
             errorProviderFechaADespachar.SetError(textBoxFechaADespachar, fecha);
         else
-            errorProviderFechaADespachar.SetError(textBoxFechaADespachar, "");
+            errorProviderFechaADespachar.SetError(textBoxFechaADespachar, string.Empty);
 
         string transportistaNombre = Validador.ValidarCampoVacio(textBoxNombreTransportista.Text);
 
         if (!string.IsNullOrEmpty(transportistaNombre))
             errorProviderTransportistaNombre.SetError(textBoxNombreTransportista, transportistaNombre);
         else
-            errorProviderTransportistaNombre.SetError(textBoxNombreTransportista, "");
+            errorProviderTransportistaNombre.SetError(textBoxNombreTransportista, string.Empty);
 
-        string transportistaDNI = Validador.ValidarCampoVacio(textBoxDNITransportista.Text);
+        string transportistaDNI = Validador.ValidarDNI(textBoxDNITransportista.Text);
 
         if (!string.IsNullOrEmpty(transportistaDNI))
             errorProviderTransportistaDNI.SetError(textBoxDNITransportista, transportistaDNI);
         else
-            errorProviderTransportistaDNI.SetError(textBoxDNITransportista, "");
+            errorProviderTransportistaDNI.SetError(textBoxDNITransportista, string.Empty);
 
         List<ErrorProvider> errores = new()
         {
@@ -148,6 +153,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
         return viewItems.ToArray();
     }
     #endregion
+
     #region Listado Mercaderías A Retirar
     private void AgregarItemMercaderiaARetirar(Mercaderia mercaderia, string stockFuturo)
     {
@@ -231,6 +237,16 @@ public partial class GenerarOrdenDePreparacionForm : Form
             }
 
             ListViewItem selected = listViewMercaderiasEnStock.SelectedItems[0];
+
+            foreach (ListViewItem item in listViewMercaderiasARetirar.Items)
+            {
+                if (item.SubItems[0].Text.ToUpper() == selected.SubItems[0].Text.ToUpper())
+                {
+                    Alerta.MostrarAdvertencia("Esta mercadería ya ha sido agregada. \n" +
+                        "Eliminela de la orden e ingresela nuevamente.");
+                    return;
+                }
+            }
             Mercaderia mercaderia = new()
             {
                 //NumeroCliente = 
@@ -241,6 +257,12 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
             int stockFuturo = int.Parse(selected.SubItems[2].Text) -
                 int.Parse(textBoxCantidadAPreparar.Text);
+
+            if (stockFuturo < 0)
+            {
+                Alerta.MostrarAdvertencia("La mercadería a preparar no puede superar la cantidad en stock.");
+                return;
+            }
 
             AgregarItemMercaderiaARetirar(
                 mercaderia,
@@ -313,5 +335,6 @@ public partial class GenerarOrdenDePreparacionForm : Form
         if (confirmacion == DialogResult.No)
             e.Cancel = true;
     }
+
     #endregion
 }

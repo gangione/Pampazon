@@ -31,20 +31,33 @@ partial class GenerarRemitoForm
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenerarRemitoForm));
         pictureBoxLogo = new PictureBox();
         labelTitulo = new Label();
-        listViewMercaderiasEnStock = new ListView();
-        columnHeaderNumeroDeOrden = new ColumnHeader();
-        columnRazonSocial = new ColumnHeader();
-        columnHeaderTransportista = new ColumnHeader();
-        columnFechaDeDespacho = new ColumnHeader();
-        groupBoxOrdenDePreparación = new GroupBox();
-        labelTransportista = new Label();
-        textBox1 = new TextBox();
-        labelNumeroDeOrden = new Label();
-        textBox2 = new TextBox();
-        button1 = new Button();
-        button2 = new Button();
+        buttonDespachar = new Button();
+        columnHeaderOrdenDePreparacionNro = new ColumnHeader();
+        columnOrdenDePreparacionCliente = new ColumnHeader();
+        columnHeaderOrdenDePrepracionObservaciones = new ColumnHeader();
+        listViewOrdenesDePreparacionPreparadas = new ListView();
+        listViewMercaderiasAEntregar = new ListView();
+        columnHeaderRemitoMercaderia = new ColumnHeader();
+        columnHeaderRemitoMercaderiaCantidad = new ColumnHeader();
+        columnHeaderRemitoMercaderiaNroOrden = new ColumnHeader();
+        buttonGenerarOrden = new Button();
+        groupBoxRemito = new GroupBox();
+        groupBoxMercaderiasAEntregar = new GroupBox();
+        groupBoxTransportista = new GroupBox();
+        labelDNITransportista = new Label();
+        labelNombreTransportista = new Label();
+        textBoxDNITransportista = new TextBox();
+        textBoxNombreTransportista = new TextBox();
+        groupBoxOrdenesDePreparacion = new GroupBox();
+        labelDetalleOrdenDePreparacion = new Label();
+        listViewOrdenDePreparacionMercaderias = new ListView();
+        columnHeaderOrdenDePreparacionMercaderia = new ColumnHeader();
+        columnHeaderOrdenDePreparacionMercaderiaCantidad = new ColumnHeader();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
-        groupBoxOrdenDePreparación.SuspendLayout();
+        groupBoxRemito.SuspendLayout();
+        groupBoxMercaderiasAEntregar.SuspendLayout();
+        groupBoxTransportista.SuspendLayout();
+        groupBoxOrdenesDePreparacion.SuspendLayout();
         SuspendLayout();
         // 
         // pictureBoxLogo
@@ -68,139 +81,238 @@ partial class GenerarRemitoForm
         labelTitulo.TabIndex = 23;
         labelTitulo.Text = "Despacho de Mercaderías";
         // 
-        // listViewMercaderiasEnStock
+        // buttonDespachar
         // 
-        listViewMercaderiasEnStock.Columns.AddRange(new ColumnHeader[] { columnHeaderNumeroDeOrden, columnRazonSocial, columnHeaderTransportista, columnFechaDeDespacho });
-        listViewMercaderiasEnStock.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-        listViewMercaderiasEnStock.FullRowSelect = true;
-        listViewMercaderiasEnStock.GridLines = true;
-        listViewMercaderiasEnStock.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewMercaderiasEnStock.Location = new Point(12, 184);
-        listViewMercaderiasEnStock.MultiSelect = false;
-        listViewMercaderiasEnStock.Name = "listViewMercaderiasEnStock";
-        listViewMercaderiasEnStock.Size = new Size(670, 193);
-        listViewMercaderiasEnStock.TabIndex = 24;
-        listViewMercaderiasEnStock.UseCompatibleStateImageBehavior = false;
-        listViewMercaderiasEnStock.View = View.Details;
+        buttonDespachar.BackColor = Color.FromArgb(33, 150, 243);
+        buttonDespachar.FlatAppearance.BorderSize = 0;
+        buttonDespachar.FlatStyle = FlatStyle.Flat;
+        buttonDespachar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        buttonDespachar.ForeColor = Color.White;
+        buttonDespachar.Location = new Point(471, 262);
+        buttonDespachar.Name = "buttonDespachar";
+        buttonDespachar.Size = new Size(200, 27);
+        buttonDespachar.TabIndex = 35;
+        buttonDespachar.Text = "Confirmar Despacho";
+        buttonDespachar.UseVisualStyleBackColor = false;
+        buttonDespachar.Click += buttonDespachar_Click;
         // 
-        // columnHeaderNumeroDeOrden
+        // columnHeaderOrdenDePreparacionNro
         // 
-        columnHeaderNumeroDeOrden.Text = "Número de Orden";
-        columnHeaderNumeroDeOrden.Width = 150;
+        columnHeaderOrdenDePreparacionNro.Text = "N° Orden de Preparación";
+        columnHeaderOrdenDePreparacionNro.Width = 170;
         // 
-        // columnRazonSocial
+        // columnOrdenDePreparacionCliente
         // 
-        columnRazonSocial.Text = "Razón Social";
-        columnRazonSocial.Width = 150;
+        columnOrdenDePreparacionCliente.Text = "Cliente";
+        columnOrdenDePreparacionCliente.Width = 150;
         // 
-        // columnHeaderTransportista
+        // columnHeaderOrdenDePrepracionObservaciones
         // 
-        columnHeaderTransportista.Text = "Transportista";
-        columnHeaderTransportista.Width = 150;
+        columnHeaderOrdenDePrepracionObservaciones.Text = "Observaciones";
+        columnHeaderOrdenDePrepracionObservaciones.Width = 330;
         // 
-        // columnFechaDeDespacho
+        // listViewOrdenesDePreparacionPreparadas
         // 
-        columnFechaDeDespacho.Text = "Fecha de Despacho";
-        columnFechaDeDespacho.Width = 150;
+        listViewOrdenesDePreparacionPreparadas.Columns.AddRange(new ColumnHeader[] { columnHeaderOrdenDePreparacionNro, columnOrdenDePreparacionCliente, columnHeaderOrdenDePrepracionObservaciones });
+        listViewOrdenesDePreparacionPreparadas.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        listViewOrdenesDePreparacionPreparadas.FullRowSelect = true;
+        listViewOrdenesDePreparacionPreparadas.GridLines = true;
+        listViewOrdenesDePreparacionPreparadas.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+        listViewOrdenesDePreparacionPreparadas.Location = new Point(7, 28);
+        listViewOrdenesDePreparacionPreparadas.MultiSelect = false;
+        listViewOrdenesDePreparacionPreparadas.Name = "listViewOrdenesDePreparacionPreparadas";
+        listViewOrdenesDePreparacionPreparadas.Size = new Size(663, 97);
+        listViewOrdenesDePreparacionPreparadas.TabIndex = 24;
+        listViewOrdenesDePreparacionPreparadas.UseCompatibleStateImageBehavior = false;
+        listViewOrdenesDePreparacionPreparadas.View = View.Details;
         // 
-        // groupBoxOrdenDePreparación
+        // listViewMercaderiasAEntregar
         // 
-        groupBoxOrdenDePreparación.Controls.Add(labelTransportista);
-        groupBoxOrdenDePreparación.Controls.Add(textBox1);
-        groupBoxOrdenDePreparación.Controls.Add(labelNumeroDeOrden);
-        groupBoxOrdenDePreparación.Controls.Add(textBox2);
-        groupBoxOrdenDePreparación.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        groupBoxOrdenDePreparación.Location = new Point(13, 75);
-        groupBoxOrdenDePreparación.Name = "groupBoxOrdenDePreparación";
-        groupBoxOrdenDePreparación.Size = new Size(669, 91);
-        groupBoxOrdenDePreparación.TabIndex = 33;
-        groupBoxOrdenDePreparación.TabStop = false;
-        groupBoxOrdenDePreparación.Text = "Orden de Preparación";
+        listViewMercaderiasAEntregar.Columns.AddRange(new ColumnHeader[] { columnHeaderRemitoMercaderia, columnHeaderRemitoMercaderiaCantidad, columnHeaderRemitoMercaderiaNroOrden });
+        listViewMercaderiasAEntregar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        listViewMercaderiasAEntregar.FullRowSelect = true;
+        listViewMercaderiasAEntregar.GridLines = true;
+        listViewMercaderiasAEntregar.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+        listViewMercaderiasAEntregar.Location = new Point(7, 38);
+        listViewMercaderiasAEntregar.MultiSelect = false;
+        listViewMercaderiasAEntregar.Name = "listViewMercaderiasAEntregar";
+        listViewMercaderiasAEntregar.Size = new Size(664, 104);
+        listViewMercaderiasAEntregar.TabIndex = 37;
+        listViewMercaderiasAEntregar.UseCompatibleStateImageBehavior = false;
+        listViewMercaderiasAEntregar.View = View.Details;
         // 
-        // labelTransportista
+        // columnHeaderRemitoMercaderia
         // 
-        labelTransportista.AutoSize = true;
-        labelTransportista.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelTransportista.Location = new Point(209, 36);
-        labelTransportista.Name = "labelTransportista";
-        labelTransportista.Size = new Size(89, 15);
-        labelTransportista.TabIndex = 16;
-        labelTransportista.Text = "Transportista";
+        columnHeaderRemitoMercaderia.Text = "Tipo de Mercaderia";
+        columnHeaderRemitoMercaderia.Width = 150;
         // 
-        // textBox1
+        // columnHeaderRemitoMercaderiaCantidad
         // 
-        textBox1.CharacterCasing = CharacterCasing.Upper;
-        textBox1.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox1.Location = new Point(209, 59);
-        textBox1.Name = "textBox1";
-        textBox1.Size = new Size(186, 27);
-        textBox1.TabIndex = 15;
+        columnHeaderRemitoMercaderiaCantidad.Text = "Cantidad de Mercadería";
+        columnHeaderRemitoMercaderiaCantidad.Width = 160;
         // 
-        // labelNumeroDeOrden
+        // columnHeaderRemitoMercaderiaNroOrden
         // 
-        labelNumeroDeOrden.AutoSize = true;
-        labelNumeroDeOrden.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelNumeroDeOrden.Location = new Point(7, 36);
-        labelNumeroDeOrden.Name = "labelNumeroDeOrden";
-        labelNumeroDeOrden.Size = new Size(118, 15);
-        labelNumeroDeOrden.TabIndex = 14;
-        labelNumeroDeOrden.Text = "Número de Orden";
+        columnHeaderRemitoMercaderiaNroOrden.Text = "N° Orden de Preparación";
+        columnHeaderRemitoMercaderiaNroOrden.Width = 170;
         // 
-        // textBox2
+        // buttonGenerarOrden
         // 
-        textBox2.CharacterCasing = CharacterCasing.Upper;
-        textBox2.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBox2.Location = new Point(7, 59);
-        textBox2.Name = "textBox2";
-        textBox2.Size = new Size(186, 27);
-        textBox2.TabIndex = 3;
+        buttonGenerarOrden.BackColor = Color.FromArgb(33, 150, 243);
+        buttonGenerarOrden.FlatAppearance.BorderSize = 0;
+        buttonGenerarOrden.FlatStyle = FlatStyle.Flat;
+        buttonGenerarOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        buttonGenerarOrden.ForeColor = Color.White;
+        buttonGenerarOrden.Location = new Point(483, 643);
+        buttonGenerarOrden.Name = "buttonGenerarOrden";
+        buttonGenerarOrden.Size = new Size(199, 43);
+        buttonGenerarOrden.TabIndex = 40;
+        buttonGenerarOrden.Text = "Generar Remito";
+        buttonGenerarOrden.UseVisualStyleBackColor = false;
+        buttonGenerarOrden.Click += buttonGenerarOrden_Click;
         // 
-        // button1
+        // groupBoxRemito
         // 
-        button1.BackColor = Color.FromArgb(33, 150, 243);
-        button1.FlatAppearance.BorderSize = 0;
-        button1.FlatStyle = FlatStyle.Flat;
-        button1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        button1.ForeColor = Color.White;
-        button1.Location = new Point(407, 411);
-        button1.Name = "button1";
-        button1.Size = new Size(135, 27);
-        button1.TabIndex = 35;
-        button1.Text = "Aceptar";
-        button1.UseVisualStyleBackColor = false;
-        button1.Click += button1_Click;
+        groupBoxRemito.Controls.Add(groupBoxMercaderiasAEntregar);
+        groupBoxRemito.Controls.Add(groupBoxTransportista);
+        groupBoxRemito.Controls.Add(groupBoxOrdenesDePreparacion);
+        groupBoxRemito.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+        groupBoxRemito.Location = new Point(12, 62);
+        groupBoxRemito.Name = "groupBoxRemito";
+        groupBoxRemito.Size = new Size(671, 624);
+        groupBoxRemito.TabIndex = 41;
+        groupBoxRemito.TabStop = false;
+        groupBoxRemito.Text = "Remito";
         // 
-        // button2
+        // groupBoxMercaderiasAEntregar
         // 
-        button2.BackColor = Color.FromArgb(33, 150, 243);
-        button2.FlatAppearance.BorderSize = 0;
-        button2.FlatStyle = FlatStyle.Flat;
-        button2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        button2.ForeColor = Color.White;
-        button2.Location = new Point(547, 411);
-        button2.Name = "button2";
-        button2.Size = new Size(135, 27);
-        button2.TabIndex = 38;
-        button2.Text = "Cancelar";
-        button2.UseVisualStyleBackColor = false;
+        groupBoxMercaderiasAEntregar.Controls.Add(listViewMercaderiasAEntregar);
+        groupBoxMercaderiasAEntregar.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        groupBoxMercaderiasAEntregar.Location = new Point(0, 420);
+        groupBoxMercaderiasAEntregar.Name = "groupBoxMercaderiasAEntregar";
+        groupBoxMercaderiasAEntregar.Size = new Size(671, 149);
+        groupBoxMercaderiasAEntregar.TabIndex = 42;
+        groupBoxMercaderiasAEntregar.TabStop = false;
+        groupBoxMercaderiasAEntregar.Text = "Mercaderías a entregar al Transportista";
+        // 
+        // groupBoxTransportista
+        // 
+        groupBoxTransportista.Controls.Add(labelDNITransportista);
+        groupBoxTransportista.Controls.Add(labelNombreTransportista);
+        groupBoxTransportista.Controls.Add(textBoxDNITransportista);
+        groupBoxTransportista.Controls.Add(textBoxNombreTransportista);
+        groupBoxTransportista.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        groupBoxTransportista.Location = new Point(0, 28);
+        groupBoxTransportista.Name = "groupBoxTransportista";
+        groupBoxTransportista.Size = new Size(671, 91);
+        groupBoxTransportista.TabIndex = 40;
+        groupBoxTransportista.TabStop = false;
+        groupBoxTransportista.Text = "Transportista";
+        // 
+        // labelDNITransportista
+        // 
+        labelDNITransportista.AutoSize = true;
+        labelDNITransportista.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
+        labelDNITransportista.Location = new Point(221, 36);
+        labelDNITransportista.Name = "labelDNITransportista";
+        labelDNITransportista.Size = new Size(40, 15);
+        labelDNITransportista.TabIndex = 16;
+        labelDNITransportista.Text = "DNI *";
+        // 
+        // labelNombreTransportista
+        // 
+        labelNombreTransportista.AutoSize = true;
+        labelNombreTransportista.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
+        labelNombreTransportista.Location = new Point(7, 36);
+        labelNombreTransportista.Name = "labelNombreTransportista";
+        labelNombreTransportista.Size = new Size(132, 15);
+        labelNombreTransportista.TabIndex = 14;
+        labelNombreTransportista.Text = "Nombre y apellido *";
+        // 
+        // textBoxDNITransportista
+        // 
+        textBoxDNITransportista.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+        textBoxDNITransportista.Location = new Point(220, 59);
+        textBoxDNITransportista.Name = "textBoxDNITransportista";
+        textBoxDNITransportista.Size = new Size(186, 27);
+        textBoxDNITransportista.TabIndex = 5;
+        // 
+        // textBoxNombreTransportista
+        // 
+        textBoxNombreTransportista.CharacterCasing = CharacterCasing.Upper;
+        textBoxNombreTransportista.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+        textBoxNombreTransportista.Location = new Point(7, 59);
+        textBoxNombreTransportista.Name = "textBoxNombreTransportista";
+        textBoxNombreTransportista.Size = new Size(186, 27);
+        textBoxNombreTransportista.TabIndex = 4;
+        // 
+        // groupBoxOrdenesDePreparacion
+        // 
+        groupBoxOrdenesDePreparacion.Controls.Add(labelDetalleOrdenDePreparacion);
+        groupBoxOrdenesDePreparacion.Controls.Add(listViewOrdenDePreparacionMercaderias);
+        groupBoxOrdenesDePreparacion.Controls.Add(buttonDespachar);
+        groupBoxOrdenesDePreparacion.Controls.Add(listViewOrdenesDePreparacionPreparadas);
+        groupBoxOrdenesDePreparacion.Location = new Point(0, 125);
+        groupBoxOrdenesDePreparacion.Name = "groupBoxOrdenesDePreparacion";
+        groupBoxOrdenesDePreparacion.Size = new Size(670, 289);
+        groupBoxOrdenesDePreparacion.TabIndex = 41;
+        groupBoxOrdenesDePreparacion.TabStop = false;
+        groupBoxOrdenesDePreparacion.Text = "Ordenes de Preparación Preparadas";
+        // 
+        // labelDetalleOrdenDePreparacion
+        // 
+        labelDetalleOrdenDePreparacion.AutoSize = true;
+        labelDetalleOrdenDePreparacion.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
+        labelDetalleOrdenDePreparacion.Location = new Point(7, 133);
+        labelDetalleOrdenDePreparacion.Name = "labelDetalleOrdenDePreparacion";
+        labelDetalleOrdenDePreparacion.Size = new Size(224, 15);
+        labelDetalleOrdenDePreparacion.TabIndex = 38;
+        labelDetalleOrdenDePreparacion.Text = "Detalle de Mercaderías de la Orden";
+        // 
+        // listViewOrdenDePreparacionMercaderias
+        // 
+        listViewOrdenDePreparacionMercaderias.Columns.AddRange(new ColumnHeader[] { columnHeaderOrdenDePreparacionMercaderia, columnHeaderOrdenDePreparacionMercaderiaCantidad });
+        listViewOrdenDePreparacionMercaderias.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        listViewOrdenDePreparacionMercaderias.FullRowSelect = true;
+        listViewOrdenDePreparacionMercaderias.GridLines = true;
+        listViewOrdenDePreparacionMercaderias.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+        listViewOrdenDePreparacionMercaderias.Location = new Point(7, 151);
+        listViewOrdenDePreparacionMercaderias.MultiSelect = false;
+        listViewOrdenDePreparacionMercaderias.Name = "listViewOrdenDePreparacionMercaderias";
+        listViewOrdenDePreparacionMercaderias.Size = new Size(663, 92);
+        listViewOrdenDePreparacionMercaderias.TabIndex = 37;
+        listViewOrdenDePreparacionMercaderias.UseCompatibleStateImageBehavior = false;
+        listViewOrdenDePreparacionMercaderias.View = View.Details;
+        // 
+        // columnHeaderOrdenDePreparacionMercaderia
+        // 
+        columnHeaderOrdenDePreparacionMercaderia.Text = "Tipo de Mercaderia";
+        columnHeaderOrdenDePreparacionMercaderia.Width = 150;
+        // 
+        // columnHeaderOrdenDePreparacionMercaderiaCantidad
+        // 
+        columnHeaderOrdenDePreparacionMercaderiaCantidad.Text = "Cantidad de Mercadería";
+        columnHeaderOrdenDePreparacionMercaderiaCantidad.Width = 160;
         // 
         // GenerarRemitoForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(695, 450);
-        Controls.Add(button2);
-        Controls.Add(button1);
-        Controls.Add(groupBoxOrdenDePreparación);
-        Controls.Add(listViewMercaderiasEnStock);
+        ClientSize = new Size(699, 702);
+        Controls.Add(buttonGenerarOrden);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
+        Controls.Add(groupBoxRemito);
         Name = "GenerarRemitoForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Remito";
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
-        groupBoxOrdenDePreparación.ResumeLayout(false);
-        groupBoxOrdenDePreparación.PerformLayout();
+        groupBoxRemito.ResumeLayout(false);
+        groupBoxMercaderiasAEntregar.ResumeLayout(false);
+        groupBoxTransportista.ResumeLayout(false);
+        groupBoxTransportista.PerformLayout();
+        groupBoxOrdenesDePreparacion.ResumeLayout(false);
+        groupBoxOrdenesDePreparacion.PerformLayout();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -209,16 +321,26 @@ partial class GenerarRemitoForm
 
     private PictureBox pictureBoxLogo;
     private Label labelTitulo;
-    private ListView listViewMercaderiasEnStock;
-    private ColumnHeader columnHeaderNumeroDeOrden;
-    private ColumnHeader columnRazonSocial;
-    private ColumnHeader columnHeaderTransportista;
-    private ColumnHeader columnFechaDeDespacho;
-    private GroupBox groupBoxOrdenDePreparación;
-    private Label labelNumeroDeOrden;
-    private TextBox textBox2;
-    private Label labelTransportista;
-    private TextBox textBox1;
-    private Button button1;
-    private Button button2;
+    private Button buttonDespachar;
+    private ColumnHeader columnHeaderOrdenDePreparacionNro;
+    private ColumnHeader columnOrdenDePreparacionCliente;
+    private ColumnHeader columnHeaderOrdenDePrepracionObservaciones;
+    private ListView listViewOrdenesDePreparacionPreparadas;
+    private ListView listViewMercaderiasAEntregar;
+    private ColumnHeader columnHeaderRemitoMercaderia;
+    private ColumnHeader columnHeaderRemitoMercaderiaCantidad;
+    private ColumnHeader columnHeaderRemitoMercaderiaNroOrden;
+    private Button buttonGenerarOrden;
+    private GroupBox groupBoxRemito;
+    private GroupBox groupBoxTransportista;
+    private Label labelDNITransportista;
+    private Label labelNombreTransportista;
+    private TextBox textBoxDNITransportista;
+    private TextBox textBoxNombreTransportista;
+    private GroupBox groupBoxMercaderiasAEntregar;
+    private GroupBox groupBoxOrdenesDePreparacion;
+    private Label labelDetalleOrdenDePreparacion;
+    private ListView listViewOrdenDePreparacionMercaderias;
+    private ColumnHeader columnHeaderOrdenDePreparacionMercaderia;
+    private ColumnHeader columnHeaderOrdenDePreparacionMercaderiaCantidad;
 }

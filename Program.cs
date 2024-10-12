@@ -1,6 +1,4 @@
-using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias;
-using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
-using Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeEntrega;
+using Pampazon.MenuInicio;
 
 namespace Pampazon
 {
@@ -17,10 +15,7 @@ namespace Pampazon
             ApplicationConfiguration.Initialize();
 
             //Application.Run(new IniciarSesionForm());
-
-            // Admin.
-            //Application.Run(new AbmUsuariosForm()); 
-
+            Application.Run(new MenuInicioForm());
             // Proceso IN. Posible nueva funcionalidad del flujo IN para el área de de Recepcion.
             //Application.Run(new RecepcionarMercaderiaForm());
 
@@ -28,7 +23,7 @@ namespace Pampazon
             //Application.Run(new GenerarOrdenDePreparacionForm());
             //Application.Run(new GenerarOrdenDeSeleccionForm());
             //Application.Run(new SeleccionarMercaderiasForm());
-            Application.Run(new GenerarOrdenDeEntregaForm());
+            //Application.Run(new GenerarOrdenDeEntregaForm());
             //Application.Run(new GenerarRemitoForm());
         }
     }

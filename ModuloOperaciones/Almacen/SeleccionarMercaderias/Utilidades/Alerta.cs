@@ -1,4 +1,5 @@
-﻿namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionarMercaderia.Utilidades;
+﻿namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Utilidades;
+
 public static class Alerta
 {
     public static DialogResult PedirConfirmacion(string mensaje)
@@ -12,21 +13,6 @@ public static class Alerta
     }
     public static void MostrarError(string mensaje)
     {
-        MessageBox.Show(
-            mensaje,
-            "Error!",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        );
-    }
-    public static void MostrarErrores(List<string> mensajes)
-    {
-        string mensaje = "Hay errores en los datos ingresados \n\n";
-        mensajes.ForEach(error =>
-        {
-            mensaje += error + "\n";
-        });
-
         MessageBox.Show(
             mensaje,
             "Error!",
