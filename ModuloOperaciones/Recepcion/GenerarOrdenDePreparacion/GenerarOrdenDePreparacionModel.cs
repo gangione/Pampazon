@@ -67,7 +67,7 @@ public class GenerarOrdenDePreparacionModel
             {
                 NumeroCliente = 1,
                 Descripcion = "Cemento",
-                Cantidad = 2,
+                Cantidad = 50,
                 UnidadDeMedida = UnidadDeMedida.Bolsas,
                 Estado = MercaderiaEstado.EnAlmacen,
             },
@@ -75,7 +75,7 @@ public class GenerarOrdenDePreparacionModel
             {
                 NumeroCliente = 1,
                 Descripcion = "Arena",
-                Cantidad = 5,
+                Cantidad = 150,
                 UnidadDeMedida = UnidadDeMedida.Bolsas,
                 Estado = MercaderiaEstado.EnAlmacen
             },

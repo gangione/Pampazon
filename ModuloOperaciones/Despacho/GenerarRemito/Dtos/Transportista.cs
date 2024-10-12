@@ -1,5 +1,4 @@
-﻿namespace Pampazon.ModuloOperaciones.Recepcion.RecepcionarMercaderia.Dtos;
-
+﻿namespace Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Dtos;
 public class Transportista
 {
     public string DNI { get; set; }

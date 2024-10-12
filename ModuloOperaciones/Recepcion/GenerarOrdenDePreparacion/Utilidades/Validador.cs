@@ -17,9 +17,8 @@ public static class Validador
         if (string.IsNullOrEmpty(texto))
             return "El campo no puede estar vacío.";
 
-        DateTime fechaValida;
         if (!DateTime.TryParseExact(
-            texto, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaValida
+            texto, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fechaValida
         ))
             return "La fecha debe ser el formato Dia/Mes/Año.";
 
@@ -34,8 +33,11 @@ public static class Validador
         if (string.IsNullOrEmpty(texto))
             return "El campo no puede estar vacío.";
 
-        if (!long.TryParse(texto, out _))
+        if (!long.TryParse(texto, out long numero))
             return "El campo solo debe contener números.";
+
+        if (numero <= 0)
+            return "La valor ingresado debe ser mayor a 0.";
 
         return string.Empty;
     }
@@ -44,6 +46,24 @@ public static class Validador
     {
         if (cantidadItems == 0)
             return "El listado de mercaderías a retirar no puede estar vacío.";
+
+        return string.Empty;
+    }
+
+    public static string ValidarDNI(string texto)
+    {
+        if (string.IsNullOrEmpty(texto))
+            return "El campo no puede estar vacío.";
+
+        if (!long.TryParse(texto, out long numero))
+            return "El campo solo debe contener números.";
+
+        if (numero <= 0)
+            return "La valor ingresado debe ser mayor a 0.";
+
+        const int caracteres = 8;
+        if (numero.ToString().Length != caracteres)
+            return $"El largo debe ser de {caracteres} caracteres.";
 
         return string.Empty;
     }

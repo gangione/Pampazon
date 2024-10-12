@@ -32,42 +32,39 @@ partial class GenerarOrdenDeSeleccionForm
         pictureBoxLogo = new PictureBox();
         labelTitulo = new Label();
         listViewOrdenesDePreparacion = new ListView();
-        columnHeaderNumero = new ColumnHeader();
-        columnHeaderCliente = new ColumnHeader();
-        columnHeaderCuit = new ColumnHeader();
-        columnHeaderFechaDespacho = new ColumnHeader();
+        columnHeaderOrdenDePreparacionPendienteNumero = new ColumnHeader();
+        columnHeaderClientePrioridad = new ColumnHeader();
+        columnHeaderOrdenDePreparacionFechaDespacho = new ColumnHeader();
+        columnHeaderClienteNombre = new ColumnHeader();
         groupBoxOrdenDeSeleccion = new GroupBox();
-        listViewOrdenesASeleccionar = new ListView();
-        columnHeader1 = new ColumnHeader();
-        columnHeader2 = new ColumnHeader();
-        columnHeader3 = new ColumnHeader();
-        columnHeader4 = new ColumnHeader();
-        columnHeaderPrioridad = new ColumnHeader();
-        groupBoxOrdenDePreparacion = new GroupBox();
-        comboBoxPrioridad = new ComboBox();
-        labelPrioridad = new Label();
-        labelMercaderiasASeleccionar = new Label();
-        listViewMercaderiasAPreparar = new ListView();
-        columnHeaderMercaderia = new ColumnHeader();
-        columnHeaderUM = new ColumnHeader();
-        columnHeaderCantidad = new ColumnHeader();
-        columnHeaderUbicacion = new ColumnHeader();
+        groupBoxOrdenesDePreparacionPendientes = new GroupBox();
+        textBoxBuscarPorCliente = new TextBox();
+        comboBoxBuscarPorPrioridad = new ComboBox();
+        label3 = new Label();
+        textBoxBuscarPorFechaDespacho = new TextBox();
+        labelBuscarPorFecha = new Label();
         buttonAgregar = new Button();
+        labelCliente = new Label();
+        listViewOrdenesASeleccionar = new ListView();
+        columnHeaderSeleccionOrdenDePreparacionNro = new ColumnHeader();
+        columnHeaderSeleccionPrioridad = new ColumnHeader();
+        columnHeaderSeleccionMercaderia = new ColumnHeader();
+        columnHeaderSeleccionMercaderiaCantidad = new ColumnHeader();
+        columnHeaderSeleccionMercaderiaUbicacion = new ColumnHeader();
         buttonGenerarOrden = new Button();
         buttonEliminar = new Button();
-        label2 = new Label();
-        labelCliente = new Label();
-        textBoxCliente = new TextBox();
+        groupBoxMercaderiasASeleccionar = new GroupBox();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxOrdenDeSeleccion.SuspendLayout();
-        groupBoxOrdenDePreparacion.SuspendLayout();
+        groupBoxOrdenesDePreparacionPendientes.SuspendLayout();
+        groupBoxMercaderiasASeleccionar.SuspendLayout();
         SuspendLayout();
         // 
         // pictureBoxLogo
         // 
         pictureBoxLogo.BackgroundImageLayout = ImageLayout.None;
         pictureBoxLogo.Image = (Image)resources.GetObject("pictureBoxLogo.Image");
-        pictureBoxLogo.Location = new Point(688, 9);
+        pictureBoxLogo.Location = new Point(485, 9);
         pictureBoxLogo.Name = "pictureBoxLogo";
         pictureBoxLogo.Size = new Size(300, 60);
         pictureBoxLogo.TabIndex = 16;
@@ -86,175 +83,118 @@ partial class GenerarOrdenDeSeleccionForm
         // 
         // listViewOrdenesDePreparacion
         // 
-        listViewOrdenesDePreparacion.Columns.AddRange(new ColumnHeader[] { columnHeaderNumero, columnHeaderCliente, columnHeaderCuit, columnHeaderFechaDespacho });
+        listViewOrdenesDePreparacion.Columns.AddRange(new ColumnHeader[] { columnHeaderOrdenDePreparacionPendienteNumero, columnHeaderClientePrioridad, columnHeaderOrdenDePreparacionFechaDespacho, columnHeaderClienteNombre });
         listViewOrdenesDePreparacion.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listViewOrdenesDePreparacion.FullRowSelect = true;
         listViewOrdenesDePreparacion.GridLines = true;
         listViewOrdenesDePreparacion.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewOrdenesDePreparacion.Location = new Point(9, 28);
+        listViewOrdenesDePreparacion.Location = new Point(7, 80);
         listViewOrdenesDePreparacion.MultiSelect = false;
         listViewOrdenesDePreparacion.Name = "listViewOrdenesDePreparacion";
-        listViewOrdenesDePreparacion.Size = new Size(942, 120);
+        listViewOrdenesDePreparacion.Size = new Size(760, 129);
         listViewOrdenesDePreparacion.TabIndex = 18;
         listViewOrdenesDePreparacion.UseCompatibleStateImageBehavior = false;
         listViewOrdenesDePreparacion.View = View.Details;
-        listViewOrdenesDePreparacion.ItemSelectionChanged += listViewOrdenesDePreparacion_ItemSelectionChanged;
         // 
-        // columnHeaderNumero
+        // columnHeaderOrdenDePreparacionPendienteNumero
         // 
-        columnHeaderNumero.Text = "Numero Orden";
-        columnHeaderNumero.Width = 160;
+        columnHeaderOrdenDePreparacionPendienteNumero.Text = "N° Orden de Preparación";
+        columnHeaderOrdenDePreparacionPendienteNumero.Width = 170;
         // 
-        // columnHeaderCliente
+        // columnHeaderClientePrioridad
         // 
-        columnHeaderCliente.Text = "Cliente";
-        columnHeaderCliente.Width = 200;
+        columnHeaderClientePrioridad.Text = "Prioridad";
+        columnHeaderClientePrioridad.Width = 100;
         // 
-        // columnHeaderCuit
+        // columnHeaderOrdenDePreparacionFechaDespacho
         // 
-        columnHeaderCuit.Text = "CUIT";
-        columnHeaderCuit.Width = 125;
+        columnHeaderOrdenDePreparacionFechaDespacho.Text = "Fecha a Despachar";
+        columnHeaderOrdenDePreparacionFechaDespacho.Width = 150;
         // 
-        // columnHeaderFechaDespacho
+        // columnHeaderClienteNombre
         // 
-        columnHeaderFechaDespacho.Text = "Fecha a Despachar";
-        columnHeaderFechaDespacho.Width = 150;
+        columnHeaderClienteNombre.Text = "Cliente";
+        columnHeaderClienteNombre.Width = 200;
         // 
         // groupBoxOrdenDeSeleccion
         // 
-        groupBoxOrdenDeSeleccion.Controls.Add(listViewOrdenesASeleccionar);
-        groupBoxOrdenDeSeleccion.Controls.Add(groupBoxOrdenDePreparacion);
+        groupBoxOrdenDeSeleccion.Controls.Add(groupBoxMercaderiasASeleccionar);
+        groupBoxOrdenDeSeleccion.Controls.Add(groupBoxOrdenesDePreparacionPendientes);
         groupBoxOrdenDeSeleccion.Controls.Add(buttonGenerarOrden);
-        groupBoxOrdenDeSeleccion.Controls.Add(buttonEliminar);
-        groupBoxOrdenDeSeleccion.Controls.Add(label2);
-        groupBoxOrdenDeSeleccion.Controls.Add(labelCliente);
-        groupBoxOrdenDeSeleccion.Controls.Add(textBoxCliente);
         groupBoxOrdenDeSeleccion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         groupBoxOrdenDeSeleccion.Location = new Point(18, 75);
         groupBoxOrdenDeSeleccion.Name = "groupBoxOrdenDeSeleccion";
-        groupBoxOrdenDeSeleccion.Size = new Size(970, 672);
+        groupBoxOrdenDeSeleccion.Size = new Size(767, 556);
         groupBoxOrdenDeSeleccion.TabIndex = 31;
         groupBoxOrdenDeSeleccion.TabStop = false;
         groupBoxOrdenDeSeleccion.Text = "Orden de Selección";
         // 
-        // listViewOrdenesASeleccionar
+        // groupBoxOrdenesDePreparacionPendientes
         // 
-        listViewOrdenesASeleccionar.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeaderPrioridad });
-        listViewOrdenesASeleccionar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-        listViewOrdenesASeleccionar.FullRowSelect = true;
-        listViewOrdenesASeleccionar.GridLines = true;
-        listViewOrdenesASeleccionar.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewOrdenesASeleccionar.Location = new Point(9, 451);
-        listViewOrdenesASeleccionar.MultiSelect = false;
-        listViewOrdenesASeleccionar.Name = "listViewOrdenesASeleccionar";
-        listViewOrdenesASeleccionar.Size = new Size(942, 120);
-        listViewOrdenesASeleccionar.TabIndex = 33;
-        listViewOrdenesASeleccionar.UseCompatibleStateImageBehavior = false;
-        listViewOrdenesASeleccionar.View = View.Details;
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(textBoxBuscarPorCliente);
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(comboBoxBuscarPorPrioridad);
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(label3);
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(textBoxBuscarPorFechaDespacho);
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(labelBuscarPorFecha);
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(listViewOrdenesDePreparacion);
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(buttonAgregar);
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(labelCliente);
+        groupBoxOrdenesDePreparacionPendientes.Location = new Point(0, 47);
+        groupBoxOrdenesDePreparacionPendientes.Name = "groupBoxOrdenesDePreparacionPendientes";
+        groupBoxOrdenesDePreparacionPendientes.Size = new Size(767, 272);
+        groupBoxOrdenesDePreparacionPendientes.TabIndex = 42;
+        groupBoxOrdenesDePreparacionPendientes.TabStop = false;
+        groupBoxOrdenesDePreparacionPendientes.Text = "Ordenes de Preparación Pendientes";
         // 
-        // columnHeader1
+        // textBoxBuscarPorCliente
         // 
-        columnHeader1.Text = "Numero Orden";
-        columnHeader1.Width = 160;
+        textBoxBuscarPorCliente.AllowDrop = true;
+        textBoxBuscarPorCliente.CharacterCasing = CharacterCasing.Upper;
+        textBoxBuscarPorCliente.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+        textBoxBuscarPorCliente.Location = new Point(9, 47);
+        textBoxBuscarPorCliente.Name = "textBoxBuscarPorCliente";
+        textBoxBuscarPorCliente.PlaceholderText = "Nombre / Razón Social";
+        textBoxBuscarPorCliente.Size = new Size(186, 27);
+        textBoxBuscarPorCliente.TabIndex = 35;
         // 
-        // columnHeader2
+        // comboBoxBuscarPorPrioridad
         // 
-        columnHeader2.Text = "Cliente";
-        columnHeader2.Width = 200;
+        comboBoxBuscarPorPrioridad.FormattingEnabled = true;
+        comboBoxBuscarPorPrioridad.Location = new Point(422, 45);
+        comboBoxBuscarPorPrioridad.Name = "comboBoxBuscarPorPrioridad";
+        comboBoxBuscarPorPrioridad.Size = new Size(129, 29);
+        comboBoxBuscarPorPrioridad.TabIndex = 34;
         // 
-        // columnHeader3
+        // label3
         // 
-        columnHeader3.Text = "CUIT";
-        columnHeader3.Width = 125;
+        label3.AutoSize = true;
+        label3.Font = new Font("Segoe UI Symbol", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        label3.Location = new Point(422, 27);
+        label3.Name = "label3";
+        label3.Size = new Size(129, 17);
+        label3.TabIndex = 33;
+        label3.Text = "Buscar por Prioridad";
         // 
-        // columnHeader4
+        // textBoxBuscarPorFechaDespacho
         // 
-        columnHeader4.Text = "Fecha a Despachar";
-        columnHeader4.Width = 150;
+        textBoxBuscarPorFechaDespacho.AllowDrop = true;
+        textBoxBuscarPorFechaDespacho.CharacterCasing = CharacterCasing.Upper;
+        textBoxBuscarPorFechaDespacho.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+        textBoxBuscarPorFechaDespacho.Location = new Point(214, 47);
+        textBoxBuscarPorFechaDespacho.Name = "textBoxBuscarPorFechaDespacho";
+        textBoxBuscarPorFechaDespacho.PlaceholderText = "Dia / Mes / Año";
+        textBoxBuscarPorFechaDespacho.Size = new Size(186, 27);
+        textBoxBuscarPorFechaDespacho.TabIndex = 30;
         // 
-        // columnHeaderPrioridad
+        // labelBuscarPorFecha
         // 
-        columnHeaderPrioridad.Text = "Prioridad";
-        columnHeaderPrioridad.Width = 100;
-        // 
-        // groupBoxOrdenDePreparacion
-        // 
-        groupBoxOrdenDePreparacion.Controls.Add(comboBoxPrioridad);
-        groupBoxOrdenDePreparacion.Controls.Add(labelPrioridad);
-        groupBoxOrdenDePreparacion.Controls.Add(labelMercaderiasASeleccionar);
-        groupBoxOrdenDePreparacion.Controls.Add(listViewMercaderiasAPreparar);
-        groupBoxOrdenDePreparacion.Controls.Add(listViewOrdenesDePreparacion);
-        groupBoxOrdenDePreparacion.Controls.Add(buttonAgregar);
-        groupBoxOrdenDePreparacion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        groupBoxOrdenDePreparacion.Location = new Point(0, 91);
-        groupBoxOrdenDePreparacion.Name = "groupBoxOrdenDePreparacion";
-        groupBoxOrdenDePreparacion.Size = new Size(970, 339);
-        groupBoxOrdenDePreparacion.TabIndex = 32;
-        groupBoxOrdenDePreparacion.TabStop = false;
-        groupBoxOrdenDePreparacion.Text = "Ordenes de Preparacion";
-        // 
-        // comboBoxPrioridad
-        // 
-        comboBoxPrioridad.FormattingEnabled = true;
-        comboBoxPrioridad.Location = new Point(506, 170);
-        comboBoxPrioridad.Name = "comboBoxPrioridad";
-        comboBoxPrioridad.Size = new Size(121, 29);
-        comboBoxPrioridad.TabIndex = 2;
-        // 
-        // labelPrioridad
-        // 
-        labelPrioridad.AutoSize = true;
-        labelPrioridad.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelPrioridad.Location = new Point(506, 152);
-        labelPrioridad.Name = "labelPrioridad";
-        labelPrioridad.Size = new Size(64, 15);
-        labelPrioridad.TabIndex = 30;
-        labelPrioridad.Text = "Prioridad";
-        // 
-        // labelMercaderiasASeleccionar
-        // 
-        labelMercaderiasASeleccionar.AutoSize = true;
-        labelMercaderiasASeleccionar.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelMercaderiasASeleccionar.Location = new Point(9, 152);
-        labelMercaderiasASeleccionar.Name = "labelMercaderiasASeleccionar";
-        labelMercaderiasASeleccionar.Size = new Size(168, 15);
-        labelMercaderiasASeleccionar.TabIndex = 29;
-        labelMercaderiasASeleccionar.Text = "Mercaderías a Seleccionar";
-        // 
-        // listViewMercaderiasAPreparar
-        // 
-        listViewMercaderiasAPreparar.Columns.AddRange(new ColumnHeader[] { columnHeaderMercaderia, columnHeaderUM, columnHeaderCantidad, columnHeaderUbicacion });
-        listViewMercaderiasAPreparar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-        listViewMercaderiasAPreparar.FullRowSelect = true;
-        listViewMercaderiasAPreparar.GridLines = true;
-        listViewMercaderiasAPreparar.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewMercaderiasAPreparar.Location = new Point(9, 170);
-        listViewMercaderiasAPreparar.MultiSelect = false;
-        listViewMercaderiasAPreparar.Name = "listViewMercaderiasAPreparar";
-        listViewMercaderiasAPreparar.Size = new Size(491, 120);
-        listViewMercaderiasAPreparar.TabIndex = 27;
-        listViewMercaderiasAPreparar.UseCompatibleStateImageBehavior = false;
-        listViewMercaderiasAPreparar.View = View.Details;
-        // 
-        // columnHeaderMercaderia
-        // 
-        columnHeaderMercaderia.Text = "Mercaderia";
-        columnHeaderMercaderia.Width = 125;
-        // 
-        // columnHeaderUM
-        // 
-        columnHeaderUM.Text = "Unidad de Medida";
-        columnHeaderUM.Width = 130;
-        // 
-        // columnHeaderCantidad
-        // 
-        columnHeaderCantidad.Text = "Cantidad";
-        columnHeaderCantidad.Width = 100;
-        // 
-        // columnHeaderUbicacion
-        // 
-        columnHeaderUbicacion.Text = "Ubicacion";
-        columnHeaderUbicacion.Width = 100;
+        labelBuscarPorFecha.AutoSize = true;
+        labelBuscarPorFecha.Font = new Font("Segoe UI Symbol", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        labelBuscarPorFecha.Location = new Point(214, 27);
+        labelBuscarPorFecha.Name = "labelBuscarPorFecha";
+        labelBuscarPorFecha.Size = new Size(185, 17);
+        labelBuscarPorFecha.TabIndex = 31;
+        labelBuscarPorFecha.Text = "Buscar por Fecha a Despachar";
         // 
         // buttonAgregar
         // 
@@ -263,13 +203,63 @@ partial class GenerarOrdenDeSeleccionForm
         buttonAgregar.FlatStyle = FlatStyle.Flat;
         buttonAgregar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonAgregar.ForeColor = Color.White;
-        buttonAgregar.Location = new Point(750, 306);
+        buttonAgregar.Location = new Point(566, 217);
         buttonAgregar.Name = "buttonAgregar";
         buttonAgregar.Size = new Size(201, 27);
         buttonAgregar.TabIndex = 25;
         buttonAgregar.Text = "+ Agregar a la selección";
         buttonAgregar.UseVisualStyleBackColor = false;
         buttonAgregar.Click += buttonAgregar_Click;
+        // 
+        // labelCliente
+        // 
+        labelCliente.AutoSize = true;
+        labelCliente.Font = new Font("Segoe UI Symbol", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        labelCliente.Location = new Point(7, 27);
+        labelCliente.Name = "labelCliente";
+        labelCliente.Size = new Size(114, 17);
+        labelCliente.TabIndex = 21;
+        labelCliente.Text = "Buscar por Cliente";
+        // 
+        // listViewOrdenesASeleccionar
+        // 
+        listViewOrdenesASeleccionar.Columns.AddRange(new ColumnHeader[] { columnHeaderSeleccionOrdenDePreparacionNro, columnHeaderSeleccionPrioridad, columnHeaderSeleccionMercaderia, columnHeaderSeleccionMercaderiaCantidad, columnHeaderSeleccionMercaderiaUbicacion });
+        listViewOrdenesASeleccionar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        listViewOrdenesASeleccionar.FullRowSelect = true;
+        listViewOrdenesASeleccionar.GridLines = true;
+        listViewOrdenesASeleccionar.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+        listViewOrdenesASeleccionar.Location = new Point(9, 28);
+        listViewOrdenesASeleccionar.MultiSelect = false;
+        listViewOrdenesASeleccionar.Name = "listViewOrdenesASeleccionar";
+        listViewOrdenesASeleccionar.Size = new Size(758, 134);
+        listViewOrdenesASeleccionar.TabIndex = 33;
+        listViewOrdenesASeleccionar.UseCompatibleStateImageBehavior = false;
+        listViewOrdenesASeleccionar.View = View.Details;
+        // 
+        // columnHeaderSeleccionOrdenDePreparacionNro
+        // 
+        columnHeaderSeleccionOrdenDePreparacionNro.Text = "N° Orden de Preparación";
+        columnHeaderSeleccionOrdenDePreparacionNro.Width = 170;
+        // 
+        // columnHeaderSeleccionPrioridad
+        // 
+        columnHeaderSeleccionPrioridad.Text = "Prioridad";
+        columnHeaderSeleccionPrioridad.Width = 100;
+        // 
+        // columnHeaderSeleccionMercaderia
+        // 
+        columnHeaderSeleccionMercaderia.Text = "Tipo de Mercadería";
+        columnHeaderSeleccionMercaderia.Width = 160;
+        // 
+        // columnHeaderSeleccionMercaderiaCantidad
+        // 
+        columnHeaderSeleccionMercaderiaCantidad.Text = "Cantidad Mercaderia";
+        columnHeaderSeleccionMercaderiaCantidad.Width = 140;
+        // 
+        // columnHeaderSeleccionMercaderiaUbicacion
+        // 
+        columnHeaderSeleccionMercaderiaUbicacion.Text = "Ubicacion (S-P-F)";
+        columnHeaderSeleccionMercaderiaUbicacion.Width = 120;
         // 
         // buttonGenerarOrden
         // 
@@ -278,9 +268,9 @@ partial class GenerarOrdenDeSeleccionForm
         buttonGenerarOrden.FlatStyle = FlatStyle.Flat;
         buttonGenerarOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonGenerarOrden.ForeColor = Color.White;
-        buttonGenerarOrden.Location = new Point(752, 623);
+        buttonGenerarOrden.Location = new Point(566, 507);
         buttonGenerarOrden.Name = "buttonGenerarOrden";
-        buttonGenerarOrden.Size = new Size(199, 43);
+        buttonGenerarOrden.Size = new Size(201, 43);
         buttonGenerarOrden.TabIndex = 26;
         buttonGenerarOrden.Text = "Generar Orden";
         buttonGenerarOrden.UseVisualStyleBackColor = false;
@@ -293,7 +283,7 @@ partial class GenerarOrdenDeSeleccionForm
         buttonEliminar.FlatStyle = FlatStyle.Flat;
         buttonEliminar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonEliminar.ForeColor = Color.White;
-        buttonEliminar.Location = new Point(750, 577);
+        buttonEliminar.Location = new Point(566, 168);
         buttonEliminar.Name = "buttonEliminar";
         buttonEliminar.Size = new Size(201, 27);
         buttonEliminar.TabIndex = 24;
@@ -302,53 +292,35 @@ partial class GenerarOrdenDeSeleccionForm
         buttonEliminar.UseVisualStyleBackColor = false;
         buttonEliminar.Click += buttonEliminar_Click;
         // 
-        // label2
+        // groupBoxMercaderiasASeleccionar
         // 
-        label2.AutoSize = true;
-        label2.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        label2.Location = new Point(8, 433);
-        label2.Name = "label2";
-        label2.Size = new Size(240, 15);
-        label2.TabIndex = 23;
-        label2.Text = "Ordenes de Preparación a seleccionar";
-        // 
-        // labelCliente
-        // 
-        labelCliente.AutoSize = true;
-        labelCliente.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
-        labelCliente.Location = new Point(9, 35);
-        labelCliente.Name = "labelCliente";
-        labelCliente.Size = new Size(70, 19);
-        labelCliente.TabIndex = 21;
-        labelCliente.Text = "Cliente *";
-        // 
-        // textBoxCliente
-        // 
-        textBoxCliente.AllowDrop = true;
-        textBoxCliente.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBoxCliente.Location = new Point(7, 58);
-        textBoxCliente.Name = "textBoxCliente";
-        textBoxCliente.PlaceholderText = " Nombre / Razón Social";
-        textBoxCliente.Size = new Size(186, 27);
-        textBoxCliente.TabIndex = 1;
+        groupBoxMercaderiasASeleccionar.Controls.Add(listViewOrdenesASeleccionar);
+        groupBoxMercaderiasASeleccionar.Controls.Add(buttonEliminar);
+        groupBoxMercaderiasASeleccionar.Location = new Point(0, 297);
+        groupBoxMercaderiasASeleccionar.Name = "groupBoxMercaderiasASeleccionar";
+        groupBoxMercaderiasASeleccionar.Size = new Size(767, 204);
+        groupBoxMercaderiasASeleccionar.TabIndex = 43;
+        groupBoxMercaderiasASeleccionar.TabStop = false;
+        groupBoxMercaderiasASeleccionar.Text = "Mercaderías a Seleccionar del Almacén";
         // 
         // GenerarOrdenDeSeleccionForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1008, 759);
+        ClientSize = new Size(797, 643);
         Controls.Add(groupBoxOrdenDeSeleccion);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
         Name = "GenerarOrdenDeSeleccionForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Orden De Seleccion";
+        FormClosing += GenerarOrdenDeSeleccionForm_FormClosing;
         Load += GenerarOrdenDeSeleccionForm_Load;
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
         groupBoxOrdenDeSeleccion.ResumeLayout(false);
-        groupBoxOrdenDeSeleccion.PerformLayout();
-        groupBoxOrdenDePreparacion.ResumeLayout(false);
-        groupBoxOrdenDePreparacion.PerformLayout();
+        groupBoxOrdenesDePreparacionPendientes.ResumeLayout(false);
+        groupBoxOrdenesDePreparacionPendientes.PerformLayout();
+        groupBoxMercaderiasASeleccionar.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
     }
@@ -358,30 +330,30 @@ partial class GenerarOrdenDeSeleccionForm
     private PictureBox pictureBoxLogo;
     private Label labelTitulo;
     private ListView listViewOrdenesDePreparacion;
-    private ColumnHeader columnHeaderNumero;
-    private ColumnHeader columnHeaderCuit;
+    private ColumnHeader columnHeaderOrdenDePreparacionPendienteNumero;
     private GroupBox groupBoxOrdenDeSeleccion;
     private Label labelCliente;
     private TextBox textBoxCliente;
-    private Label label2;
     private Button buttonEliminar;
     private Button buttonAgregar;
     private Button buttonGenerarOrden;
-    private ColumnHeader columnHeaderFechaDespacho;
-    private ColumnHeader columnHeaderCliente;
-    private GroupBox groupBoxOrdenDePreparacion;
-    private Label labelMercaderiasASeleccionar;
-    private ListView listViewMercaderiasAPreparar;
-    private ColumnHeader columnHeaderMercaderia;
-    private ColumnHeader columnHeaderCantidad;
-    private ColumnHeader columnHeaderUbicacion;
+    private ColumnHeader columnHeaderOrdenDePreparacionFechaDespacho;
+    private ColumnHeader columnHeaderClienteNombre;
     private Label labelPrioridad;
     private ComboBox comboBoxPrioridad;
     private ListView listViewOrdenesASeleccionar;
-    private ColumnHeader columnHeader1;
-    private ColumnHeader columnHeader2;
-    private ColumnHeader columnHeader3;
-    private ColumnHeader columnHeader4;
-    private ColumnHeader columnHeaderPrioridad;
-    private ColumnHeader columnHeaderUM;
+    private ColumnHeader columnHeaderSeleccionMercaderia;
+    private ColumnHeader columnHeaderSeleccionPrioridad;
+    private ColumnHeader columnHeaderClientePrioridad;
+    private GroupBox groupBoxOrdenesDePreparacionPendientes;
+    private ColumnHeader columnHeaderSeleccionMercaderiaUbicacion;
+    private ColumnHeader columnHeaderSeleccionOrdenDePreparacionNro;
+    private ColumnHeader columnHeaderSeleccionMercaderiaCantidad;
+    private TextBox textBox2;
+    private Label label3;
+    private TextBox textBoxBuscarPorFechaDespacho;
+    private Label labelBuscarPorFecha;
+    private ComboBox comboBoxBuscarPorPrioridad;
+    private TextBox textBoxBuscarPorCliente;
+    private GroupBox groupBoxMercaderiasASeleccionar;
 }

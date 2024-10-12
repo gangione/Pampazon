@@ -1,45 +1,112 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega;
+using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Dtos;
+using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeEntrega;
 public partial class GenerarOrdenDeEntregaForm : Form
 {
+    private GenerarOrdenDeEntregaModel _generarOrdenDeEntregaModel;
     public GenerarOrdenDeEntregaForm()
     {
+        _generarOrdenDeEntregaModel = new();
         InitializeComponent();
     }
 
-    private void buttonSeleccionar_Click(object sender, EventArgs e)
+    #region Formulario
+    private void CargarSiguienteOrdenAPreparar()
     {
-       
-      
+        if (listViewMercaderiasAEmpaquetar.Items.Count > 0)
+        {
+            Alerta.MostrarAdvertencia("Debe terminar de empaquetar la Orden actual.");
+            return;
+        }
+
+        var siguienteOrden = _generarOrdenDeEntregaModel
+            .ObtenerSiguienteOrdenAEmpaquetar();
+
+        if (siguienteOrden is not null)
+            groupBoxOrdenDeSeleccion.Text = $"Orden de Selección N° {siguienteOrden?.Numero}";
+        else
+            groupBoxOrdenDeSeleccion.Text = "Orden de Selección";
+
+        CargarMercaderiasAEmpaquetar(siguienteOrden);
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    #endregion
+
+    #region Mercaderias a Empaquetar
+
+    private void CargarMercaderiasAEmpaquetar(OrdenDeSeleccion? ordenDeSeleccion)
     {
-        //MessageBox.Show("Desea confirmar la baja de stock?");
+        listViewMercaderiasAEmpaquetar.Items.Clear();
 
-        // Mostrar un MessageBox de confirmación
-        DialogResult resultado = MessageBox.Show("¿Está seguro de que desea confirmar la entrega?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        if (ordenDeSeleccion is null)
+            return;
 
-        // Evaluar la respuesta del usuario
-        if (resultado == DialogResult.Yes)
+        if (ordenDeSeleccion?.OrdenesASeleccionar.Count > 0)
         {
-            // Aquí pones el código para confirmar la selección (por ejemplo, guardar los datos, procesar la orden, etc.)
-            MessageBox.Show("Orden confirmada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ListViewItem[] mercaderias = ObtenerListViewMercaderiasAEmpaquetar(ordenDeSeleccion);
+
+            listViewMercaderiasAEmpaquetar.Items
+                .AddRange(mercaderias);
+        }
+    }
+
+    private static ListViewItem[] ObtenerListViewMercaderiasAEmpaquetar(OrdenDeSeleccion ordenDeSeleccion)
+    {
+        List<ListViewItem> viewItems = new();
+        var ordenesDePreparacion = ordenDeSeleccion.OrdenesASeleccionar;
+        for (int i = 0; i < ordenesDePreparacion.Count; i++)
+        {
+            var mercaderias = ordenesDePreparacion[i].MercaderiasAPreparar;
+            for (int j = 0; j < mercaderias?.Count; j++)
+            {
+                ListViewItem item = new(ordenesDePreparacion[i].Numero.ToString());
+                item.SubItems.Add(mercaderias[j].Descripcion);
+                item.SubItems.Add(mercaderias[j].Cantidad);
+                viewItems.Add(item);
+            }
+        }
+        return viewItems.ToArray();
+    }
+
+    #endregion
+
+    #region Eventos
+
+    private void GenerarOrdenDeEntregaForm_Load(object sender, EventArgs e)
+    {
+        CargarSiguienteOrdenAPreparar();
+    }
+
+    private void buttonBuscarSiguienteOrden_Click(object sender, EventArgs e)
+    {
+        CargarSiguienteOrdenAPreparar();
+    }
+
+    private void buttonEmpaquetar_Click(object sender, EventArgs e)
+    {
+        if (listViewMercaderiasAEmpaquetar.SelectedItems.Count == 0)
+        {
+            Alerta.MostrarAdvertencia("Debe seleccionar una mercadería para empaquetar.");
+            return;
         }
         else
         {
-            // Cancelar la operación
-            MessageBox.Show("Orden cancelada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+            ListViewItem mercaderiaItemSelected = listViewMercaderiasAEmpaquetar.SelectedItems[0];
 
+            string numeroOP = mercaderiaItemSelected.Text;
+            string tipoMercaderia = mercaderiaItemSelected.SubItems[1].Text;
+            string cantidadMercaderia = mercaderiaItemSelected.SubItems[2].Text;
+
+            ListViewItem mercaderiaItem = new(numeroOP);
+            mercaderiaItem.SubItems.Add(tipoMercaderia);
+            mercaderiaItem.SubItems.Add(cantidadMercaderia);
+
+            listViewMercaderiasPreparadas.Items.Add(mercaderiaItem);
+
+        }
     }
+
+    #endregion
 }

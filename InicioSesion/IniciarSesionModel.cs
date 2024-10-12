@@ -23,7 +23,7 @@ public class IniciarSesionModel
             {
                 Numero = 2,
                 Nombre = "atencionalcliente",
-                Contrasenia = "atiendob0lud0s",
+                Contrasenia = "cliente",
                 Rol = Rol.AtencionAlCliente
             },
             new()

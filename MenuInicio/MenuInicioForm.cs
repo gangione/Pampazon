@@ -14,11 +14,6 @@ namespace Pampazon.MenuInicio
         }
         private void MenuInicioForm_Load(object sender, EventArgs e)
         {
-            //{ Enum.GetName(Rol.AtencionAlCliente), new GenerarOrdenDePreparacionForm() },
-            //{ Enum.GetName(Rol.JefeDePreparacion), new GenerarOrdenDeSeleccionForm() },
-            //{ Enum.GetName(Rol.Estibador), new SeleccionarMercaderiasForm() },
-            //{ Enum.GetName(Rol.Preparador), new GenerarOrdenDeEntregaForm() },
-            //{ Enum.GetName(Rol.Despachante), new GenerarRemitoForm() },_modelo.MostrarMenuDeUsuario(_usuario);
         }
 
         private void buttonPedirMercaderiasDeCliente_Click(object sender, EventArgs e)
