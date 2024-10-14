@@ -31,31 +31,21 @@ partial class GenerarRemitoForm
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenerarRemitoForm));
         pictureBoxLogo = new PictureBox();
         labelTitulo = new Label();
-        buttonDespachar = new Button();
         columnHeaderOrdenDePreparacionNro = new ColumnHeader();
         columnOrdenDePreparacionCliente = new ColumnHeader();
-        columnHeaderOrdenDePrepracionObservaciones = new ColumnHeader();
+        columnHeaderOrdenDePrepracionMercaderiaCantidad = new ColumnHeader();
         listViewOrdenesDePreparacionPreparadas = new ListView();
-        listViewMercaderiasAEntregar = new ListView();
-        columnHeaderRemitoMercaderia = new ColumnHeader();
-        columnHeaderRemitoMercaderiaCantidad = new ColumnHeader();
-        columnHeaderRemitoMercaderiaNroOrden = new ColumnHeader();
         buttonGenerarOrden = new Button();
         groupBoxRemito = new GroupBox();
-        groupBoxMercaderiasAEntregar = new GroupBox();
         groupBoxTransportista = new GroupBox();
         labelDNITransportista = new Label();
         labelNombreTransportista = new Label();
         textBoxDNITransportista = new TextBox();
         textBoxNombreTransportista = new TextBox();
         groupBoxOrdenesDePreparacion = new GroupBox();
-        labelDetalleOrdenDePreparacion = new Label();
-        listViewOrdenDePreparacionMercaderias = new ListView();
-        columnHeaderOrdenDePreparacionMercaderia = new ColumnHeader();
-        columnHeaderOrdenDePreparacionMercaderiaCantidad = new ColumnHeader();
+        columnHeaderMercaderiaSKU = new ColumnHeader();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxRemito.SuspendLayout();
-        groupBoxMercaderiasAEntregar.SuspendLayout();
         groupBoxTransportista.SuspendLayout();
         groupBoxOrdenesDePreparacion.SuspendLayout();
         SuspendLayout();
@@ -81,21 +71,6 @@ partial class GenerarRemitoForm
         labelTitulo.TabIndex = 23;
         labelTitulo.Text = "Despacho de Mercaderías";
         // 
-        // buttonDespachar
-        // 
-        buttonDespachar.BackColor = Color.FromArgb(33, 150, 243);
-        buttonDespachar.FlatAppearance.BorderSize = 0;
-        buttonDespachar.FlatStyle = FlatStyle.Flat;
-        buttonDespachar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        buttonDespachar.ForeColor = Color.White;
-        buttonDespachar.Location = new Point(471, 262);
-        buttonDespachar.Name = "buttonDespachar";
-        buttonDespachar.Size = new Size(200, 27);
-        buttonDespachar.TabIndex = 35;
-        buttonDespachar.Text = "Confirmar Despacho";
-        buttonDespachar.UseVisualStyleBackColor = false;
-        buttonDespachar.Click += buttonDespachar_Click;
-        // 
         // columnHeaderOrdenDePreparacionNro
         // 
         columnHeaderOrdenDePreparacionNro.Text = "N° Orden de Preparación";
@@ -106,14 +81,14 @@ partial class GenerarRemitoForm
         columnOrdenDePreparacionCliente.Text = "Cliente";
         columnOrdenDePreparacionCliente.Width = 150;
         // 
-        // columnHeaderOrdenDePrepracionObservaciones
+        // columnHeaderOrdenDePrepracionMercaderiaCantidad
         // 
-        columnHeaderOrdenDePrepracionObservaciones.Text = "Observaciones";
-        columnHeaderOrdenDePrepracionObservaciones.Width = 330;
+        columnHeaderOrdenDePrepracionMercaderiaCantidad.Text = "Cantidad de Mercaderías";
+        columnHeaderOrdenDePrepracionMercaderiaCantidad.Width = 180;
         // 
         // listViewOrdenesDePreparacionPreparadas
         // 
-        listViewOrdenesDePreparacionPreparadas.Columns.AddRange(new ColumnHeader[] { columnHeaderOrdenDePreparacionNro, columnOrdenDePreparacionCliente, columnHeaderOrdenDePrepracionObservaciones });
+        listViewOrdenesDePreparacionPreparadas.Columns.AddRange(new ColumnHeader[] { columnHeaderOrdenDePreparacionNro, columnOrdenDePreparacionCliente, columnHeaderMercaderiaSKU, columnHeaderOrdenDePrepracionMercaderiaCantidad });
         listViewOrdenesDePreparacionPreparadas.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listViewOrdenesDePreparacionPreparadas.FullRowSelect = true;
         listViewOrdenesDePreparacionPreparadas.GridLines = true;
@@ -121,40 +96,10 @@ partial class GenerarRemitoForm
         listViewOrdenesDePreparacionPreparadas.Location = new Point(7, 28);
         listViewOrdenesDePreparacionPreparadas.MultiSelect = false;
         listViewOrdenesDePreparacionPreparadas.Name = "listViewOrdenesDePreparacionPreparadas";
-        listViewOrdenesDePreparacionPreparadas.Size = new Size(663, 97);
+        listViewOrdenesDePreparacionPreparadas.Size = new Size(663, 261);
         listViewOrdenesDePreparacionPreparadas.TabIndex = 24;
         listViewOrdenesDePreparacionPreparadas.UseCompatibleStateImageBehavior = false;
         listViewOrdenesDePreparacionPreparadas.View = View.Details;
-        // 
-        // listViewMercaderiasAEntregar
-        // 
-        listViewMercaderiasAEntregar.Columns.AddRange(new ColumnHeader[] { columnHeaderRemitoMercaderia, columnHeaderRemitoMercaderiaCantidad, columnHeaderRemitoMercaderiaNroOrden });
-        listViewMercaderiasAEntregar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-        listViewMercaderiasAEntregar.FullRowSelect = true;
-        listViewMercaderiasAEntregar.GridLines = true;
-        listViewMercaderiasAEntregar.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewMercaderiasAEntregar.Location = new Point(7, 38);
-        listViewMercaderiasAEntregar.MultiSelect = false;
-        listViewMercaderiasAEntregar.Name = "listViewMercaderiasAEntregar";
-        listViewMercaderiasAEntregar.Size = new Size(664, 104);
-        listViewMercaderiasAEntregar.TabIndex = 37;
-        listViewMercaderiasAEntregar.UseCompatibleStateImageBehavior = false;
-        listViewMercaderiasAEntregar.View = View.Details;
-        // 
-        // columnHeaderRemitoMercaderia
-        // 
-        columnHeaderRemitoMercaderia.Text = "Tipo de Mercaderia";
-        columnHeaderRemitoMercaderia.Width = 150;
-        // 
-        // columnHeaderRemitoMercaderiaCantidad
-        // 
-        columnHeaderRemitoMercaderiaCantidad.Text = "Cantidad de Mercadería";
-        columnHeaderRemitoMercaderiaCantidad.Width = 160;
-        // 
-        // columnHeaderRemitoMercaderiaNroOrden
-        // 
-        columnHeaderRemitoMercaderiaNroOrden.Text = "N° Orden de Preparación";
-        columnHeaderRemitoMercaderiaNroOrden.Width = 170;
         // 
         // buttonGenerarOrden
         // 
@@ -163,37 +108,26 @@ partial class GenerarRemitoForm
         buttonGenerarOrden.FlatStyle = FlatStyle.Flat;
         buttonGenerarOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonGenerarOrden.ForeColor = Color.White;
-        buttonGenerarOrden.Location = new Point(483, 643);
+        buttonGenerarOrden.Location = new Point(472, 434);
         buttonGenerarOrden.Name = "buttonGenerarOrden";
-        buttonGenerarOrden.Size = new Size(199, 43);
+        buttonGenerarOrden.Size = new Size(199, 47);
         buttonGenerarOrden.TabIndex = 40;
-        buttonGenerarOrden.Text = "Generar Remito";
+        buttonGenerarOrden.Text = "Confirmar Despacho y Generar Remito";
         buttonGenerarOrden.UseVisualStyleBackColor = false;
         buttonGenerarOrden.Click += buttonGenerarOrden_Click;
         // 
         // groupBoxRemito
         // 
-        groupBoxRemito.Controls.Add(groupBoxMercaderiasAEntregar);
+        groupBoxRemito.Controls.Add(buttonGenerarOrden);
         groupBoxRemito.Controls.Add(groupBoxTransportista);
         groupBoxRemito.Controls.Add(groupBoxOrdenesDePreparacion);
         groupBoxRemito.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
         groupBoxRemito.Location = new Point(12, 62);
         groupBoxRemito.Name = "groupBoxRemito";
-        groupBoxRemito.Size = new Size(671, 624);
+        groupBoxRemito.Size = new Size(671, 481);
         groupBoxRemito.TabIndex = 41;
         groupBoxRemito.TabStop = false;
         groupBoxRemito.Text = "Remito";
-        // 
-        // groupBoxMercaderiasAEntregar
-        // 
-        groupBoxMercaderiasAEntregar.Controls.Add(listViewMercaderiasAEntregar);
-        groupBoxMercaderiasAEntregar.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        groupBoxMercaderiasAEntregar.Location = new Point(0, 420);
-        groupBoxMercaderiasAEntregar.Name = "groupBoxMercaderiasAEntregar";
-        groupBoxMercaderiasAEntregar.Size = new Size(671, 149);
-        groupBoxMercaderiasAEntregar.TabIndex = 42;
-        groupBoxMercaderiasAEntregar.TabStop = false;
-        groupBoxMercaderiasAEntregar.Text = "Mercaderías a entregar al Transportista";
         // 
         // groupBoxTransportista
         // 
@@ -248,9 +182,6 @@ partial class GenerarRemitoForm
         // 
         // groupBoxOrdenesDePreparacion
         // 
-        groupBoxOrdenesDePreparacion.Controls.Add(labelDetalleOrdenDePreparacion);
-        groupBoxOrdenesDePreparacion.Controls.Add(listViewOrdenDePreparacionMercaderias);
-        groupBoxOrdenesDePreparacion.Controls.Add(buttonDespachar);
         groupBoxOrdenesDePreparacion.Controls.Add(listViewOrdenesDePreparacionPreparadas);
         groupBoxOrdenesDePreparacion.Location = new Point(0, 125);
         groupBoxOrdenesDePreparacion.Name = "groupBoxOrdenesDePreparacion";
@@ -259,47 +190,16 @@ partial class GenerarRemitoForm
         groupBoxOrdenesDePreparacion.TabStop = false;
         groupBoxOrdenesDePreparacion.Text = "Ordenes de Preparación Preparadas";
         // 
-        // labelDetalleOrdenDePreparacion
+        // columnHeaderMercaderiaSKU
         // 
-        labelDetalleOrdenDePreparacion.AutoSize = true;
-        labelDetalleOrdenDePreparacion.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelDetalleOrdenDePreparacion.Location = new Point(7, 133);
-        labelDetalleOrdenDePreparacion.Name = "labelDetalleOrdenDePreparacion";
-        labelDetalleOrdenDePreparacion.Size = new Size(224, 15);
-        labelDetalleOrdenDePreparacion.TabIndex = 38;
-        labelDetalleOrdenDePreparacion.Text = "Detalle de Mercaderías de la Orden";
-        // 
-        // listViewOrdenDePreparacionMercaderias
-        // 
-        listViewOrdenDePreparacionMercaderias.Columns.AddRange(new ColumnHeader[] { columnHeaderOrdenDePreparacionMercaderia, columnHeaderOrdenDePreparacionMercaderiaCantidad });
-        listViewOrdenDePreparacionMercaderias.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-        listViewOrdenDePreparacionMercaderias.FullRowSelect = true;
-        listViewOrdenDePreparacionMercaderias.GridLines = true;
-        listViewOrdenDePreparacionMercaderias.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewOrdenDePreparacionMercaderias.Location = new Point(7, 151);
-        listViewOrdenDePreparacionMercaderias.MultiSelect = false;
-        listViewOrdenDePreparacionMercaderias.Name = "listViewOrdenDePreparacionMercaderias";
-        listViewOrdenDePreparacionMercaderias.Size = new Size(663, 92);
-        listViewOrdenDePreparacionMercaderias.TabIndex = 37;
-        listViewOrdenDePreparacionMercaderias.UseCompatibleStateImageBehavior = false;
-        listViewOrdenDePreparacionMercaderias.View = View.Details;
-        // 
-        // columnHeaderOrdenDePreparacionMercaderia
-        // 
-        columnHeaderOrdenDePreparacionMercaderia.Text = "Tipo de Mercaderia";
-        columnHeaderOrdenDePreparacionMercaderia.Width = 150;
-        // 
-        // columnHeaderOrdenDePreparacionMercaderiaCantidad
-        // 
-        columnHeaderOrdenDePreparacionMercaderiaCantidad.Text = "Cantidad de Mercadería";
-        columnHeaderOrdenDePreparacionMercaderiaCantidad.Width = 160;
+        columnHeaderMercaderiaSKU.Text = "SKU";
+        columnHeaderMercaderiaSKU.Width = 150;
         // 
         // GenerarRemitoForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(699, 702);
-        Controls.Add(buttonGenerarOrden);
+        ClientSize = new Size(699, 563);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
         Controls.Add(groupBoxRemito);
@@ -308,11 +208,9 @@ partial class GenerarRemitoForm
         Text = "Generar Remito";
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
         groupBoxRemito.ResumeLayout(false);
-        groupBoxMercaderiasAEntregar.ResumeLayout(false);
         groupBoxTransportista.ResumeLayout(false);
         groupBoxTransportista.PerformLayout();
         groupBoxOrdenesDePreparacion.ResumeLayout(false);
-        groupBoxOrdenesDePreparacion.PerformLayout();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -321,15 +219,10 @@ partial class GenerarRemitoForm
 
     private PictureBox pictureBoxLogo;
     private Label labelTitulo;
-    private Button buttonDespachar;
     private ColumnHeader columnHeaderOrdenDePreparacionNro;
     private ColumnHeader columnOrdenDePreparacionCliente;
-    private ColumnHeader columnHeaderOrdenDePrepracionObservaciones;
+    private ColumnHeader columnHeaderOrdenDePrepracionMercaderiaCantidad;
     private ListView listViewOrdenesDePreparacionPreparadas;
-    private ListView listViewMercaderiasAEntregar;
-    private ColumnHeader columnHeaderRemitoMercaderia;
-    private ColumnHeader columnHeaderRemitoMercaderiaCantidad;
-    private ColumnHeader columnHeaderRemitoMercaderiaNroOrden;
     private Button buttonGenerarOrden;
     private GroupBox groupBoxRemito;
     private GroupBox groupBoxTransportista;
@@ -337,10 +230,6 @@ partial class GenerarRemitoForm
     private Label labelNombreTransportista;
     private TextBox textBoxDNITransportista;
     private TextBox textBoxNombreTransportista;
-    private GroupBox groupBoxMercaderiasAEntregar;
     private GroupBox groupBoxOrdenesDePreparacion;
-    private Label labelDetalleOrdenDePreparacion;
-    private ListView listViewOrdenDePreparacionMercaderias;
-    private ColumnHeader columnHeaderOrdenDePreparacionMercaderia;
-    private ColumnHeader columnHeaderOrdenDePreparacionMercaderiaCantidad;
+    private ColumnHeader columnHeaderMercaderiaSKU;
 }

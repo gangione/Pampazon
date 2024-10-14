@@ -22,9 +22,6 @@ public static class Validador
         ))
             return "La fecha debe ser el formato Dia/Mes/Año.";
 
-        if (fechaValida.Date < DateTime.Today.Date)
-            return "La fecha ingresada debe ser mayor o igual al día de hoy.";
-
         return string.Empty;
     }
 

@@ -17,26 +17,25 @@ public partial class GenerarOrdenDePreparacionForm : Form
         var clientes = _ordenDePreparacionModel.ObtenerClientes();
         var transportistas = _ordenDePreparacionModel.ObtenerTransportistas();
 
-        textBoxCliente.Clear();
+        labelPrioridad.Hide();
         textBoxFechaADespachar.Clear();
         textBoxCantidadAPreparar.Clear();
         textBoxDNITransportista.Clear();
         textBoxNombreTransportista.Clear();
-        textBoxObservaciones.Clear();
         listViewMercaderiasEnStock.Items.Clear();
         listViewMercaderiasARetirar.Items.Clear();
 
         ConfigurarValidadores();
-        ConfigurarAutocompleteClientes(clientes);
+
+        comboBoxClientes.Items.Clear();
+        comboBoxClientes.Items.AddRange([.. clientes]);
+
         ConfigurarAutocompleteTransportistas(transportistas);
     }
 
     private void ConfigurarValidadores()
     {
-        // Cliente
-        textBoxCliente.Tag = labelCliente.Text;
-        errorProviderCliente.Tag = textBoxCliente;
-
+        // Fecha de despacho
         textBoxFechaADespachar.Tag = labelFechaADespachar.Text;
         errorProviderFechaADespachar.Tag = textBoxFechaADespachar;
 
@@ -78,13 +77,6 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
     private List<string> ValidarFormularioOrdenDePreparacion()
     {
-        string cliente = Validador.ValidarCampoVacio(textBoxCliente.Text);
-
-        if (!string.IsNullOrEmpty(cliente))
-            errorProviderCliente.SetError(textBoxCliente, cliente);
-        else
-            errorProviderCliente.SetError(textBoxCliente, string.Empty);
-
         string fecha = Validador.ValidarFecha(textBoxFechaADespachar.Text);
 
         if (!string.IsNullOrEmpty(fecha))
@@ -108,7 +100,6 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
         List<ErrorProvider> errores = new()
         {
-            errorProviderCliente,
             errorProviderFechaADespachar,
             errorProviderTransportistaNombre,
             errorProviderTransportistaDNI
@@ -132,21 +123,13 @@ public partial class GenerarOrdenDePreparacionForm : Form
     #endregion
 
     #region Listado Mercaderias en Stock
-    private void CargarListadoMercaderiasEnStockPorCliente(Cliente cliente)
-    {
-        listViewMercaderiasEnStock.Items.Clear();
-        var mercaderiasEnStock = _ordenDePreparacionModel.ObtenerMercaderiasPorCliente(cliente);
-
-        listViewMercaderiasEnStock.Items.AddRange(ObtenerListViewMercaderiasEnStock(mercaderiasEnStock));
-    }
-
     private static ListViewItem[] ObtenerListViewMercaderiasEnStock(List<Mercaderia> mercaderias)
     {
         List<ListViewItem> viewItems = new();
         for (int i = 0; i < mercaderias.Count; i++)
         {
-            ListViewItem item = new(mercaderias[i].Descripcion);
-            item.SubItems.Add(mercaderias[i].UnidadDeMedida.ToString());
+            ListViewItem item = new(mercaderias[i].SKU);
+            item.SubItems.Add(mercaderias[i].Descripcion);
             item.SubItems.Add(mercaderias[i].Cantidad.ToString());
             viewItems.Add(item);
         }
@@ -155,12 +138,11 @@ public partial class GenerarOrdenDePreparacionForm : Form
     #endregion
 
     #region Listado Mercaderías A Retirar
-    private void AgregarItemMercaderiaARetirar(Mercaderia mercaderia, string stockFuturo)
+    private void AgregarItemMercaderiaARetirar(Mercaderia mercaderia)
     {
-        ListViewItem item = new(mercaderia.Descripcion);
-        item.SubItems.Add(mercaderia.UnidadDeMedida.ToString());
+        ListViewItem item = new(mercaderia.SKU);
+        item.SubItems.Add(mercaderia.Descripcion);
         item.SubItems.Add(mercaderia.Cantidad.ToString());
-        item.SubItems.Add(stockFuturo);
         listViewMercaderiasARetirar.Items.Add(item);
 
         textBoxCantidadAPreparar.Text = string.Empty;
@@ -169,23 +151,6 @@ public partial class GenerarOrdenDePreparacionForm : Form
     #endregion
 
     #region Autocomplete
-    private void ConfigurarAutocompleteClientes(List<Cliente> clientes)
-    {
-        // Crear una colección para el autocomplete
-        AutoCompleteStringCollection nombresClientes = new();
-
-        // Agregar los nombres de los clientes a la colección
-        for (int i = 0; i < clientes.Count; i++)
-        {
-            nombresClientes.Add(clientes[i].Nombre);
-        }
-
-        textBoxCliente.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-        textBoxCliente.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        textBoxCliente.AutoCompleteCustomSource = nombresClientes;
-        textBoxCliente.TextChanged += textBoxCliente_TextChanged;
-    }
-
     private void ConfigurarAutocompleteTransportistas(List<Transportista> transportistas)
     {
         // Crear una colección para el autocomplete
@@ -211,17 +176,22 @@ public partial class GenerarOrdenDePreparacionForm : Form
         CargarFormulario();
     }
 
-    private void textBoxCliente_TextChanged(object sender, EventArgs e)
+    private void comboBoxClientes_SelectedIndexChanged(object sender, EventArgs e)
     {
-        List<Cliente> clientes = _ordenDePreparacionModel.ObtenerClientesPorFiltro(textBoxCliente.Text);
+        Cliente? cliente = comboBoxClientes.SelectedItem as Cliente;
 
-        var cliente = clientes.FirstOrDefault();
-        // Lógica para completar el listado de mercaderías en Stock.
-        if (cliente is not null && clientes.Count == 1)
-            CargarListadoMercaderiasEnStockPorCliente(cliente);
-        else
+        if (cliente is not null)
         {
+            var mercaderias = _ordenDePreparacionModel.ObtenerMercaderiasEnStockPorCliente(cliente);
             listViewMercaderiasEnStock.Items.Clear();
+            listViewMercaderiasARetirar.Items.Clear();
+
+            listViewMercaderiasEnStock.Items
+                .AddRange(ObtenerListViewMercaderiasEnStock(mercaderias));
+
+
+            labelPrioridad.Text = $"Prioridad del Cliente: {cliente.Prioridad}";
+            labelPrioridad.Show();
         }
     }
 
@@ -247,11 +217,13 @@ public partial class GenerarOrdenDePreparacionForm : Form
                     return;
                 }
             }
+            Cliente? cliente = comboBoxClientes.SelectedItem as Cliente;
+
             Mercaderia mercaderia = new()
             {
-                //NumeroCliente = 
-                Descripcion = selected.SubItems[0].Text,
-                //UnidadDeMedida = "UM"//selected.SubItems[1].Text,
+                SKU = selected.Text,
+                NumeroCliente = cliente.Numero,
+                Descripcion = selected.SubItems[1].Text,
                 Cantidad = int.Parse(textBoxCantidadAPreparar.Text)
             };
 
@@ -265,8 +237,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
             }
 
             AgregarItemMercaderiaARetirar(
-                mercaderia,
-                stockFuturo.ToString()
+                mercaderia
             );
         }
         else
@@ -316,7 +287,26 @@ public partial class GenerarOrdenDePreparacionForm : Form
                 return;
             }
 
-            var resultado = _ordenDePreparacionModel.GenerarOrdenDePreparacion();
+            Cliente? cliente = comboBoxClientes.SelectedItem as Cliente;
+            List<Mercaderia> mercaderias = new();
+            foreach (ListViewItem item in listViewMercaderiasARetirar.Items)
+            {
+                Mercaderia mercaderia = new()
+                {
+                    SKU = item.Text,
+                    NumeroCliente = cliente.Numero,
+                    Descripcion = item.SubItems[1].Text,
+                    Cantidad = int.Parse(item.SubItems[2].Text),
+                };
+                mercaderias.Add(mercaderia);
+            }
+
+            var resultado = _ordenDePreparacionModel
+                .GenerarOrdenDePreparacion(new OrdenDePreparacion()
+                {
+                    FechaDeDespacho = DateTime.Parse(textBoxFechaADespachar.Text),
+                    MercaderiasAPreparar = mercaderias
+                });
 
             if (resultado.Exitoso)
             {

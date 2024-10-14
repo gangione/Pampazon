@@ -14,14 +14,12 @@ public class GenerarOrdenDeSeleccionModel
             new ()
             {
                 Numero = 1,
-                Cuit = "30518919349",
                 Nombre = "Mercadito S.A",
                 Prioridad = Prioridad.Alta
             },
             new ()
             {
                 Numero = 2,
-                Cuit = "12345678911",
                 Nombre = "Empresa S.A",
                 Prioridad = Prioridad.Baja
             }
@@ -38,28 +36,25 @@ public class GenerarOrdenDeSeleccionModel
                 {
                     new ()
                     {
+                        SKU = "AA-10",
                         NumeroCliente = 1,
                         Descripcion = "Cemento",
                         Cantidad = 50,
-                        UnidadDeMedida = UnidadDeMedida.Bolsas,
-                        Ubicacion = "12-43-2"
                     },
                     new ()
                     {
+                        SKU = "AB-20",
                         NumeroCliente = 1,
                         Descripcion = "Arena",
                         Cantidad = 150,
-                        UnidadDeMedida = UnidadDeMedida.Bolsas,
-                        Ubicacion = "12-43-2"
                     },
                     new ()
                     {
+                        SKU = "AC-30",
                         NumeroCliente = 1,
                         Descripcion = "Ladrillos",
                         Cantidad = 500,
-                        UnidadDeMedida = UnidadDeMedida.Unidades,
-                        Ubicacion = "12-43-2"
-                    }
+                    },
                 }
             },
             new ()
@@ -72,53 +67,17 @@ public class GenerarOrdenDeSeleccionModel
                 {
                     new ()
                     {
+                        SKU = "BA-10",
                         NumeroCliente = 2,
-                        Descripcion = "Azucar",
-                        Cantidad = 10,
-                        UnidadDeMedida = UnidadDeMedida.Palets,
-                        Ubicacion = "12-43-2"
+                        Descripcion = "Zapatillas",
+                        Cantidad = 100,
                     },
                     new ()
                     {
+                        SKU = "BA-20",
                         NumeroCliente = 2,
-                        Descripcion = "Harina",
-                        Cantidad = 10,
-                        UnidadDeMedida = UnidadDeMedida.Palets,
-                        Ubicacion = "12-43-2"
-                    }
-                }
-            },
-            new()
-            {
-                Numero = 3,
-                Cliente = _clientes.Find(c => c.Numero == 1),
-                FechaADespachar = DateTime.Now,
-                Estado = OrdenDePreparacionEstado.Pendiente,
-                MercaderiasAPreparar = new()
-                {
-                    new ()
-                    {
-                        NumeroCliente = 1,
-                        Descripcion = "Cemento",
-                        Cantidad = 2,
-                        UnidadDeMedida = UnidadDeMedida.Bolsas,
-                        Ubicacion = "12-43-2"
-                    },
-                    new ()
-                    {
-                        NumeroCliente = 1,
-                        Descripcion = "Arena",
-                        Cantidad = 5,
-                        UnidadDeMedida = UnidadDeMedida.Bolsas,
-                        Ubicacion = "12-43-2"
-                    },
-                    new ()
-                    {
-                        NumeroCliente = 1,
-                        Descripcion = "Ladrillos",
-                        Cantidad = 500,
-                        UnidadDeMedida = UnidadDeMedida.Unidades,
-                        Ubicacion = "12-43-2"
+                        Descripcion = "Remeras",
+                        Cantidad = 100,
                     }
                 }
             },
@@ -141,11 +100,23 @@ public class GenerarOrdenDeSeleccionModel
             .Where(op => op.Estado == OrdenDePreparacionEstado.Pendiente)
             .ToList();
     }
-    public List<OrdenDePreparacion> ObtenerOrdenesPendientesPorCliente(Cliente cliente)
+    public List<OrdenDePreparacion> ObtenerOrdenesPendientesPorFiltros(long numeroCliente, Prioridad? prioridad)
     {
-        return _ordenesDePreparacion
-            .Where(preparacion => preparacion.Cliente.Numero == cliente.Numero
-        ).ToList();
+        if (numeroCliente > 0 && prioridad is null)
+            return _ordenesDePreparacion
+                .Where(op => op.Cliente.Numero == numeroCliente)
+                .ToList();
+        else if (numeroCliente == 0 && prioridad is not null)
+            return _ordenesDePreparacion
+                .Where(op => op.Cliente.Prioridad == prioridad)
+                .ToList();
+        else
+            return _ordenesDePreparacion
+                .Where(op =>
+                    op.Cliente.Numero == numeroCliente
+                    && op.Cliente.Prioridad == prioridad
+                )
+                .ToList();
     }
     public OrdenDePreparacion ObtenerOrdenDePreparacionPorNumero(long nroOrden)
     {

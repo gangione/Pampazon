@@ -1,6 +1,6 @@
-﻿using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Enums;
+﻿using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Enums;
 
-namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Dtos;
+namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Dtos;
 
 public class OrdenDePreparacion
 {

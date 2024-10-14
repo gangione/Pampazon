@@ -1,9 +1,10 @@
 ﻿namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Enums;
-public enum MercaderiaEstado
+
+public enum OrdenDePreparacionEstado
 {
-    EnAlmacen,
-    ASeleccionar,
+    Pendiente,
+    EnSeleccion,
     EnPreparacion,
-    EnDespacho,
-    Entregada
+    Preparada,
+    Despachada
 }

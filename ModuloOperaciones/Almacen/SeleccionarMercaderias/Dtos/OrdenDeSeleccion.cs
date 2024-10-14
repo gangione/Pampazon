@@ -8,5 +8,5 @@ public class OrdenDeSeleccion
     public Prioridad Prioridad { get; set; }
     public DateTime FechaADespachar { get; set; }
     public OrdenDeSeleccionEstado Estado { get; set; }
-    public List<Mercaderia> MercaderiasASeleccionar { get; set; }
+    public List<OrdenDePreparacion> OrdenesDePreparacion { get; set; }
 }

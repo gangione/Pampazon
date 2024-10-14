@@ -17,20 +17,14 @@ public class GenerarOrdenDePreparacionModel
                 new ()
                 {
                     Numero = 1,
-                    Cuit = "30518919349",
                     Nombre = "Mercadito S.A",
+                    Prioridad = Prioridad.Alta
                 },
                 new ()
                 {
                     Numero = 2,
-                    Cuit = "12345678910",
-                    Nombre = "Membrana S.A",
-                },
-                new ()
-                {
-                    Numero = 2,
-                    Cuit = "12345678911",
                     Nombre = "Empresa S.A",
+                    Prioridad = Prioridad.Baja
                 }
             };
         _transportistas = new()
@@ -39,16 +33,6 @@ public class GenerarOrdenDePreparacionModel
                 {
                     DNI = "12123123",
                     NombreYApellido = "Ricardo"
-                },
-                new()
-                {
-                    DNI = "12345678",
-                    NombreYApellido = "Daiana"
-                },
-                new()
-                {
-                    DNI = "11111111",
-                    NombreYApellido = "Ariadna"
                 },
                 new()
                 {
@@ -65,37 +49,46 @@ public class GenerarOrdenDePreparacionModel
         {
             new ()
             {
+                SKU = "AA-10",
                 NumeroCliente = 1,
                 Descripcion = "Cemento",
                 Cantidad = 50,
-                UnidadDeMedida = UnidadDeMedida.Bolsas,
                 Estado = MercaderiaEstado.EnAlmacen,
             },
             new ()
             {
+                SKU = "AB-20",
                 NumeroCliente = 1,
                 Descripcion = "Arena",
                 Cantidad = 150,
-                UnidadDeMedida = UnidadDeMedida.Bolsas,
                 Estado = MercaderiaEstado.EnAlmacen
             },
             new ()
             {
+                SKU = "AC-30",
                 NumeroCliente = 1,
                 Descripcion = "Ladrillos",
                 Cantidad = 500,
-                UnidadDeMedida = UnidadDeMedida.Unidades,
                 Estado = MercaderiaEstado.EnAlmacen
             },
             new ()
             {
+                SKU = "BA-10",
                 NumeroCliente = 2,
-                Descripcion = "Palets",
+                Descripcion = "Zapatillas",
                 Cantidad = 100,
-                UnidadDeMedida = UnidadDeMedida.Unidades,
+                Estado = MercaderiaEstado.EnAlmacen
+            },
+            new ()
+            {
+                SKU = "BA-20",
+                NumeroCliente = 2,
+                Descripcion = "Remeras",
+                Cantidad = 100,
                 Estado = MercaderiaEstado.EnAlmacen
             }
         };
+        _ordenesDePreparacion = new();
     }
     public List<Cliente> ObtenerClientes()
     {
@@ -119,16 +112,62 @@ public class GenerarOrdenDePreparacionModel
             .Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
         ).ToList();
     }
-    public List<Mercaderia> ObtenerMercaderiasPorCliente(Cliente cliente)
+    public List<Mercaderia> ObtenerMercaderiasEnStockPorCliente(Cliente cliente)
     {
         return _mercaderias
-            .Where(mercaderia => mercaderia.NumeroCliente == cliente.Numero
-        ).ToList();
+            .Where(mercaderia =>
+                mercaderia.NumeroCliente == cliente.Numero
+                && mercaderia.Estado == MercaderiaEstado.EnAlmacen)
+            .ToList();
     }
-
-    public Resultado<bool> GenerarOrdenDePreparacion()
+    public Resultado<bool> GenerarOrdenDePreparacion(OrdenDePreparacion orden)
     {
-        // Validar las reglas de negocio.
+        if (orden.FechaDeDespacho < DateTime.Now)
+            return new Resultado<bool>(
+                false,
+                "La fecha a despachar ingresada debe ser mayor o igual al día de hoy.",
+                false
+            );
+
+        // CAMBIAR DE ESTADO LAS MERCADERÍAS
+        for (int i = 0; i < orden.MercaderiasAPreparar?.Count; i++)
+        {
+            Mercaderia mercaderiaARetirar = orden.MercaderiasAPreparar[i];
+
+            Mercaderia mercaderiaEnStock = _mercaderias
+                .First(m => m.SKU == mercaderiaARetirar.SKU
+                    && m.Estado == MercaderiaEstado.EnAlmacen);
+
+            if (mercaderiaARetirar.Cantidad > mercaderiaEnStock.Cantidad)
+                return new Resultado<bool>(
+                    false,
+                    "La cantidad a retirar no puede superar a la cantidad en Stock.",
+                    false
+                );
+
+            mercaderiaEnStock.Cantidad = mercaderiaEnStock.Cantidad - mercaderiaARetirar.Cantidad;
+
+            if (mercaderiaEnStock.Cantidad == 0)
+                _mercaderias.Remove(mercaderiaEnStock);
+
+            mercaderiaARetirar.Estado = MercaderiaEstado.ASeleccionar;
+            _mercaderias.Add(mercaderiaARetirar);
+        }
+
+        long numeroOrden = _ordenesDePreparacion.LastOrDefault() is null ? 1 :
+            _ordenesDePreparacion.Last().Numero + 1;
+
+        OrdenDePreparacion op = new()
+        {
+            Numero = numeroOrden,
+            Fecha = DateTime.Now,
+            FechaDeDespacho = orden.FechaDeDespacho,
+            Estado = OrdenDePreparacionEstado.Pendiente,
+            MercaderiasAPreparar = orden.MercaderiasAPreparar
+        };
+
+        _ordenesDePreparacion.Add(op);
+
         return new Resultado<bool>(
             true,
             "La orden se generó correctamente.",

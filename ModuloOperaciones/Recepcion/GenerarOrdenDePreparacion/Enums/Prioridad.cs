@@ -1,9 +1,6 @@
 ﻿namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Enums;
-
-public enum UnidadDeMedida
+public enum Prioridad
 {
-    Unidades,
-    Cajas,
-    Bolsas,
-    Palets
+    Alta,
+    Baja
 }

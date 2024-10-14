@@ -20,12 +20,17 @@ public partial class GenerarOrdenDeSeleccionForm : Form
         listViewOrdenesDePreparacion.SelectedItems.Clear();
         listViewOrdenesASeleccionar.Items.Clear();
 
-        textBoxBuscarPorCliente.Clear();
+        comboBoxPrioridadDeOrden.Items.Clear();
+        comboBoxPrioridadDeOrden.Items.AddRange(Enum.GetNames(typeof(Prioridad)));
+
+        comboBoxBuscarPorCliente.Items.Clear();
+        comboBoxBuscarPorCliente.Items.Add(string.Empty);
+        comboBoxBuscarPorCliente.Items.AddRange([.. clientes]);
 
         comboBoxBuscarPorPrioridad.Items.Clear();
+        comboBoxBuscarPorPrioridad.Items.Add(string.Empty);
         comboBoxBuscarPorPrioridad.Items.AddRange(Enum.GetNames(typeof(Prioridad)));
 
-        ConfigurarAutocompleteClientes(clientes);
         CargarListadoOrdenesPendientes();
     }
 
@@ -42,39 +47,11 @@ public partial class GenerarOrdenDeSeleccionForm : Form
 
     #endregion
 
-    #region Autocomplete
-    private void ConfigurarAutocompleteClientes(List<Cliente> clientes)
-    {
-        // Crear una colección para el autocomplete
-        AutoCompleteStringCollection nombresClientes = new();
-
-        // Agregar los nombres de los clientes a la colección
-        for (int i = 0; i < clientes.Count; i++)
-        {
-            nombresClientes.Add(clientes[i].Nombre);
-        }
-
-        textBoxBuscarPorCliente.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-        textBoxBuscarPorCliente.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        textBoxBuscarPorCliente.AutoCompleteCustomSource = nombresClientes;
-        textBoxBuscarPorCliente.TextChanged += textBoxBuscarPorCliente_TextChanged;
-    }
-
-    #endregion
-
     #region Ordenes de Preparacion Pendientes
     private void CargarListadoOrdenesPendientes()
     {
         listViewOrdenesDePreparacion.Items.Clear();
         var ordenesPendientes = _ordenDeSeleccionModel.ObtenerOrdenesDePreparacionPendientes();
-
-        listViewOrdenesDePreparacion.Items.AddRange(ObtenerListViewOrdenesDePreparacion(ordenesPendientes));
-    }
-
-    private void CargarListadoOrdenesPendientesPorCliente(Cliente cliente)
-    {
-        listViewOrdenesDePreparacion.Items.Clear();
-        var ordenesPendientes = _ordenDeSeleccionModel.ObtenerOrdenesPendientesPorCliente(cliente);
 
         listViewOrdenesDePreparacion.Items.AddRange(ObtenerListViewOrdenesDePreparacion(ordenesPendientes));
     }
@@ -85,9 +62,9 @@ public partial class GenerarOrdenDeSeleccionForm : Form
         for (int i = 0; i < ordenes.Count; i++)
         {
             ListViewItem item = new(ordenes[i].Numero.ToString());
-            item.SubItems.Add(ordenes[i].Cliente.Prioridad.ToString());
             item.SubItems.Add(ordenes[i].FechaADespachar.ToString("dd/MM/yyyy"));
             item.SubItems.Add(ordenes[i].Cliente.Nombre);
+            item.SubItems.Add(ordenes[i].Cliente.Prioridad.ToString());
             viewItems.Add(item);
         }
         return viewItems.ToArray();
@@ -100,21 +77,45 @@ public partial class GenerarOrdenDeSeleccionForm : Form
     {
         CargarFormulario();
     }
-
-    private void textBoxBuscarPorCliente_TextChanged(object sender, EventArgs e)
+    private void buttonBuscar_Click(object sender, EventArgs e)
     {
-        List<Cliente> clientes = _ordenDeSeleccionModel.ObtenerClientesPorFiltro(textBoxBuscarPorCliente.Text);
+        long numeroCliente = 0;
+        if (comboBoxBuscarPorCliente.Text != string.Empty)
+        {
+            Cliente? cliente = comboBoxBuscarPorCliente.SelectedItem as Cliente;
 
-        var cliente = clientes.FirstOrDefault();
-        // Lógica para completar el listado de mercaderías en Stock.
-        if (cliente is not null && clientes.Count == 1)
-            CargarListadoOrdenesPendientesPorCliente(cliente);
+            if (cliente is not null)
+                numeroCliente = cliente.Numero;
+        }
+
+        Prioridad? prioridad = null;
+        if (comboBoxBuscarPorPrioridad.Text != string.Empty)
+        {
+            var prioridadSeleccionada = comboBoxBuscarPorPrioridad.Text;
+
+            if (prioridadSeleccionada is not null)
+                prioridad = (Prioridad)Enum.Parse(typeof(Prioridad), prioridadSeleccionada);
+        }
+
+        if (numeroCliente == 0 && prioridad is null)
+        {
+            var ordenesPendientes = _ordenDeSeleccionModel
+                .ObtenerOrdenesDePreparacionPendientes();
+
+            listViewOrdenesDePreparacion.Items.Clear();
+            listViewOrdenesDePreparacion.Items
+                .AddRange(ObtenerListViewOrdenesDePreparacion(ordenesPendientes));
+        }
         else
         {
-            CargarListadoOrdenesPendientes();
+            var ordenesPendientes = _ordenDeSeleccionModel
+                .ObtenerOrdenesPendientesPorFiltros(numeroCliente, prioridad);
+
+            listViewOrdenesDePreparacion.Items.Clear();
+            listViewOrdenesDePreparacion.Items
+                .AddRange(ObtenerListViewOrdenesDePreparacion(ordenesPendientes));
         }
     }
-
     private void buttonAgregar_Click(object sender, EventArgs e)
     {
         if (listViewOrdenesDePreparacion.SelectedItems.Count > 0)
@@ -132,20 +133,17 @@ public partial class GenerarOrdenDeSeleccionForm : Form
                 }
             }
 
-            ListViewItem seleccionDetalle = new(ordenDePreparacionSelected.Text);
-            seleccionDetalle.SubItems.Add(ordenDePreparacionSelected.SubItems[1].Text);
-
             var mercaderias = _ordenDeSeleccionModel
                 .ObtenerMercaderiasAPrepararPorOrden(ordenDePreparacionSelected.Text);
 
             for (int i = 0; i < mercaderias?.Count; i++)
             {
+                ListViewItem seleccionDetalle = new(ordenDePreparacionSelected.Text);
+                seleccionDetalle.SubItems.Add(mercaderias[i].SKU);
                 seleccionDetalle.SubItems.Add(mercaderias[i].Descripcion);
                 seleccionDetalle.SubItems.Add(mercaderias[i].Cantidad.ToString());
-                seleccionDetalle.SubItems.Add(mercaderias[i].Ubicacion);
+                listViewOrdenesASeleccionar.Items.Add(seleccionDetalle);
             }
-
-            listViewOrdenesASeleccionar.Items.Add(seleccionDetalle);
 
             // Ordenar la lista de seleccion, limpiar la selección y las mercaderías
             listViewOrdenesASeleccionar.ListViewItemSorter = new ListViewItemComparer(1, SortOrder.Ascending);
@@ -163,12 +161,17 @@ public partial class GenerarOrdenDeSeleccionForm : Form
     {
         if (listViewOrdenesASeleccionar.SelectedItems.Count > 0)
         {
-            var selected = listViewOrdenesASeleccionar.SelectedItems;
+            var nroOrden = listViewOrdenesASeleccionar.SelectedItems[0].Text;
 
-            for (int i = 0; i < selected.Count; i++)
+            int cantidadItems = listViewOrdenesASeleccionar.Items.Count;
+
+            foreach (ListViewItem item in listViewOrdenesASeleccionar.Items)
             {
-                var index = selected[i].Index;
-                listViewOrdenesASeleccionar.Items.RemoveAt(index);
+                var nroOrdenColumna = item.Text;
+
+                if (nroOrden == nroOrdenColumna)
+                    listViewOrdenesASeleccionar.Items
+                        .Remove(item);
             }
         }
         else

@@ -71,7 +71,7 @@
             buttonOrdenDePreparacion.Name = "buttonOrdenDePreparacion";
             buttonOrdenDePreparacion.Size = new Size(200, 87);
             buttonOrdenDePreparacion.TabIndex = 18;
-            buttonOrdenDePreparacion.Text = "1. Pedir Mercaderias de Cliente";
+            buttonOrdenDePreparacion.Text = "1. Ingresar Orden de Preparación";
             buttonOrdenDePreparacion.UseVisualStyleBackColor = false;
             buttonOrdenDePreparacion.Click += buttonPedirMercaderiasDeCliente_Click;
             // 

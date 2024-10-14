@@ -51,25 +51,24 @@ partial class GenerarOrdenDePreparacionForm
         label7 = new Label();
         label8 = new Label();
         listViewMercaderiasARetirar = new ListView();
-        columnHeaderDescripcionMercaderiaARetirar = new ColumnHeader();
-        columnHeaderUMMercaderiaARetirar = new ColumnHeader();
-        columnHeaderCantidadAPreparar = new ColumnHeader();
+        columnHeaderMercaderiaARetirarSKU = new ColumnHeader();
+        columnHeaderMercaderiaARetirarDescripcion = new ColumnHeader();
+        columnHeaderMercaderiaARetirarCantidad = new ColumnHeader();
         buttonEliminar = new Button();
         labelFechaADespachar = new Label();
         textBoxFechaADespachar = new TextBox();
         buttonGenerarOrden = new Button();
-        textBoxObservaciones = new TextBox();
-        labelObservaciones = new Label();
         groupBoxMercaderiasEnStock = new GroupBox();
+        labelPrioridad = new Label();
+        comboBoxClientes = new ComboBox();
         listViewMercaderiasEnStock = new ListView();
-        columnHeaderDescripcion = new ColumnHeader();
-        columnHeaderUM = new ColumnHeader();
-        columnHeaderCantidadEnStock = new ColumnHeader();
+        columnHeaderMercaderiaEnStockSKU = new ColumnHeader();
+        columnHeaderMercaderiaEnStockCantidad = new ColumnHeader();
+        columnHeaderMercaderiaEnStockDescripcion = new ColumnHeader();
         labelCantidadAPreparar = new Label();
         buttonAgregar = new Button();
         labelCliente = new Label();
         textBoxCantidadAPreparar = new TextBox();
-        textBoxCliente = new TextBox();
         label1 = new Label();
         button1 = new Button();
         button2 = new Button();
@@ -127,13 +126,11 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxOrdenDePreparacion.Controls.Add(labelFechaADespachar);
         groupBoxOrdenDePreparacion.Controls.Add(textBoxFechaADespachar);
         groupBoxOrdenDePreparacion.Controls.Add(buttonGenerarOrden);
-        groupBoxOrdenDePreparacion.Controls.Add(textBoxObservaciones);
-        groupBoxOrdenDePreparacion.Controls.Add(labelObservaciones);
         groupBoxOrdenDePreparacion.Controls.Add(groupBoxMercaderiasEnStock);
         groupBoxOrdenDePreparacion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
         groupBoxOrdenDePreparacion.Location = new Point(18, 69);
         groupBoxOrdenDePreparacion.Name = "groupBoxOrdenDePreparacion";
-        groupBoxOrdenDePreparacion.Size = new Size(673, 709);
+        groupBoxOrdenDePreparacion.Size = new Size(673, 641);
         groupBoxOrdenDePreparacion.TabIndex = 16;
         groupBoxOrdenDePreparacion.TabStop = false;
         groupBoxOrdenDePreparacion.Text = "Orden De Preparación";
@@ -321,7 +318,7 @@ partial class GenerarOrdenDePreparacionForm
         // 
         // listViewMercaderiasARetirar
         // 
-        listViewMercaderiasARetirar.Columns.AddRange(new ColumnHeader[] { columnHeaderDescripcionMercaderiaARetirar, columnHeaderUMMercaderiaARetirar, columnHeaderCantidadAPreparar });
+        listViewMercaderiasARetirar.Columns.AddRange(new ColumnHeader[] { columnHeaderMercaderiaARetirarSKU, columnHeaderMercaderiaARetirarDescripcion, columnHeaderMercaderiaARetirarCantidad });
         listViewMercaderiasARetirar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listViewMercaderiasARetirar.FullRowSelect = true;
         listViewMercaderiasARetirar.GridLines = true;
@@ -329,25 +326,25 @@ partial class GenerarOrdenDePreparacionForm
         listViewMercaderiasARetirar.Location = new Point(6, 28);
         listViewMercaderiasARetirar.MultiSelect = false;
         listViewMercaderiasARetirar.Name = "listViewMercaderiasARetirar";
-        listViewMercaderiasARetirar.Size = new Size(668, 110);
+        listViewMercaderiasARetirar.Size = new Size(667, 110);
         listViewMercaderiasARetirar.TabIndex = 10;
         listViewMercaderiasARetirar.UseCompatibleStateImageBehavior = false;
         listViewMercaderiasARetirar.View = View.Details;
         // 
-        // columnHeaderDescripcionMercaderiaARetirar
+        // columnHeaderMercaderiaARetirarSKU
         // 
-        columnHeaderDescripcionMercaderiaARetirar.Text = "Descripcion";
-        columnHeaderDescripcionMercaderiaARetirar.Width = 150;
+        columnHeaderMercaderiaARetirarSKU.Text = "SKU";
+        columnHeaderMercaderiaARetirarSKU.Width = 150;
         // 
-        // columnHeaderUMMercaderiaARetirar
+        // columnHeaderMercaderiaARetirarDescripcion
         // 
-        columnHeaderUMMercaderiaARetirar.Text = "Unidad de Medida";
-        columnHeaderUMMercaderiaARetirar.Width = 150;
+        columnHeaderMercaderiaARetirarDescripcion.Text = "Tipo de Mercadería";
+        columnHeaderMercaderiaARetirarDescripcion.Width = 200;
         // 
-        // columnHeaderCantidadAPreparar
+        // columnHeaderMercaderiaARetirarCantidad
         // 
-        columnHeaderCantidadAPreparar.Text = "Cantidad a Preparar";
-        columnHeaderCantidadAPreparar.Width = 150;
+        columnHeaderMercaderiaARetirarCantidad.Text = "Cantidad a Preparar";
+        columnHeaderMercaderiaARetirarCantidad.Width = 150;
         // 
         // buttonEliminar
         // 
@@ -385,7 +382,6 @@ partial class GenerarOrdenDePreparacionForm
         textBoxFechaADespachar.PlaceholderText = "Dia / Mes / Año";
         textBoxFechaADespachar.Size = new Size(186, 27);
         textBoxFechaADespachar.TabIndex = 2;
-        textBoxFechaADespachar.TextChanged += textBoxCliente_TextChanged;
         // 
         // buttonGenerarOrden
         // 
@@ -394,7 +390,7 @@ partial class GenerarOrdenDePreparacionForm
         buttonGenerarOrden.FlatStyle = FlatStyle.Flat;
         buttonGenerarOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonGenerarOrden.ForeColor = Color.White;
-        buttonGenerarOrden.Location = new Point(474, 666);
+        buttonGenerarOrden.Location = new Point(474, 598);
         buttonGenerarOrden.Name = "buttonGenerarOrden";
         buttonGenerarOrden.Size = new Size(199, 43);
         buttonGenerarOrden.TabIndex = 7;
@@ -402,34 +398,15 @@ partial class GenerarOrdenDePreparacionForm
         buttonGenerarOrden.UseVisualStyleBackColor = false;
         buttonGenerarOrden.Click += buttonGenerarOrden_Click;
         // 
-        // textBoxObservaciones
-        // 
-        textBoxObservaciones.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBoxObservaciones.Location = new Point(7, 618);
-        textBoxObservaciones.Multiline = true;
-        textBoxObservaciones.Name = "textBoxObservaciones";
-        textBoxObservaciones.Size = new Size(665, 40);
-        textBoxObservaciones.TabIndex = 6;
-        textBoxObservaciones.TabStop = false;
-        // 
-        // labelObservaciones
-        // 
-        labelObservaciones.AutoSize = true;
-        labelObservaciones.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelObservaciones.Location = new Point(7, 600);
-        labelObservaciones.Name = "labelObservaciones";
-        labelObservaciones.Size = new Size(92, 15);
-        labelObservaciones.TabIndex = 0;
-        labelObservaciones.Text = "Obsevaciones";
-        // 
         // groupBoxMercaderiasEnStock
         // 
+        groupBoxMercaderiasEnStock.Controls.Add(labelPrioridad);
+        groupBoxMercaderiasEnStock.Controls.Add(comboBoxClientes);
         groupBoxMercaderiasEnStock.Controls.Add(listViewMercaderiasEnStock);
         groupBoxMercaderiasEnStock.Controls.Add(labelCantidadAPreparar);
         groupBoxMercaderiasEnStock.Controls.Add(buttonAgregar);
         groupBoxMercaderiasEnStock.Controls.Add(labelCliente);
         groupBoxMercaderiasEnStock.Controls.Add(textBoxCantidadAPreparar);
-        groupBoxMercaderiasEnStock.Controls.Add(textBoxCliente);
         groupBoxMercaderiasEnStock.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         groupBoxMercaderiasEnStock.Location = new Point(0, 92);
         groupBoxMercaderiasEnStock.Name = "groupBoxMercaderiasEnStock";
@@ -438,9 +415,29 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxMercaderiasEnStock.TabStop = false;
         groupBoxMercaderiasEnStock.Text = "Mercaderías en Stock";
         // 
+        // labelPrioridad
+        // 
+        labelPrioridad.AutoSize = true;
+        labelPrioridad.Font = new Font("Segoe UI Symbol", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        labelPrioridad.Location = new Point(316, 49);
+        labelPrioridad.Name = "labelPrioridad";
+        labelPrioridad.Size = new Size(226, 17);
+        labelPrioridad.TabIndex = 28;
+        labelPrioridad.Text = "Prioridad de Cliente: {Prioridad}";
+        // 
+        // comboBoxClientes
+        // 
+        comboBoxClientes.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxClientes.FormattingEnabled = true;
+        comboBoxClientes.Location = new Point(7, 45);
+        comboBoxClientes.Name = "comboBoxClientes";
+        comboBoxClientes.Size = new Size(273, 29);
+        comboBoxClientes.TabIndex = 27;
+        comboBoxClientes.SelectedIndexChanged += comboBoxClientes_SelectedIndexChanged;
+        // 
         // listViewMercaderiasEnStock
         // 
-        listViewMercaderiasEnStock.Columns.AddRange(new ColumnHeader[] { columnHeaderDescripcion, columnHeaderUM, columnHeaderCantidadEnStock });
+        listViewMercaderiasEnStock.Columns.AddRange(new ColumnHeader[] { columnHeaderMercaderiaEnStockSKU, columnHeaderMercaderiaEnStockCantidad, columnHeaderMercaderiaEnStockDescripcion });
         listViewMercaderiasEnStock.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listViewMercaderiasEnStock.FullRowSelect = true;
         listViewMercaderiasEnStock.GridLines = true;
@@ -453,20 +450,20 @@ partial class GenerarOrdenDePreparacionForm
         listViewMercaderiasEnStock.UseCompatibleStateImageBehavior = false;
         listViewMercaderiasEnStock.View = View.Details;
         // 
-        // columnHeaderDescripcion
+        // columnHeaderMercaderiaEnStockSKU
         // 
-        columnHeaderDescripcion.Text = "Descripcion";
-        columnHeaderDescripcion.Width = 150;
+        columnHeaderMercaderiaEnStockSKU.Text = "SKU";
+        columnHeaderMercaderiaEnStockSKU.Width = 150;
         // 
-        // columnHeaderUM
+        // columnHeaderMercaderiaEnStockCantidad
         // 
-        columnHeaderUM.Text = "Unidad de Medida";
-        columnHeaderUM.Width = 150;
+        columnHeaderMercaderiaEnStockCantidad.Text = "Tipo de Mercadería";
+        columnHeaderMercaderiaEnStockCantidad.Width = 200;
         // 
-        // columnHeaderCantidadEnStock
+        // columnHeaderMercaderiaEnStockDescripcion
         // 
-        columnHeaderCantidadEnStock.Text = "Cantidad en Stock";
-        columnHeaderCantidadEnStock.Width = 150;
+        columnHeaderMercaderiaEnStockDescripcion.Text = "Cantidad en Stock";
+        columnHeaderMercaderiaEnStockDescripcion.Width = 170;
         // 
         // labelCantidadAPreparar
         // 
@@ -497,11 +494,11 @@ partial class GenerarOrdenDePreparacionForm
         // 
         labelCliente.AutoSize = true;
         labelCliente.Font = new Font("Segoe UI Symbol", 9.75F);
-        labelCliente.Location = new Point(7, 25);
+        labelCliente.Location = new Point(5, 25);
         labelCliente.Name = "labelCliente";
-        labelCliente.Size = new Size(114, 17);
+        labelCliente.Size = new Size(126, 17);
         labelCliente.TabIndex = 16;
-        labelCliente.Text = "Buscar por Cliente";
+        labelCliente.Text = "Seleccionar Cliente *";
         // 
         // textBoxCantidadAPreparar
         // 
@@ -510,18 +507,6 @@ partial class GenerarOrdenDePreparacionForm
         textBoxCantidadAPreparar.Name = "textBoxCantidadAPreparar";
         textBoxCantidadAPreparar.Size = new Size(135, 27);
         textBoxCantidadAPreparar.TabIndex = 3;
-        // 
-        // textBoxCliente
-        // 
-        textBoxCliente.AllowDrop = true;
-        textBoxCliente.CharacterCasing = CharacterCasing.Upper;
-        textBoxCliente.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBoxCliente.Location = new Point(5, 48);
-        textBoxCliente.Name = "textBoxCliente";
-        textBoxCliente.PlaceholderText = " Nombre / Razón Social";
-        textBoxCliente.Size = new Size(186, 27);
-        textBoxCliente.TabIndex = 1;
-        textBoxCliente.TextChanged += textBoxCliente_TextChanged;
         // 
         // label1
         // 
@@ -660,7 +645,7 @@ partial class GenerarOrdenDePreparacionForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(709, 786);
+        ClientSize = new Size(709, 717);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
         Controls.Add(groupBoxOrdenDePreparacion);
@@ -694,17 +679,14 @@ partial class GenerarOrdenDePreparacionForm
     private Label labelTitulo;
     private GroupBox groupBoxOrdenDePreparacion;
     private Label labelCliente;
-    private TextBox textBoxCliente;
     private Button buttonGenerarOrden;
-    private TextBox textBoxObservaciones;
-    private Label labelObservaciones;
     private GroupBox groupBoxMercaderiasEnStock;
     private Label labelCantidadAPreparar;
     private Button buttonEliminar;
     private Button buttonAgregar;
     private TextBox textBoxCantidadAPreparar;
     private ListView listViewMercaderiasEnStock;
-    private ColumnHeader columnHeaderDescripcion;
+    private ColumnHeader columnHeaderMercaderiaEnStockDescripcion;
     private ColumnHeader columnHeaderUM;
     private ColumnHeader columnHeaderCantidadEnStock;
     private Label label1;
@@ -733,7 +715,7 @@ partial class GenerarOrdenDePreparacionForm
     private ListView listViewMercaderiasARetirar;
     private ColumnHeader columnHeaderDescripcionMercaderiaARetirar;
     private ColumnHeader columnHeaderUMMercaderiaARetirar;
-    private ColumnHeader columnHeaderCantidadAPreparar;
+    private ColumnHeader columnHeaderMercaderiaARetirarCantidad;
     private TextBox textBoxNombreTransportista;
     private TextBox textBoxDNITransportista;
     private Label labelNombreTransportista;
@@ -746,4 +728,10 @@ partial class GenerarOrdenDePreparacionForm
     private ErrorProvider errorProviderTransportistaDNI;
     private ErrorProvider errorProviderTransportistaNombre;
     private ErrorProvider errorProviderCantidadAPreparar;
+    private ComboBox comboBoxClientes;
+    private ColumnHeader columnHeaderMercaderiaEnStockSKU;
+    private ColumnHeader columnHeaderMercaderiaEnStockCantidad;
+    private ColumnHeader columnHeaderMercaderiaARetirarSKU;
+    private ColumnHeader columnHeaderMercaderiaARetirarDescripcion;
+    private Label labelPrioridad;
 }

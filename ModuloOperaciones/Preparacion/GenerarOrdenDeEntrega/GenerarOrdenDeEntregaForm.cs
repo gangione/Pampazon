@@ -1,8 +1,7 @@
-﻿using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega;
-using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Dtos;
+﻿using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Dtos;
 using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Utilidades;
 
-namespace Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeEntrega;
+namespace Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega;
 public partial class GenerarOrdenDeEntregaForm : Form
 {
     private GenerarOrdenDeEntregaModel _generarOrdenDeEntregaModel;
@@ -25,7 +24,10 @@ public partial class GenerarOrdenDeEntregaForm : Form
             .ObtenerSiguienteOrdenAEmpaquetar();
 
         if (siguienteOrden is not null)
+        {
             groupBoxOrdenDeSeleccion.Text = $"Orden de Selección N° {siguienteOrden?.Numero}";
+            groupBoxOrdenDeSeleccion.Tag = siguienteOrden?.Numero;
+        }
         else
             groupBoxOrdenDeSeleccion.Text = "Orden de Selección";
 
@@ -41,7 +43,10 @@ public partial class GenerarOrdenDeEntregaForm : Form
         listViewMercaderiasAEmpaquetar.Items.Clear();
 
         if (ordenDeSeleccion is null)
+        {
+            Alerta.MostrarAdvertencia("No existen ordenes pendientes a empaquetar...");
             return;
+        }
 
         if (ordenDeSeleccion?.OrdenesASeleccionar.Count > 0)
         {
@@ -62,8 +67,9 @@ public partial class GenerarOrdenDeEntregaForm : Form
             for (int j = 0; j < mercaderias?.Count; j++)
             {
                 ListViewItem item = new(ordenesDePreparacion[i].Numero.ToString());
+                item.SubItems.Add(mercaderias[j].SKU);
                 item.SubItems.Add(mercaderias[j].Descripcion);
-                item.SubItems.Add(mercaderias[j].Cantidad);
+                item.SubItems.Add(mercaderias[j].Cantidad.ToString());
                 viewItems.Add(item);
             }
         }
@@ -84,29 +90,25 @@ public partial class GenerarOrdenDeEntregaForm : Form
         CargarSiguienteOrdenAPreparar();
     }
 
-    private void buttonEmpaquetar_Click(object sender, EventArgs e)
+    private void buttonConfirmarPreparacion_Click(object sender, EventArgs e)
     {
-        if (listViewMercaderiasAEmpaquetar.SelectedItems.Count == 0)
+        if (listViewMercaderiasAEmpaquetar.Items.Count == 0)
         {
-            Alerta.MostrarAdvertencia("Debe seleccionar una mercadería para empaquetar.");
+            Alerta.MostrarAdvertencia("No hay orden para empaquetar...");
             return;
         }
-        else
+
+        DialogResult confirma = Alerta.PedirConfirmacion("Desea confirmar el empaquetado de la orden?");
+
+        if (confirma == DialogResult.Yes)
         {
-            ListViewItem mercaderiaItemSelected = listViewMercaderiasAEmpaquetar.SelectedItems[0];
+            _generarOrdenDeEntregaModel
+                .ConfirmarEmpaquetado((long)groupBoxOrdenDeSeleccion.Tag);
 
-            string numeroOP = mercaderiaItemSelected.Text;
-            string tipoMercaderia = mercaderiaItemSelected.SubItems[1].Text;
-            string cantidadMercaderia = mercaderiaItemSelected.SubItems[2].Text;
-
-            ListViewItem mercaderiaItem = new(numeroOP);
-            mercaderiaItem.SubItems.Add(tipoMercaderia);
-            mercaderiaItem.SubItems.Add(cantidadMercaderia);
-
-            listViewMercaderiasPreparadas.Items.Add(mercaderiaItem);
-
+            Alerta.MostrarInfo("Se confirmó el empaquetado correctamente.");
+            listViewMercaderiasAEmpaquetar.Items.Clear();
+            CargarSiguienteOrdenAPreparar();
         }
     }
-
     #endregion
 }

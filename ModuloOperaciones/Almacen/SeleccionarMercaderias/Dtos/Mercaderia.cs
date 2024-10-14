@@ -3,8 +3,9 @@
 namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Dtos;
 public class Mercaderia
 {
+    public string SKU { get; set; }
     public string Descripcion { get; set; }
-    public string Cantidad { get; set; }
-    public string Ubicacion { get; set; }
+    public int Cantidad { get; set; }
+    public Ubicacion Ubicacion { get; set; }
     public MercaderiaEstado Estado { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias;
 using Pampazon.ModuloOperaciones.Despacho.GenerarRemito;
-using Pampazon.ModuloOperaciones.Empaquetado.GenerarOrdenDeEntrega;
+using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega;
 using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeSeleccion;
 using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
 

@@ -46,6 +46,7 @@ partial class SeleccionarMercaderiasForm
         columnHeaderOrdenDePreparacionFechaDespacho = new ColumnHeader();
         comboBoxBuscarPorPrioridad = new ComboBox();
         label3 = new Label();
+        columnHeaderMercaderiaSKU = new ColumnHeader();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxOrdenDeSeleccion.SuspendLayout();
         groupBoxMercaderiasASeleccionar.SuspendLayout();
@@ -114,7 +115,7 @@ partial class SeleccionarMercaderiasForm
         // 
         // listViewMercaderiasASeleccionar
         // 
-        listViewMercaderiasASeleccionar.Columns.AddRange(new ColumnHeader[] { columnHeaderSeleccionOrdenDePreparacionNro, columnHeaderSeleccionMercaderia, columnHeaderSeleccionMercaderiaCantidad, columnHeaderSeleccionMercaderiaUbicacion });
+        listViewMercaderiasASeleccionar.Columns.AddRange(new ColumnHeader[] { columnHeaderSeleccionMercaderiaUbicacion, columnHeaderMercaderiaSKU, columnHeaderSeleccionMercaderia, columnHeaderSeleccionMercaderiaCantidad, columnHeaderSeleccionOrdenDePreparacionNro });
         listViewMercaderiasASeleccionar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listViewMercaderiasASeleccionar.FullRowSelect = true;
         listViewMercaderiasASeleccionar.GridLines = true;
@@ -129,13 +130,13 @@ partial class SeleccionarMercaderiasForm
         // 
         // columnHeaderSeleccionOrdenDePreparacionNro
         // 
-        columnHeaderSeleccionOrdenDePreparacionNro.Text = "N° Orden de Preparación";
-        columnHeaderSeleccionOrdenDePreparacionNro.Width = 170;
+        columnHeaderSeleccionOrdenDePreparacionNro.Text = "N° de OP";
+        columnHeaderSeleccionOrdenDePreparacionNro.Width = 80;
         // 
         // columnHeaderSeleccionMercaderia
         // 
         columnHeaderSeleccionMercaderia.Text = "Tipo de Mercadería";
-        columnHeaderSeleccionMercaderia.Width = 160;
+        columnHeaderSeleccionMercaderia.Width = 140;
         // 
         // columnHeaderSeleccionMercaderiaCantidad
         // 
@@ -196,6 +197,11 @@ partial class SeleccionarMercaderiasForm
         label3.TabIndex = 35;
         label3.Text = "Buscar por Prioridad";
         // 
+        // columnHeaderMercaderiaSKU
+        // 
+        columnHeaderMercaderiaSKU.Text = "SKU";
+        columnHeaderMercaderiaSKU.Width = 130;
+        // 
         // SeleccionarMercaderiasForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -235,4 +241,5 @@ partial class SeleccionarMercaderiasForm
     private ColumnHeader columnHeaderSeleccionMercaderia;
     private ColumnHeader columnHeaderSeleccionMercaderiaCantidad;
     private ColumnHeader columnHeaderSeleccionMercaderiaUbicacion;
+    private ColumnHeader columnHeaderMercaderiaSKU;
 }

@@ -79,16 +79,18 @@ public partial class SeleccionarMercaderiasForm : Form
     private static ListViewItem[] ObtenerListViewDetalleDeOrdenDeSeleccion(OrdenDeSeleccion ordenDeSeleccion)
     {
         List<ListViewItem> viewItems = new();
-        var mercaderias = ordenDeSeleccion.MercaderiasASeleccionar;
-        for (int i = 0; i < mercaderias.Count; i++)
+        ordenDeSeleccion.OrdenesDePreparacion.ForEach(op =>
         {
-
-            ListViewItem item = new(ordenDeSeleccion.Numero.ToString());
-            item.SubItems.Add(mercaderias[i].Descripcion);
-            item.SubItems.Add(mercaderias[i].Cantidad);
-            item.SubItems.Add(mercaderias[i].Ubicacion);
-            viewItems.Add(item);
-        }
+            op.MercaderiasAPreparar?.ForEach(m =>
+            {
+                ListViewItem item = new(m.Ubicacion.ToString());
+                item.SubItems.Add(m.SKU);
+                item.SubItems.Add(m.Descripcion);
+                item.SubItems.Add(m.Cantidad.ToString());
+                item.SubItems.Add(op.Numero.ToString());
+                viewItems.Add(item);
+            });
+        });
         return viewItems.ToArray();
     }
 
@@ -107,8 +109,6 @@ public partial class SeleccionarMercaderiasForm : Form
 
     private void buttonConfirmarSeleccion_Click(object sender, EventArgs e)
     {
-        // Mostrar un MessageBox de confirmación
-
         if (listViewOrdenesDeSeleccionPendientes.SelectedItems.Count == 0)
             Alerta.MostrarAdvertencia("Debe seleccionar una orden de selección pendiente para confirmar.");
         else
@@ -117,21 +117,34 @@ public partial class SeleccionarMercaderiasForm : Form
             var ordenDeSeleccion = _seleccionarMercaderiasModel
                 .ObtenerOrdenDeSeleccionPorNumero(long.Parse(osSeleccionada.Text));
 
-            var mercaderias = ordenDeSeleccion.MercaderiasASeleccionar;
+
+            List<Mercaderia> mercaderias = new();
+            ordenDeSeleccion.OrdenesDePreparacion.ForEach(op =>
+            {
+                mercaderias.AddRange(op.MercaderiasAPreparar);
+            });
+
             string mensajeConfirmacion = "¿Confirma la selección de las siguientes mercaderías?\n\n";
             for (int i = 0; i < mercaderias.Count; i++)
             {
                 mensajeConfirmacion += $"{mercaderias[i].Cantidad} de {mercaderias[i].Descripcion}\n";
             }
 
-            DialogResult resultado = Alerta
+            DialogResult confirma = Alerta
                 .PedirConfirmacion(mensajeConfirmacion);
 
-            if (resultado == DialogResult.Yes)
+            if (confirma == DialogResult.Yes)
             {
-                Alerta.MostrarInfo("Seleccion Confirmada.\n\n"
-                    + "Se ha realizado la baja del Stock seleccionado.");
-                CargarFormulario();
+                var resultado = _seleccionarMercaderiasModel
+                    .ConfirmarSeleccion(long.Parse(osSeleccionada.Text));
+
+                if (resultado.Exitoso)
+                {
+                    Alerta.MostrarInfo(resultado.Mensaje);
+                    CargarFormulario();
+                }
+                else
+                    Alerta.MostrarError(resultado.Mensaje);
             }
 
         }

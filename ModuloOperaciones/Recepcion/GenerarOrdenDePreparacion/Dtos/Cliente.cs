@@ -1,13 +1,15 @@
-﻿namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Dtos;
+﻿using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Enums;
+
+namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Dtos;
 
 public class Cliente
 {
     public long Numero { get; set; }
     public string Nombre { get; set; }
-    public string Cuit { get; set; }
-    public override bool Equals(object obj)
+    public Prioridad Prioridad { get; set; }
+
+    public override string ToString()
     {
-        Cliente cliente = obj as Cliente;
-        return cliente.Numero == Numero;
+        return Nombre;
     }
 }

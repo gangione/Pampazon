@@ -1,4 +1,4 @@
-﻿namespace Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Utilidades;
+﻿namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Utilidades;
 
 public class Resultado<T>
 {

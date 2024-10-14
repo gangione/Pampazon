@@ -14,7 +14,7 @@ public class GenerarOrdenDeEntregaModel
                 Numero = 1,
                 Prioridad = Prioridad.Alta,
                 FechaADespachar = DateTime.Now.AddDays(1),
-                Estado = OrdenDeSeleccionEstado.Cumplida,
+                Estado = OrdenDeSeleccionEstado.APreparar,
                 OrdenesASeleccionar = new()
                 {
                     new()
@@ -24,23 +24,23 @@ public class GenerarOrdenDeEntregaModel
                         {
                             new ()
                             {
+                                SKU = "AA-10",
                                 Descripcion = "Cemento",
-                                Cantidad = "50 bolsas",
-                                Ubicacion = "12-43-2",
+                                Cantidad = 50,
                                 Estado = MercaderiaEstado.EnPreparacion
                             },
                             new ()
                             {
+                                SKU = "AB-20",
                                 Descripcion = "Arena",
-                                Cantidad = "150 bolsas",
-                                Ubicacion = "12-43-2",
+                                Cantidad = 150,
                                 Estado = MercaderiaEstado.EnPreparacion
                             },
                             new ()
                             {
+                                SKU = "AC-30",
                                 Descripcion = "Ladrillos",
-                                Cantidad = "500 unidades",
-                                Ubicacion = "12-43-2",
+                                Cantidad = 500,
                                 Estado = MercaderiaEstado.EnPreparacion
                             }
                         }
@@ -53,9 +53,27 @@ public class GenerarOrdenDeEntregaModel
     public OrdenDeSeleccion? ObtenerSiguienteOrdenAEmpaquetar()
     {
         return _ordenesDeSeleccion
-            .Where(os => os.Estado == OrdenDeSeleccionEstado.Cumplida)
+            .Where(os => os.Estado == OrdenDeSeleccionEstado.APreparar)
             .OrderBy(os => os.Prioridad)
             .OrderByDescending(os => os.FechaADespachar)
             .FirstOrDefault();
+    }
+    public void ConfirmarEmpaquetado(long numeroOrdenSeleccion)
+    {
+        _ordenesDeSeleccion.ForEach(os =>
+        {
+            if (os.Numero == numeroOrdenSeleccion)
+            {
+                os.Estado = OrdenDeSeleccionEstado.Cumplida;
+                os.OrdenesASeleccionar.ForEach(op =>
+                {
+                    op.Estado = OrdenDePreparacionEstado.Preparada;
+                    op.MercaderiasAPreparar?.ForEach(m =>
+                    {
+                        m.Estado = MercaderiaEstado.EnDespacho;
+                    });
+                });
+            }
+        });
     }
 }
