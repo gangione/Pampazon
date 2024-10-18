@@ -35,18 +35,14 @@ partial class GenerarRemitoForm
         columnOrdenDePreparacionCliente = new ColumnHeader();
         columnHeaderOrdenDePrepracionMercaderiaCantidad = new ColumnHeader();
         listViewOrdenesDePreparacionPreparadas = new ListView();
+        columnHeaderMercaderiaSKU = new ColumnHeader();
         buttonGenerarOrden = new Button();
         groupBoxRemito = new GroupBox();
-        groupBoxTransportista = new GroupBox();
-        labelDNITransportista = new Label();
-        labelNombreTransportista = new Label();
-        textBoxDNITransportista = new TextBox();
-        textBoxNombreTransportista = new TextBox();
+        comboBoxTransportistas = new ComboBox();
+        labelTransportista = new Label();
         groupBoxOrdenesDePreparacion = new GroupBox();
-        columnHeaderMercaderiaSKU = new ColumnHeader();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxRemito.SuspendLayout();
-        groupBoxTransportista.SuspendLayout();
         groupBoxOrdenesDePreparacion.SuspendLayout();
         SuspendLayout();
         // 
@@ -96,10 +92,15 @@ partial class GenerarRemitoForm
         listViewOrdenesDePreparacionPreparadas.Location = new Point(7, 28);
         listViewOrdenesDePreparacionPreparadas.MultiSelect = false;
         listViewOrdenesDePreparacionPreparadas.Name = "listViewOrdenesDePreparacionPreparadas";
-        listViewOrdenesDePreparacionPreparadas.Size = new Size(663, 261);
+        listViewOrdenesDePreparacionPreparadas.Size = new Size(663, 379);
         listViewOrdenesDePreparacionPreparadas.TabIndex = 24;
         listViewOrdenesDePreparacionPreparadas.UseCompatibleStateImageBehavior = false;
         listViewOrdenesDePreparacionPreparadas.View = View.Details;
+        // 
+        // columnHeaderMercaderiaSKU
+        // 
+        columnHeaderMercaderiaSKU.Text = "SKU";
+        columnHeaderMercaderiaSKU.Width = 150;
         // 
         // buttonGenerarOrden
         // 
@@ -108,7 +109,7 @@ partial class GenerarRemitoForm
         buttonGenerarOrden.FlatStyle = FlatStyle.Flat;
         buttonGenerarOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonGenerarOrden.ForeColor = Color.White;
-        buttonGenerarOrden.Location = new Point(472, 434);
+        buttonGenerarOrden.Location = new Point(484, 577);
         buttonGenerarOrden.Name = "buttonGenerarOrden";
         buttonGenerarOrden.Size = new Size(199, 47);
         buttonGenerarOrden.TabIndex = 40;
@@ -118,98 +119,63 @@ partial class GenerarRemitoForm
         // 
         // groupBoxRemito
         // 
-        groupBoxRemito.Controls.Add(buttonGenerarOrden);
-        groupBoxRemito.Controls.Add(groupBoxTransportista);
+        groupBoxRemito.Controls.Add(comboBoxTransportistas);
+        groupBoxRemito.Controls.Add(labelTransportista);
         groupBoxRemito.Controls.Add(groupBoxOrdenesDePreparacion);
         groupBoxRemito.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-        groupBoxRemito.Location = new Point(12, 62);
+        groupBoxRemito.Location = new Point(12, 75);
         groupBoxRemito.Name = "groupBoxRemito";
-        groupBoxRemito.Size = new Size(671, 481);
+        groupBoxRemito.Size = new Size(671, 549);
         groupBoxRemito.TabIndex = 41;
         groupBoxRemito.TabStop = false;
         groupBoxRemito.Text = "Remito";
         // 
-        // groupBoxTransportista
+        // comboBoxTransportistas
         // 
-        groupBoxTransportista.Controls.Add(labelDNITransportista);
-        groupBoxTransportista.Controls.Add(labelNombreTransportista);
-        groupBoxTransportista.Controls.Add(textBoxDNITransportista);
-        groupBoxTransportista.Controls.Add(textBoxNombreTransportista);
-        groupBoxTransportista.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        groupBoxTransportista.Location = new Point(0, 28);
-        groupBoxTransportista.Name = "groupBoxTransportista";
-        groupBoxTransportista.Size = new Size(671, 91);
-        groupBoxTransportista.TabIndex = 40;
-        groupBoxTransportista.TabStop = false;
-        groupBoxTransportista.Text = "Transportista";
+        comboBoxTransportistas.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxTransportistas.FormattingEnabled = true;
+        comboBoxTransportistas.Location = new Point(7, 54);
+        comboBoxTransportistas.Name = "comboBoxTransportistas";
+        comboBoxTransportistas.Size = new Size(273, 29);
+        comboBoxTransportistas.TabIndex = 43;
+        comboBoxTransportistas.SelectedIndexChanged += comboBoxTransportistas_SelectedIndexChanged;
         // 
-        // labelDNITransportista
+        // labelTransportista
         // 
-        labelDNITransportista.AutoSize = true;
-        labelDNITransportista.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelDNITransportista.Location = new Point(221, 36);
-        labelDNITransportista.Name = "labelDNITransportista";
-        labelDNITransportista.Size = new Size(40, 15);
-        labelDNITransportista.TabIndex = 16;
-        labelDNITransportista.Text = "DNI *";
-        // 
-        // labelNombreTransportista
-        // 
-        labelNombreTransportista.AutoSize = true;
-        labelNombreTransportista.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Bold);
-        labelNombreTransportista.Location = new Point(7, 36);
-        labelNombreTransportista.Name = "labelNombreTransportista";
-        labelNombreTransportista.Size = new Size(132, 15);
-        labelNombreTransportista.TabIndex = 14;
-        labelNombreTransportista.Text = "Nombre y apellido *";
-        // 
-        // textBoxDNITransportista
-        // 
-        textBoxDNITransportista.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBoxDNITransportista.Location = new Point(220, 59);
-        textBoxDNITransportista.Name = "textBoxDNITransportista";
-        textBoxDNITransportista.Size = new Size(186, 27);
-        textBoxDNITransportista.TabIndex = 5;
-        // 
-        // textBoxNombreTransportista
-        // 
-        textBoxNombreTransportista.CharacterCasing = CharacterCasing.Upper;
-        textBoxNombreTransportista.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBoxNombreTransportista.Location = new Point(7, 59);
-        textBoxNombreTransportista.Name = "textBoxNombreTransportista";
-        textBoxNombreTransportista.Size = new Size(186, 27);
-        textBoxNombreTransportista.TabIndex = 4;
+        labelTransportista.AutoSize = true;
+        labelTransportista.Font = new Font("Segoe UI Symbol", 9.75F);
+        labelTransportista.Location = new Point(5, 34);
+        labelTransportista.Name = "labelTransportista";
+        labelTransportista.Size = new Size(164, 17);
+        labelTransportista.TabIndex = 42;
+        labelTransportista.Text = "Seleccionar Transportista *";
         // 
         // groupBoxOrdenesDePreparacion
         // 
         groupBoxOrdenesDePreparacion.Controls.Add(listViewOrdenesDePreparacionPreparadas);
-        groupBoxOrdenesDePreparacion.Location = new Point(0, 125);
+        groupBoxOrdenesDePreparacion.Location = new Point(0, 89);
         groupBoxOrdenesDePreparacion.Name = "groupBoxOrdenesDePreparacion";
-        groupBoxOrdenesDePreparacion.Size = new Size(670, 289);
+        groupBoxOrdenesDePreparacion.Size = new Size(670, 420);
         groupBoxOrdenesDePreparacion.TabIndex = 41;
         groupBoxOrdenesDePreparacion.TabStop = false;
-        groupBoxOrdenesDePreparacion.Text = "Ordenes de Preparación Preparadas";
-        // 
-        // columnHeaderMercaderiaSKU
-        // 
-        columnHeaderMercaderiaSKU.Text = "SKU";
-        columnHeaderMercaderiaSKU.Width = 150;
+        groupBoxOrdenesDePreparacion.Text = "Ordenes de Preparación a entregar";
         // 
         // GenerarRemitoForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(699, 563);
+        ClientSize = new Size(699, 636);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
+        Controls.Add(buttonGenerarOrden);
         Controls.Add(groupBoxRemito);
         Name = "GenerarRemitoForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Remito";
+        Load += GenerarRemitoForm_Load;
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
         groupBoxRemito.ResumeLayout(false);
-        groupBoxTransportista.ResumeLayout(false);
-        groupBoxTransportista.PerformLayout();
+        groupBoxRemito.PerformLayout();
         groupBoxOrdenesDePreparacion.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
@@ -225,11 +191,8 @@ partial class GenerarRemitoForm
     private ListView listViewOrdenesDePreparacionPreparadas;
     private Button buttonGenerarOrden;
     private GroupBox groupBoxRemito;
-    private GroupBox groupBoxTransportista;
-    private Label labelDNITransportista;
-    private Label labelNombreTransportista;
-    private TextBox textBoxDNITransportista;
-    private TextBox textBoxNombreTransportista;
     private GroupBox groupBoxOrdenesDePreparacion;
     private ColumnHeader columnHeaderMercaderiaSKU;
+    private ComboBox comboBoxTransportistas;
+    private Label labelTransportista;
 }
