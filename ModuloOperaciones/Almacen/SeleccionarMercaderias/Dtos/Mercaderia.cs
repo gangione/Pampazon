@@ -8,4 +8,5 @@ public class Mercaderia
     public int Cantidad { get; set; }
     public Ubicacion Ubicacion { get; set; }
     public MercaderiaEstado Estado { get; set; }
+    public int NroOrdenDePreparacion { get; set; }
 }

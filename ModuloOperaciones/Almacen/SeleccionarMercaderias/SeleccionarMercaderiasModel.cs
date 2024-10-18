@@ -30,15 +30,17 @@ public class SeleccionarMercaderiasModel
                                 Descripcion = "Cemento",
                                 Cantidad = 50,
                                 Ubicacion = new Ubicacion(1,1,1),
-                                Estado = MercaderiaEstado.ASeleccionar
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 1
                             },
                             new ()
                             {
                                 SKU = "AB-20",
                                 Descripcion = "Ladrillos",
                                 Cantidad = 450,
-                                Ubicacion = new Ubicacion(1,1,1),
-                                Estado = MercaderiaEstado.ASeleccionar
+                                Ubicacion = new Ubicacion(1,2,1),
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 1
                             },
                             new ()
                             {
@@ -46,31 +48,70 @@ public class SeleccionarMercaderiasModel
                                 Descripcion = "Ladrillos",
                                 Cantidad = 50,
                                 Ubicacion = new Ubicacion(1,1,2),
-                                Estado = MercaderiaEstado.ASeleccionar
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 1
                             },
                             new ()
                             {
                                 SKU = "AC-30",
                                 Descripcion = "Arena",
                                 Cantidad = 25,
-                                Ubicacion = new Ubicacion(1,1,2),
-                                Estado = MercaderiaEstado.ASeleccionar
+                                Ubicacion = new Ubicacion(1,2,1),
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 1
                             },
                             new ()
                             {
                                 SKU = "AC-30",
                                 Descripcion = "Arena",
                                 Cantidad = 25,
-                                Ubicacion = new Ubicacion(1,1,2),
-                                Estado = MercaderiaEstado.ASeleccionar
+                                Ubicacion = new Ubicacion(1,2,1),
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 1
+                            }
+                        }
+                    },
+                    new()
+                    {
+                        Numero = 2,
+                        Estado = OrdenDePreparacionEstado.EnSeleccion,
+                        MercaderiasAPreparar = new()
+                        {
+                            new ()
+                            {
+                                SKU = "BA-10",
+                                Descripcion = "Zapatillas",
+                                Cantidad = 50,
+                                Ubicacion = new Ubicacion(1,2,1),
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 2
                             },
                             new ()
                             {
-                                SKU = "AC-30",
-                                Descripcion = "Arena",
-                                Cantidad = 100,
-                                Ubicacion = new Ubicacion(1,1,3),
-                                Estado = MercaderiaEstado.ASeleccionar
+                                SKU = "BA-10",
+                                Descripcion = "Zapatillas",
+                                Cantidad = 50,
+                                Ubicacion = new Ubicacion(1,2,2),
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 2
+                            },
+                            new ()
+                            {
+                                SKU = "BA-20",
+                                Descripcion = "Remeras",
+                                Cantidad = 50,
+                                Ubicacion = new Ubicacion(1,2,1),
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 2
+                            },
+                            new ()
+                            {
+                                SKU = "BA-20",
+                                Descripcion = "Remeras",
+                                Cantidad = 50,
+                                Ubicacion = new Ubicacion(1,2,2),
+                                Estado = MercaderiaEstado.ASeleccionar,
+                                NroOrdenDePreparacion = 2
                             }
                         }
                     }
@@ -88,10 +129,35 @@ public class SeleccionarMercaderiasModel
             .ToList();
     }
 
-    public OrdenDeSeleccion ObtenerOrdenDeSeleccionPorNumero(long numero)
+    public List<OrdenDeSeleccion> ObtenerOrdenesDeSeleccionPendientePorPrioridad(Prioridad? prioridad)
     {
         return _ordenesDeSeleccion
+            .Where(os => os.Prioridad == prioridad)
+            .OrderByDescending(os => os.FechaADespachar)
+            .ToList();
+    }
+
+    public List<Mercaderia> ObtenerMercaderiasPorNumeroDeSeleccion(long numero)
+    {
+        var ordenDeSeleccion = _ordenesDeSeleccion
             .First(os => os.Numero == numero);
+
+        var ordenesDePreparacion = ordenDeSeleccion.OrdenesDePreparacion;
+
+        List<Mercaderia> mercaderiasAgrupadas = new();
+        foreach (var op in ordenesDePreparacion)
+        {
+            if (op.MercaderiasAPreparar is not null)
+                mercaderiasAgrupadas.AddRange(op.MercaderiasAPreparar);
+        }
+
+        return mercaderiasAgrupadas
+                .OrderBy(m => m.Ubicacion.Sector)
+                .ThenBy(m => m.Ubicacion.Posicion)
+                .ThenBy(m => m.Ubicacion.Fila)
+                .GroupBy(m => m.Ubicacion.ToString())
+                .SelectMany(grupo => grupo)
+                .ToList();
     }
 
     public Resultado<bool> ConfirmarSeleccion(long nroOrdenSeleccion)

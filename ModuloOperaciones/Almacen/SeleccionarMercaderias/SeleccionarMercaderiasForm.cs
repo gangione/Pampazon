@@ -17,15 +17,12 @@ public partial class SeleccionarMercaderiasForm : Form
     {
         comboBoxBuscarPorPrioridad.SelectedIndex = -1;
         comboBoxBuscarPorPrioridad.Items.Clear();
+        comboBoxBuscarPorPrioridad.Items.Add(string.Empty);
         comboBoxBuscarPorPrioridad.Items.AddRange(Enum.GetNames(typeof(Prioridad)));
 
         CargarListadoOrdenesPendientes();
         listViewMercaderiasASeleccionar.Items.Clear();
     }
-
-    #endregion
-
-    #region Filtros
 
     #endregion
 
@@ -36,10 +33,10 @@ public partial class SeleccionarMercaderiasForm : Form
         var ordenesPendientes = _seleccionarMercaderiasModel
             .ObtenerOrdenesDeSeleccionPendiente();
 
-        listViewOrdenesDeSeleccionPendientes.Items.AddRange(ObtenerListViewOrdenesDePreparacion(ordenesPendientes));
+        listViewOrdenesDeSeleccionPendientes.Items.AddRange(ObtenerListViewOrdenesDeSeleccion(ordenesPendientes));
     }
 
-    private static ListViewItem[] ObtenerListViewOrdenesDePreparacion(List<OrdenDeSeleccion> ordenes)
+    private static ListViewItem[] ObtenerListViewOrdenesDeSeleccion(List<OrdenDeSeleccion> ordenes)
     {
         List<ListViewItem> viewItems = new();
         for (int i = 0; i < ordenes.Count; i++)
@@ -63,11 +60,11 @@ public partial class SeleccionarMercaderiasForm : Form
             ListViewItem osSeleccionada = listViewOrdenesDeSeleccionPendientes.SelectedItems[0];
 
             listViewMercaderiasASeleccionar.Items.Clear();
-            var ordenDeSeleccion = _seleccionarMercaderiasModel
-                .ObtenerOrdenDeSeleccionPorNumero(long.Parse(osSeleccionada.Text));
+            var ordenesDePreparacion = _seleccionarMercaderiasModel
+                .ObtenerMercaderiasPorNumeroDeSeleccion(long.Parse(osSeleccionada.Text));
 
             listViewMercaderiasASeleccionar.Items
-                .AddRange(ObtenerListViewDetalleDeOrdenDeSeleccion(ordenDeSeleccion));
+                .AddRange(ObtenerListViewDetalleDeOrdenDeSeleccion(ordenesDePreparacion));
         }
         else
         {
@@ -76,21 +73,19 @@ public partial class SeleccionarMercaderiasForm : Form
 
     }
 
-    private static ListViewItem[] ObtenerListViewDetalleDeOrdenDeSeleccion(OrdenDeSeleccion ordenDeSeleccion)
+    private static ListViewItem[] ObtenerListViewDetalleDeOrdenDeSeleccion(List<Mercaderia> mercaderias)
     {
         List<ListViewItem> viewItems = new();
-        ordenDeSeleccion.OrdenesDePreparacion.ForEach(op =>
+        mercaderias.ForEach(m =>
         {
-            op.MercaderiasAPreparar?.ForEach(m =>
-            {
-                ListViewItem item = new(m.Ubicacion.ToString());
-                item.SubItems.Add(m.SKU);
-                item.SubItems.Add(m.Descripcion);
-                item.SubItems.Add(m.Cantidad.ToString());
-                item.SubItems.Add(op.Numero.ToString());
-                viewItems.Add(item);
-            });
+            ListViewItem item = new(m.Ubicacion.ToString());
+            item.SubItems.Add(m.Cantidad.ToString());
+            item.SubItems.Add(m.SKU);
+            item.SubItems.Add(m.Descripcion);
+            item.SubItems.Add(m.NroOrdenDePreparacion.ToString());
+            viewItems.Add(item);
         });
+
         return viewItems.ToArray();
     }
 
@@ -102,6 +97,38 @@ public partial class SeleccionarMercaderiasForm : Form
         CargarFormulario();
     }
 
+    private void buttonBuscar_Click(object sender, EventArgs e)
+    {
+        Prioridad? prioridad = null;
+        if (comboBoxBuscarPorPrioridad.Text != string.Empty)
+        {
+            var prioridadSeleccionada = comboBoxBuscarPorPrioridad.Text;
+
+            if (prioridadSeleccionada is not null)
+                prioridad = (Prioridad)Enum.Parse(typeof(Prioridad), prioridadSeleccionada);
+        }
+
+        if (prioridad is null)
+        {
+            var ordenesDeSeleccion = _seleccionarMercaderiasModel
+                .ObtenerOrdenesDeSeleccionPendiente();
+
+            listViewOrdenesDeSeleccionPendientes.Items.Clear();
+
+            listViewOrdenesDeSeleccionPendientes.Items
+                .AddRange(ObtenerListViewOrdenesDeSeleccion(ordenesDeSeleccion));
+        }
+        else
+        {
+            var ordenesDeSeleccion = _seleccionarMercaderiasModel
+                .ObtenerOrdenesDeSeleccionPendientePorPrioridad(prioridad);
+
+            listViewOrdenesDeSeleccionPendientes.Items.Clear();
+
+            listViewOrdenesDeSeleccionPendientes.Items
+                .AddRange(ObtenerListViewOrdenesDeSeleccion(ordenesDeSeleccion));
+        }
+    }
     private void listViewOrdenesDeSeleccionPendientes_SelectedIndexChanged(object sender, EventArgs e)
     {
         CargarDetalleDeOrdenDeSeleccion();
@@ -114,20 +141,14 @@ public partial class SeleccionarMercaderiasForm : Form
         else
         {
             ListViewItem osSeleccionada = listViewOrdenesDeSeleccionPendientes.SelectedItems[0];
-            var ordenDeSeleccion = _seleccionarMercaderiasModel
-                .ObtenerOrdenDeSeleccionPorNumero(long.Parse(osSeleccionada.Text));
+            List<Mercaderia> mercaderias = _seleccionarMercaderiasModel
+                .ObtenerMercaderiasPorNumeroDeSeleccion(long.Parse(osSeleccionada.Text));
 
-
-            List<Mercaderia> mercaderias = new();
-            ordenDeSeleccion.OrdenesDePreparacion.ForEach(op =>
-            {
-                mercaderias.AddRange(op.MercaderiasAPreparar);
-            });
-
-            string mensajeConfirmacion = "¿Confirma la selección de las siguientes mercaderías?\n\n";
+            string mensajeConfirmacion = "¿Confirma la selección de las siguientes mercaderías?\n\n"
+                + "Ubicacion\tCantidad\n";
             for (int i = 0; i < mercaderias.Count; i++)
             {
-                mensajeConfirmacion += $"{mercaderias[i].Cantidad} de {mercaderias[i].Descripcion}\n";
+                mensajeConfirmacion += $"{mercaderias[i].Ubicacion}\t\t{mercaderias[i].Cantidad}\n";
             }
 
             DialogResult confirma = Alerta
