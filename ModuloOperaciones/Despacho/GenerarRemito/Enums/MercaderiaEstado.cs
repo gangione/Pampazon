@@ -1,4 +1,4 @@
-﻿namespace Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Enums;
+﻿namespace Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Enums;
 public enum MercaderiaEstado
 {
     EnRecepcion,

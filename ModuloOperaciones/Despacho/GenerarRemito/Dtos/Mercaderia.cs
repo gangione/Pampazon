@@ -1,4 +1,6 @@
-﻿namespace Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Dtos;
+﻿using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Enums;
+
+namespace Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Dtos;
 public class Mercaderia
 {
     public string SKU { get; set; }
