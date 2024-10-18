@@ -2,6 +2,7 @@
 public enum OrdenDePreparacionEstado
 {
     Pendiente,
+    EnSeleccion,
     EnPreparacion,
     Preparada,
     Despachada
