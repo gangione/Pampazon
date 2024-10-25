@@ -162,6 +162,8 @@ public class GenerarOrdenDePreparacionModel
             Numero = numeroOrden,
             Fecha = DateTime.Now,
             FechaDeDespacho = orden.FechaDeDespacho,
+            Cliente = orden.Cliente,
+            Transportista = orden.Transportista,
             Estado = OrdenDePreparacionEstado.Pendiente,
             MercaderiasAPreparar = orden.MercaderiasAPreparar
         };

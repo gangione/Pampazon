@@ -287,7 +287,12 @@ public partial class GenerarOrdenDePreparacionForm : Form
                 return;
             }
 
-            Cliente? cliente = comboBoxClientes.SelectedItem as Cliente;
+            Cliente cliente = comboBoxClientes.SelectedItem as Cliente ?? new();
+            Transportista transportista = new()
+            {
+                NombreYApellido = textBoxNombreTransportista.Text,
+                DNI = textBoxDNITransportista.Text,
+            };
             List<Mercaderia> mercaderias = new();
             foreach (ListViewItem item in listViewMercaderiasARetirar.Items)
             {
@@ -304,6 +309,8 @@ public partial class GenerarOrdenDePreparacionForm : Form
             var resultado = _ordenDePreparacionModel
                 .GenerarOrdenDePreparacion(new OrdenDePreparacion()
                 {
+                    Cliente = cliente,
+                    Transportista = transportista,
                     FechaDeDespacho = DateTime.Parse(textBoxFechaADespachar.Text),
                     MercaderiasAPreparar = mercaderias
                 });
