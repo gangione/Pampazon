@@ -6,20 +6,18 @@ public static class MercaderiaEnStockAlmacen
     private static List<MercaderiaEnStockEnt> _mercaderias = new();
     public static IReadOnlyCollection<MercaderiaEnStockEnt> Mercaderias => _mercaderias.AsReadOnly();
 
-    public static void Guardar()
+    public static void Grabar()
     {
-        //pasar la lista de personas a un formato llamado JSON.
-        //básicamente es transformar la lista en un string muy muy grande
-        //con los datos de todas las personas.
+
         var datos = JsonSerializer.Serialize(_mercaderias);
 
-        //Grabarlo en disco:
+
         File.WriteAllText("MercaderiasEnStock.json", datos);
     }
 
-    public static void Obtener()
+    public static void Leer()
     {
-        if (!File.Exists("MercaderiasEnStock.json")) //si el archivo no existe no tengo nada que hacer.
+        if (!File.Exists("MercaderiasEnStock.json"))
         {
             return;
         }
