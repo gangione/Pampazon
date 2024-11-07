@@ -1,3 +1,20 @@
 ﻿{
+  [
+    {
+      "Numero" :  1,
+      "DNI": "12123123",
+      "NombreYApellido": "Ricardo"
+    },
+    {
+      "Numero": 2,
+      "DNI": "22222222",
+      "NombreYApellido": "Juan Pablo"
+    },
+    {
+      "Numero": 3,
+      "DNI": "33333333",
+      "NombreYApellido": "Juan Ignacio"
+    }
 
+  ]
 }

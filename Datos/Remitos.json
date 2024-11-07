@@ -1,3 +1,19 @@
 ﻿{
+  {
+    "NumeroRemito": 1,
+    "NumeroTransportista": 1,
+    "OrdenesDePreparacion": [ 1 ]
+  },
 
+  {
+    "NumeroRemito": 2,
+    "NumeroTransportista": 2,
+    "OrdenesDePreparacion": [ 2 ]
+  },
+
+  {
+    "NumeroRemito": 3,
+    "NumeroTransportista": 3,
+    "OrdenesDePreparacion": [ 3 ]
+  }
 }

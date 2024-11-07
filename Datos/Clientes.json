@@ -1,3 +1,20 @@
 {
+  [
+    {
+      "Numero": 1,
+      "Nombre": "Mercadito S.A",
+      "Prioridad": "Alta"
+    },
+    {
+      "Numero": 2,
+      "Nombre": "Empresa S.A",
+      "Prioridad": "Baja"
+    },
 
+    {
+      "Numero": 1,
+      "Nombre": "Lopez S.A",
+      "Prioridad": "Alta"
+    }
+  ]
 }

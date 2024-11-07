@@ -1,3 +1,35 @@
 ﻿{
-
+  [
+    {
+      "NumeroOP": 1,
+      "Prioridad": "Alta",
+      "FechaADespachar": "2024-11-07T00:00:00",
+      "Estado": "APreparar",
+      "OrdenesASeleccionar": [
+        {
+          "Numero": 1,
+          "MercaderiasAPreparar": [
+            {
+              "SKU": "AA-10",
+              "Descripcion": "Cemento",
+              "Cantidad": 50,
+              "Estado": "EnPreparacion"
+            },
+            {
+              "SKU": "AB-20",
+              "Descripcion": "Arena",
+              "Cantidad": 150,
+              "Estado": "EnPreparacion"
+            },
+            {
+              "SKU": "AC-30",
+              "Descripcion": "Ladrillos",
+              "Cantidad": 500,
+              "Estado": "EnPreparacion"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
