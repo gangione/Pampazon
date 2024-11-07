@@ -26,4 +26,5 @@ public static class OrdenDeEntregaAlmacen
         _ordenesDeEntrega = JsonSerializer.Deserialize<List<OrdenDeEntregaEnt>>(datos)!;
     }
 
+
 }
