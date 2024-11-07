@@ -28,4 +28,6 @@ public static class MercaderiaEnStockAlmacen
 
         _mercaderias = JsonSerializer.Deserialize<List<MercaderiaEnStockEnt>>(datos)!;
     }
+
+    
 }
