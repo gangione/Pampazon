@@ -1,17 +1,17 @@
 ﻿[
   {
     "NumeroTransportista": 1,
-    "NombreYApellido": "Ricardo",
+    "NombreApellido": "Ricardo",
     "DNI": "12123123"
   },
   {
     "NumeroTransportista": 2,
-    "NombreYApellido": "Juan Pablo",
+    "NombreApellido": "Juan Pablo",
     "DNI": "22222222"
   },
   {
     "NumeroTransportista": 3,
-    "NombreYApellido": "Juan Ignacio",
+    "NombreApellido": "Juan Ignacio",
     "DNI": "33333333"
   }
 ]
