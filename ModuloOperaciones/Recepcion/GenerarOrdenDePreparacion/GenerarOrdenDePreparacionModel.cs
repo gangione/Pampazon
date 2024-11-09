@@ -24,23 +24,6 @@ public class GenerarOrdenDePreparacionModel
             })
             .ToList();
     }
-    public List<Cliente> ObtenerClientesPorFiltro(string filtro)
-    {
-        return ClienteAlmacen.Clientes
-            .Select(cliente =>
-            {
-                return new Cliente()
-                {
-                    Numero = cliente.NumeroCliente,
-                    Nombre = cliente.RazonSocial,
-                    Prioridad = Enum.Parse<Prioridad>(cliente.Prioridad.ToString()),
-                };
-            })
-            .Where(cliente => cliente.Nombre.ToString().Contains(
-                filtro, StringComparison.CurrentCultureIgnoreCase
-            ))
-            .ToList();
-    }
     public List<Transportista> ObtenerTransportistas()
     {
         return TransportistaAlmacen.Transportistas
@@ -103,14 +86,16 @@ public class GenerarOrdenDePreparacionModel
 
         return mercaderiasDisponibles;
     }
-    public Resultado<bool> GenerarOrdenDePreparacion(OrdenDePreparacion orden)
+    public Resultado<OrdenDePreparacionEnt> GenerarOrdenDePreparacion(OrdenDePreparacion orden)
     {
+        var ordenDePreparacion = new OrdenDePreparacionEnt();
+
         // 1. Verificar si la fecha a despachar que el cliente desea es > a hoy.
         if (orden.FechaDeDespacho < DateTime.Now)
-            return new Resultado<bool>(
+            return new Resultado<OrdenDePreparacionEnt>(
                 false,
                 "La fecha a despachar ingresada debe ser mayor o igual al día de hoy.",
-                false
+                ordenDePreparacion
             );
 
         // 2. Verificar si el cliente tiene suficiente stock de Mercaderías.
@@ -124,10 +109,10 @@ public class GenerarOrdenDePreparacionModel
                 .First(m => m.SKU == mercaderiaSolicitada.SKU);
 
                 if (mercaderiaSolicitada.Cantidad > mercaderiaEnStock.Cantidad)
-                    return new Resultado<bool>(
+                    return new Resultado<OrdenDePreparacionEnt>(
                         false,
                         "La cantidad a retirar no puede superar a la cantidad en Stock.",
-                        false
+                        ordenDePreparacion
                     );
             }
         }
@@ -140,18 +125,12 @@ public class GenerarOrdenDePreparacionModel
 
         if (transportista is null)
         {
-            int numeroTransportista = TransportistaAlmacen
-                .Transportistas.LastOrDefault() is null ? 1 :
-            TransportistaAlmacen.Transportistas.Last().NumeroTransportista + 1;
-
-            transportista = new TransportistaEnt()
-            {
-                NumeroTransportista = numeroTransportista,
-                DNI = orden.Transportista.DNI,
-                NombreApellido = orden.Transportista.NombreYApellido
-            };
-
-            TransportistaAlmacen.Agregar(transportista);
+            transportista = TransportistaAlmacen
+                .Agregar(new TransportistaEnt()
+                {
+                    DNI = orden.Transportista.DNI,
+                    NombreApellido = orden.Transportista.NombreYApellido
+                });
         }
 
         // 4. Crear el detalle.
@@ -165,27 +144,19 @@ public class GenerarOrdenDePreparacionModel
                 };
             });
 
-        // 5. Crear y Agregar la nueva Orden de Preparación.
-        int numeroOrden = OrdenDePreparacionAlmacen
-            .OrdenesPreparacion.LastOrDefault() is null ? 1 :
-            OrdenDePreparacionAlmacen.OrdenesPreparacion.Last().NumeroOP + 1;
+        // 5. Completar y Agregar la nueva Orden de Preparación.
+        ordenDePreparacion.NumeroCliente = (int)orden.Cliente.Numero;
+        ordenDePreparacion.FechaADespachar = orden.FechaDeDespacho;
+        ordenDePreparacion.NumeroTransportista = transportista.NumeroTransportista;
+        ordenDePreparacion.Estado = OPEstadoEnum.Pendiente;
+        ordenDePreparacion.Prioridad = Enum.Parse<PrioridadEnum>(orden.Cliente.Prioridad.ToString());
+        ordenDePreparacion.Detalle.AddRange(detalle);
+        ordenDePreparacion = OrdenDePreparacionAlmacen.Agregar(ordenDePreparacion);
 
-        OrdenDePreparacionEnt op = new()
-        {
-            NumeroOP = numeroOrden,
-            NumeroCliente = (int)orden.Cliente.Numero,
-            FechaADespachar = orden.FechaDeDespacho,
-            NumeroTransportista = transportista.NumeroTransportista,
-            Estado = OPEstadoEnum.Pendiente,
-            Prioridad = Enum.Parse<PrioridadEnum>(orden.Cliente.Prioridad.ToString()),
-        };
-        op.Detalle.AddRange(detalle);
-        OrdenDePreparacionAlmacen.Agregar(op);
-
-        return new Resultado<bool>(
+        return new Resultado<OrdenDePreparacionEnt>(
             true,
-            "La orden se generó correctamente.",
-            true
+            $"La OP Número {ordenDePreparacion.NumeroOP} se generó correctamente.",
+            ordenDePreparacion
         );
     }
 }

@@ -85,6 +85,8 @@ partial class GenerarOrdenDePreparacionForm
         errorProviderTransportistaDNI = new ErrorProvider(components);
         errorProviderTransportistaNombre = new ErrorProvider(components);
         errorProviderCantidadAPreparar = new ErrorProvider(components);
+        label9 = new Label();
+        comboBoxPrioridadDeOrden = new ComboBox();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxOrdenDePreparacion.SuspendLayout();
         groupBoxTransportista.SuspendLayout();
@@ -121,6 +123,8 @@ partial class GenerarOrdenDePreparacionForm
         // 
         // groupBoxOrdenDePreparacion
         // 
+        groupBoxOrdenDePreparacion.Controls.Add(label9);
+        groupBoxOrdenDePreparacion.Controls.Add(comboBoxPrioridadDeOrden);
         groupBoxOrdenDePreparacion.Controls.Add(groupBoxTransportista);
         groupBoxOrdenDePreparacion.Controls.Add(groupBoxMercaderiasARetirar);
         groupBoxOrdenDePreparacion.Controls.Add(labelFechaADespachar);
@@ -641,6 +645,25 @@ partial class GenerarOrdenDePreparacionForm
         // 
         errorProviderCantidadAPreparar.ContainerControl = this;
         // 
+        // label9
+        // 
+        label9.AutoSize = true;
+        label9.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
+        label9.Location = new Point(220, 36);
+        label9.Name = "label9";
+        label9.Size = new Size(73, 19);
+        label9.TabIndex = 47;
+        label9.Text = "Prioridad";
+        // 
+        // comboBoxPrioridadDeOrden
+        // 
+        comboBoxPrioridadDeOrden.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxPrioridadDeOrden.FormattingEnabled = true;
+        comboBoxPrioridadDeOrden.Location = new Point(220, 59);
+        comboBoxPrioridadDeOrden.Name = "comboBoxPrioridadDeOrden";
+        comboBoxPrioridadDeOrden.Size = new Size(152, 29);
+        comboBoxPrioridadDeOrden.TabIndex = 46;
+        // 
         // GenerarOrdenDePreparacionForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -734,4 +757,6 @@ partial class GenerarOrdenDePreparacionForm
     private ColumnHeader columnHeaderMercaderiaARetirarSKU;
     private ColumnHeader columnHeaderMercaderiaARetirarDescripcion;
     private Label labelPrioridad;
+    private Label label9;
+    private ComboBox comboBoxPrioridadDeOrden;
 }

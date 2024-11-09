@@ -1,4 +1,5 @@
 ﻿using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Dtos;
+using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Enums;
 using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
@@ -18,6 +19,8 @@ public partial class GenerarOrdenDePreparacionForm : Form
         var transportistas = _ordenDePreparacionModel.ObtenerTransportistas();
 
         labelPrioridad.Hide();
+        comboBoxPrioridadDeOrden.Items.Clear();
+        comboBoxPrioridadDeOrden.Items.AddRange(Enum.GetNames(typeof(Prioridad)));
         textBoxFechaADespachar.Clear();
         textBoxCantidadAPreparar.Clear();
         textBoxDNITransportista.Clear();
@@ -116,6 +119,11 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
         if (validarListado != string.Empty)
             mensajes.Add(validarListado);
+
+        var validarPrioridad = Enum.TryParse<Prioridad>(comboBoxPrioridadDeOrden.Text, out _);
+
+        if (!validarPrioridad)
+            mensajes.Add("Debe seleccionar una prioridad para la OP");
 
         return mensajes;
     }
@@ -309,7 +317,8 @@ public partial class GenerarOrdenDePreparacionForm : Form
                 Cliente = cliente,
                 Transportista = transportista,
                 FechaDeDespacho = DateTime.Parse(textBoxFechaADespachar.Text),
-                MercaderiasAPreparar = mercaderias
+                MercaderiasAPreparar = mercaderias,
+                Prioridad = Enum.Parse<Prioridad>(comboBoxPrioridadDeOrden.Text)
             });
 
         if (resultado.Exitoso)
