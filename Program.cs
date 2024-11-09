@@ -15,10 +15,12 @@ namespace Pampazon
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
+            // Limpiar los datos de Prueba. Dejar solo los Correspondientes y
+            // descomentar para Demo con Pampazon.
+            //MigrarDatabaseInicial();
+            //CargarDatabaseProd();
+
             CargarDatabaseTest();
-            var clientes = ClienteAlmacen.Clientes;
-            var transportistas = TransportistaAlmacen.Transportistas;
-            var mercaderias = MercaderiaEnStockAlmacen.Mercaderias;
 
             //Application.Run(new IniciarSesionForm());
             Application.Run(new MenuInicioForm());
@@ -34,6 +36,10 @@ namespace Pampazon
             //Application.Run(new GenerarRemitoForm());
         }
 
+        /// <summary>
+        /// Método para Iniciar el Sistema en modo Testing.
+        /// Para simular un flujo completo de OUT.
+        /// </summary>
         private static void CargarDatabaseTest()
         {
             // Cargar Seeders del sistema para Testing.
@@ -41,10 +47,37 @@ namespace Pampazon
             TransportistaAlmacen.GrabarDatosDePrueba();
             MercaderiaEnStockAlmacen.GrabarDatosDePrueba();
 
-            // Repositorios
+            // Cargar Repositorios de Prueba
             ClienteAlmacen.LeerDatosDePrueba();
             TransportistaAlmacen.LeerDatosDePrueba();
             MercaderiaEnStockAlmacen.LeerDatosDePrueba();
+        }
+        /// <summary>
+        /// Método para Iniciar el sistema con una base inicial de Pampazon con 
+        /// una migración inicial de datos de Clientes, Transportistas y Mercaderías.
+        /// </summary>
+        private static void MigrarDatabaseInicial()
+        {
+            // Repositorios
+            ClienteAlmacen.MigrarDatosDePrueba();
+            TransportistaAlmacen.MigrarDatosDePrueba();
+            MercaderiaEnStockAlmacen.MigrarDatosDePrueba();
+
+            // Grabar los Datos de la migración del sistema para comenzar a utilizar
+            ClienteAlmacen.Grabar();
+            TransportistaAlmacen.Grabar();
+            MercaderiaEnStockAlmacen.Grabar();
+        }
+        /// <summary>
+        /// Método para Iniciar el sistema con su base de datos Productiva
+        /// Luego de correr la migración inicial del Sistema.
+        /// </summary>
+        private static void CargarDatabaseProd()
+        {
+            // Cargar Repositorios Productivos
+            ClienteAlmacen.Leer();
+            TransportistaAlmacen.Leer();
+            MercaderiaEnStockAlmacen.Leer();
         }
     }
 }
