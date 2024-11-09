@@ -182,13 +182,14 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
         if (cliente is not null)
         {
-            var mercaderias = _ordenDePreparacionModel.ObtenerMercaderiasEnStockPorCliente(cliente);
+            var mercaderias = _ordenDePreparacionModel.ObtenerMercaderiasDisponiblesPorCliente(
+                (int)cliente.Numero
+            );
             listViewMercaderiasEnStock.Items.Clear();
             listViewMercaderiasARetirar.Items.Clear();
 
             listViewMercaderiasEnStock.Items
                 .AddRange(ObtenerListViewMercaderiasEnStock(mercaderias));
-
 
             labelPrioridad.Text = $"Prioridad del Cliente: {cliente.Prioridad}";
             labelPrioridad.Show();
@@ -222,7 +223,6 @@ public partial class GenerarOrdenDePreparacionForm : Form
             Mercaderia mercaderia = new()
             {
                 SKU = selected.Text,
-                NumeroCliente = cliente.Numero,
                 Descripcion = selected.SubItems[1].Text,
                 Cantidad = int.Parse(textBoxCantidadAPreparar.Text)
             };
@@ -251,7 +251,9 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
         var transportista = transportistas.FirstOrDefault();
 
-        if (transportista is not null && transportistas.Count == 1)
+        if (transportista is not null &&
+            transportistas.Count == 1 &&
+            transportista.NombreYApellido.ToUpper() == textBoxNombreTransportista.Text.ToUpper())
             textBoxDNITransportista.Text = transportista.DNI.ToString();
         else
             textBoxDNITransportista.Text = string.Empty;
@@ -275,54 +277,48 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
     private void buttonGenerarOrden_Click(object sender, EventArgs e)
     {
-        DialogResult confirmacion = Alerta.PedirConfirmacion("Desea registrar la orden de preparación?");
+        List<string> errores = ValidarFormularioOrdenDePreparacion();
 
-        if (confirmacion == DialogResult.Yes)
+        if (errores.Count > 0)
         {
-            List<string> errores = ValidarFormularioOrdenDePreparacion();
-
-            if (errores.Count > 0)
-            {
-                Alerta.MostrarErrores(errores);
-                return;
-            }
-
-            Cliente cliente = comboBoxClientes.SelectedItem as Cliente ?? new();
-            Transportista transportista = new()
-            {
-                NombreYApellido = textBoxNombreTransportista.Text,
-                DNI = textBoxDNITransportista.Text,
-            };
-            List<Mercaderia> mercaderias = new();
-            foreach (ListViewItem item in listViewMercaderiasARetirar.Items)
-            {
-                Mercaderia mercaderia = new()
-                {
-                    SKU = item.Text,
-                    NumeroCliente = cliente.Numero,
-                    Descripcion = item.SubItems[1].Text,
-                    Cantidad = int.Parse(item.SubItems[2].Text),
-                };
-                mercaderias.Add(mercaderia);
-            }
-
-            var resultado = _ordenDePreparacionModel
-                .GenerarOrdenDePreparacion(new OrdenDePreparacion()
-                {
-                    Cliente = cliente,
-                    Transportista = transportista,
-                    FechaDeDespacho = DateTime.Parse(textBoxFechaADespachar.Text),
-                    MercaderiasAPreparar = mercaderias
-                });
-
-            if (resultado.Exitoso)
-            {
-                Alerta.MostrarInfo(resultado.Mensaje);
-                CargarFormulario();
-            }
-            else
-                Alerta.MostrarError(resultado.Mensaje);
+            Alerta.MostrarErrores(errores);
+            return;
         }
+
+        Cliente cliente = comboBoxClientes.SelectedItem as Cliente ?? new();
+        Transportista transportista = new()
+        {
+            NombreYApellido = textBoxNombreTransportista.Text,
+            DNI = textBoxDNITransportista.Text,
+        };
+        List<Mercaderia> mercaderias = new();
+        foreach (ListViewItem item in listViewMercaderiasARetirar.Items)
+        {
+            Mercaderia mercaderia = new()
+            {
+                SKU = item.Text,
+                Descripcion = item.SubItems[1].Text,
+                Cantidad = int.Parse(item.SubItems[2].Text),
+            };
+            mercaderias.Add(mercaderia);
+        }
+
+        var resultado = _ordenDePreparacionModel
+            .GenerarOrdenDePreparacion(new OrdenDePreparacion()
+            {
+                Cliente = cliente,
+                Transportista = transportista,
+                FechaDeDespacho = DateTime.Parse(textBoxFechaADespachar.Text),
+                MercaderiasAPreparar = mercaderias
+            });
+
+        if (resultado.Exitoso)
+        {
+            Alerta.MostrarInfo(resultado.Mensaje);
+            CargarFormulario();
+        }
+        else
+            Alerta.MostrarError(resultado.Mensaje);
     }
 
     private void GenerarOrdenDePreparacionForm_FormClosing(object sender, FormClosingEventArgs e)

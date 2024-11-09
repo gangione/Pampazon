@@ -1,127 +1,111 @@
-﻿using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Dtos;
+﻿using Pampazon.Almacenes;
+using Pampazon.Entidades;
+using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Dtos;
 using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Enums;
 using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
 public class GenerarOrdenDePreparacionModel
 {
-    private List<Cliente> _clientes;
-    private List<Transportista> _transportistas;
-    private List<OrdenDePreparacion> _ordenesDePreparacion;
-    private List<Mercaderia> _mercaderias;
-
     public GenerarOrdenDePreparacionModel()
     {
-        _clientes = new()
-            {
-                new ()
-                {
-                    Numero = 1,
-                    Nombre = "Mercadito S.A",
-                    Prioridad = Prioridad.Alta
-                },
-                new ()
-                {
-                    Numero = 2,
-                    Nombre = "Empresa S.A",
-                    Prioridad = Prioridad.Baja
-                }
-            };
-        _transportistas = new()
-            {
-                new()
-                {
-                    DNI = "12123123",
-                    NombreYApellido = "Ricardo"
-                },
-                new()
-                {
-                    DNI = "22222222",
-                    NombreYApellido = "Juan Pablo"
-                },
-                new()
-                {
-                    DNI = "33333333",
-                    NombreYApellido = "Juan Ignacio"
-                },
-            };
-        _mercaderias = new()
-        {
-            new ()
-            {
-                SKU = "AA-10",
-                NumeroCliente = 1,
-                Descripcion = "Cemento",
-                Cantidad = 50,
-                Estado = MercaderiaEstado.EnAlmacen,
-            },
-            new ()
-            {
-                SKU = "AB-20",
-                NumeroCliente = 1,
-                Descripcion = "Arena",
-                Cantidad = 150,
-                Estado = MercaderiaEstado.EnAlmacen
-            },
-            new ()
-            {
-                SKU = "AC-30",
-                NumeroCliente = 1,
-                Descripcion = "Ladrillos",
-                Cantidad = 500,
-                Estado = MercaderiaEstado.EnAlmacen
-            },
-            new ()
-            {
-                SKU = "BA-10",
-                NumeroCliente = 2,
-                Descripcion = "Zapatillas",
-                Cantidad = 100,
-                Estado = MercaderiaEstado.EnAlmacen
-            },
-            new ()
-            {
-                SKU = "BA-20",
-                NumeroCliente = 2,
-                Descripcion = "Remeras",
-                Cantidad = 100,
-                Estado = MercaderiaEstado.EnAlmacen
-            }
-        };
-        _ordenesDePreparacion = new();
     }
     public List<Cliente> ObtenerClientes()
     {
-        return _clientes;
+        return ClienteAlmacen.Clientes
+            .Select(cliente =>
+            {
+                return new Cliente()
+                {
+                    Numero = cliente.NumeroCliente,
+                    Nombre = cliente.RazonSocial,
+                    Prioridad = Enum.Parse<Prioridad>(cliente.Prioridad.ToString()),
+                };
+            })
+            .ToList();
     }
     public List<Cliente> ObtenerClientesPorFiltro(string filtro)
     {
-        return _clientes.Where(cliente => cliente.Nombre
-            .ToString()
-            .Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
-        ).ToList();
+        return ClienteAlmacen.Clientes
+            .Select(cliente =>
+            {
+                return new Cliente()
+                {
+                    Numero = cliente.NumeroCliente,
+                    Nombre = cliente.RazonSocial,
+                    Prioridad = Enum.Parse<Prioridad>(cliente.Prioridad.ToString()),
+                };
+            })
+            .Where(cliente => cliente.Nombre.ToString().Contains(
+                filtro, StringComparison.CurrentCultureIgnoreCase
+            ))
+            .ToList();
     }
     public List<Transportista> ObtenerTransportistas()
     {
-        return _transportistas;
+        return TransportistaAlmacen.Transportistas
+            .Select(transportista =>
+            {
+                return new Transportista()
+                {
+                    DNI = transportista.DNI,
+                    NombreYApellido = transportista.NombreApellido
+                };
+            })
+            .ToList();
     }
     public List<Transportista> ObtenerTransportistasPorFiltro(string filtro)
     {
-        return _transportistas.Where(transportista => transportista.NombreYApellido
-            .ToString()
-            .Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
-        ).ToList();
-    }
-    public List<Mercaderia> ObtenerMercaderiasEnStockPorCliente(Cliente cliente)
-    {
-        return _mercaderias
-            .Where(mercaderia =>
-                mercaderia.NumeroCliente == cliente.Numero
-                && mercaderia.Estado == MercaderiaEstado.EnAlmacen)
+        return TransportistaAlmacen.Transportistas
+            .Select(transportista =>
+            {
+                return new Transportista()
+                {
+                    DNI = transportista.DNI,
+                    NombreYApellido = transportista.NombreApellido
+                };
+            })
+            .Where(transportista => transportista.NombreYApellido.ToString().Contains(
+                filtro, StringComparison.CurrentCultureIgnoreCase
+            ))
             .ToList();
+    }
+    public List<Mercaderia> ObtenerMercaderiasDisponiblesPorCliente(int numeroCliente)
+    {
+        var mercaderiasDisponibles = new List<Mercaderia>();
+
+        foreach (var mercaderia in MercaderiaEnStockAlmacen.Mercaderias)
+        {
+            var mercaderiasEnStock = new List<Mercaderia>();
+
+            if (mercaderia.NumeroCliente == numeroCliente)
+            {
+                int cantidadEnPreparacion = OrdenDePreparacionAlmacen
+                   .OrdenesPreparacion
+                   .Where(op => op.NumeroCliente == numeroCliente)
+                   .Sum(op => op.Detalle
+                       .Where(detalle => detalle.SKU == mercaderia.SKU)
+                       .Sum(mercaderia => mercaderia.Cantidad)
+                   );
+
+                int cantidadDisponible = mercaderia.Ubicaciones
+                    .Sum(u => u.Cantidad) - cantidadEnPreparacion;
+
+                if (cantidadDisponible > 0)
+                    mercaderiasDisponibles.Add(new Mercaderia()
+                    {
+                        SKU = mercaderia.SKU,
+                        Descripcion = mercaderia.TipoDeMercaderia,
+                        Cantidad = cantidadDisponible
+                    });
+            }
+        }
+
+        return mercaderiasDisponibles;
     }
     public Resultado<bool> GenerarOrdenDePreparacion(OrdenDePreparacion orden)
     {
+        // 1. Verificar si la fecha a despachar que el cliente desea es > a hoy.
         if (orden.FechaDeDespacho < DateTime.Now)
             return new Resultado<bool>(
                 false,
@@ -129,46 +113,74 @@ public class GenerarOrdenDePreparacionModel
                 false
             );
 
-        // CAMBIAR DE ESTADO LAS MERCADERÍAS
-        for (int i = 0; i < orden.MercaderiasAPreparar?.Count; i++)
+        // 2. Verificar si el cliente tiene suficiente stock de Mercaderías.
+        foreach (var mercaderiaSolicitada in orden.MercaderiasAPreparar)
         {
-            Mercaderia mercaderiaARetirar = orden.MercaderiasAPreparar[i];
+            if (mercaderiaSolicitada is not null)
+            {
+                Mercaderia mercaderiaEnStock = ObtenerMercaderiasDisponiblesPorCliente(
+                    (int)orden.Cliente.Numero
+                )
+                .First(m => m.SKU == mercaderiaSolicitada.SKU);
 
-            Mercaderia mercaderiaEnStock = _mercaderias
-                .First(m => m.SKU == mercaderiaARetirar.SKU
-                    && m.Estado == MercaderiaEstado.EnAlmacen);
-
-            if (mercaderiaARetirar.Cantidad > mercaderiaEnStock.Cantidad)
-                return new Resultado<bool>(
-                    false,
-                    "La cantidad a retirar no puede superar a la cantidad en Stock.",
-                    false
-                );
-
-            mercaderiaEnStock.Cantidad = mercaderiaEnStock.Cantidad - mercaderiaARetirar.Cantidad;
-
-            if (mercaderiaEnStock.Cantidad == 0)
-                _mercaderias.Remove(mercaderiaEnStock);
-
-            mercaderiaARetirar.Estado = MercaderiaEstado.ASeleccionar;
-            _mercaderias.Add(mercaderiaARetirar);
+                if (mercaderiaSolicitada.Cantidad > mercaderiaEnStock.Cantidad)
+                    return new Resultado<bool>(
+                        false,
+                        "La cantidad a retirar no puede superar a la cantidad en Stock.",
+                        false
+                    );
+            }
         }
 
-        long numeroOrden = _ordenesDePreparacion.LastOrDefault() is null ? 1 :
-            _ordenesDePreparacion.Last().Numero + 1;
+        // 3. Verificar si existe el Transportista. Si no existe en la DB, agregar.
+        var transportista = TransportistaAlmacen
+                .Transportistas
+                .Where(t => t.DNI == orden.Transportista.DNI)
+                .FirstOrDefault();
 
-        OrdenDePreparacion op = new()
+        if (transportista is null)
         {
-            Numero = numeroOrden,
-            Fecha = DateTime.Now,
-            FechaDeDespacho = orden.FechaDeDespacho,
-            Cliente = orden.Cliente,
-            Transportista = orden.Transportista,
-            Estado = OrdenDePreparacionEstado.Pendiente,
-            MercaderiasAPreparar = orden.MercaderiasAPreparar
-        };
+            int numeroTransportista = TransportistaAlmacen
+                .Transportistas.LastOrDefault() is null ? 1 :
+            TransportistaAlmacen.Transportistas.Last().NumeroTransportista + 1;
 
-        _ordenesDePreparacion.Add(op);
+            transportista = new TransportistaEnt()
+            {
+                NumeroTransportista = numeroTransportista,
+                DNI = orden.Transportista.DNI,
+                NombreApellido = orden.Transportista.NombreYApellido
+            };
+
+            TransportistaAlmacen.Agregar(transportista);
+        }
+
+        // 4. Crear el detalle.
+        var detalle = orden.MercaderiasAPreparar?
+            .Select(mercaderia =>
+            {
+                return new OrdenDePreparacionDetalle()
+                {
+                    SKU = mercaderia.SKU,
+                    Cantidad = mercaderia.Cantidad
+                };
+            });
+
+        // 5. Crear y Agregar la nueva Orden de Preparación.
+        int numeroOrden = OrdenDePreparacionAlmacen
+            .OrdenesPreparacion.LastOrDefault() is null ? 1 :
+            OrdenDePreparacionAlmacen.OrdenesPreparacion.Last().NumeroOP + 1;
+
+        OrdenDePreparacionEnt op = new()
+        {
+            NumeroOP = numeroOrden,
+            NumeroCliente = (int)orden.Cliente.Numero,
+            FechaADespachar = orden.FechaDeDespacho,
+            NumeroTransportista = transportista.NumeroTransportista,
+            Estado = OPEstadoEnum.Pendiente,
+            Prioridad = Enum.Parse<PrioridadEnum>(orden.Cliente.Prioridad.ToString()),
+        };
+        op.Detalle.AddRange(detalle);
+        OrdenDePreparacionAlmacen.Agregar(op);
 
         return new Resultado<bool>(
             true,
