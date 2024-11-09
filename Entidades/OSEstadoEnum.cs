@@ -1,5 +1,5 @@
 namespace Pampazon.Entidades;
-public enum OEstadoEnum
+public enum OSEstadoEnum
 {
     Pendiente,
     Cumplida
