@@ -122,4 +122,15 @@ public static class MercaderiaEnStockAlmacen
 
         _mercaderias = JsonSerializer.Deserialize<List<MercaderiaEnStockEnt>>(datos)!;
     }
+    public static void MigrarDatosDePrueba()
+    {
+        if (!File.Exists(@"Almacenes\DatosDePrueba\MercaderiasEnStock.json"))
+        {
+            return;
+        }
+
+        var datos = File.ReadAllText(@"MercaderiasEnStock.json");
+
+        _mercaderias = JsonSerializer.Deserialize<List<MercaderiaEnStockEnt>>(datos)!;
+    }
 }

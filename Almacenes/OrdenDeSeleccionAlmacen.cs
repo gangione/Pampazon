@@ -24,10 +24,15 @@ public static class OrdenDeSeleccionAlmacen
 
         ordenesSeleccion = JsonSerializer.Deserialize<List<OrdenDeSeleccionEnt>>(datos)!;
     }
-    public static void Agregar(OrdenDeSeleccionEnt nuevaOrden)
+    public static OrdenDeSeleccionEnt Agregar(OrdenDeSeleccionEnt nuevaOrden)
     {
+        nuevaOrden.NumeroOS = OrdenesSeleccion.LastOrDefault() is null ? 1 :
+            OrdenesSeleccion.Max(op => op.NumeroOS) + 1;
+
         ordenesSeleccion.Add(nuevaOrden);
         Grabar();
+
+        return nuevaOrden;
     }
     public static void Actualizar(OrdenDeSeleccionEnt orden)
     {

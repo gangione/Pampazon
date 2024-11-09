@@ -47,4 +47,15 @@ public static class ClienteAlmacen
 
         _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
     }
+    public static void MigrarDatosDePrueba()
+    {
+        if (!File.Exists(@"Almacenes\DatosDePrueba\Clientes.json"))
+        {
+            return;
+        }
+
+        var datos = File.ReadAllText(@"Clientes.json");
+
+        _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
+    }
 }

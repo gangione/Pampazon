@@ -24,9 +24,25 @@ public static class OrdenDePreparacionAlmacen
 
         ordenesPreparacion = JsonSerializer.Deserialize<List<OrdenDePreparacionEnt>>(datos)!;
     }
-    public static void Agregar(OrdenDePreparacionEnt nuevaOrden)
+    public static OrdenDePreparacionEnt Agregar(OrdenDePreparacionEnt nuevaOrden)
     {
+        nuevaOrden.NumeroOP = OrdenesPreparacion.LastOrDefault() is null ? 1 :
+            OrdenesPreparacion.Max(op => op.NumeroOP) + 1;
+
         ordenesPreparacion.Add(nuevaOrden);
+        Grabar();
+
+        return nuevaOrden;
+    }
+    public static void ActualizarEnLote(List<OrdenDePreparacionEnt> ordenes)
+    {
+        foreach (var orden in ordenes)
+        {
+            var index = ordenesPreparacion.FindIndex(op => op.NumeroOP == orden.NumeroOP);
+
+            ordenesPreparacion.RemoveAt(index);
+            ordenesPreparacion.Insert(index, orden);
+        }
         Grabar();
     }
 }

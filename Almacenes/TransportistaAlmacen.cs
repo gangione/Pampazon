@@ -23,34 +23,17 @@ public static class TransportistaAlmacen
 
         _transportistas = JsonSerializer.Deserialize<List<TransportistaEnt>>(datos)!;
     }
-    public static void Agregar(TransportistaEnt transportista)
+    public static TransportistaEnt Agregar(TransportistaEnt transportista)
     {
+        transportista.NumeroTransportista = Transportistas.LastOrDefault() is null ? 1 :
+            Transportistas.Max(t => t.NumeroTransportista) + 1;
+
         _transportistas.Add(transportista);
         Grabar();
+        return transportista;
     }
     public static void GrabarDatosDePrueba()
     {
-        //var transportistas = new List<TransportistaEnt>()
-        //{
-        //    new ()
-        //    {
-        //        NumeroTransportista = 1,
-        //        NombreApellido = "Ricardo",
-        //        DNI = "12123123"
-        //    },
-        //    new ()
-        //    {
-        //        NumeroTransportista = 2,
-        //        NombreApellido = "Juan Pablo",
-        //        DNI = "22222222"
-        //    },
-        //    new ()
-        //    {
-        //        NumeroTransportista = 3,
-        //        NombreApellido = "Juan Ignacio",
-        //        DNI = "33333333"
-        //    }
-        //};
         if (!File.Exists(@"Almacenes\DatosDePrueba\Transportistas.json"))
         {
             return;
@@ -68,6 +51,17 @@ public static class TransportistaAlmacen
         }
 
         var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Transportistas.json");
+
+        _transportistas = JsonSerializer.Deserialize<List<TransportistaEnt>>(datos)!;
+    }
+    public static void MigrarDatosDePrueba()
+    {
+        if (!File.Exists(@"Almacenes\DatosDePrueba\Transportistas.json"))
+        {
+            return;
+        }
+
+        var datos = File.ReadAllText(@"Transportistas.json");
 
         _transportistas = JsonSerializer.Deserialize<List<TransportistaEnt>>(datos)!;
     }
