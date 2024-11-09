@@ -1,4 +1,4 @@
-﻿{
+﻿[
   {
     "NumeroOP": 1,
     "NumeroCliente": 1,
@@ -20,5 +20,5 @@
     "FechaADespachar": "2024-12-12",
     "Prioridad": "Alta",
     "Estado": "Pendiente"
-  }, 
-}
+  }
+]

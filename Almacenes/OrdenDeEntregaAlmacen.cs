@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Pampazon.Entidades;
+using System.Text.Json;
 
 namespace Pampazon.Almacenes;
 public static class OrdenDeEntregaAlmacen
@@ -10,13 +11,11 @@ public static class OrdenDeEntregaAlmacen
     {
         var datos = JsonSerializer.Serialize(_ordenesDeEntrega);
 
-        //Grabarlo en disco:
         File.WriteAllText("OrdenesDeEntrega.json", datos);
     }
-
     public static void Leer()
     {
-        if (!File.Exists("OrdenesDeEntrega.json")) 
+        if (!File.Exists("OrdenesDeEntrega.json"))
         {
             return;
         }
@@ -25,6 +24,4 @@ public static class OrdenDeEntregaAlmacen
 
         _ordenesDeEntrega = JsonSerializer.Deserialize<List<OrdenDeEntregaEnt>>(datos)!;
     }
-
-
 }

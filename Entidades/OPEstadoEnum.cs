@@ -1,4 +1,4 @@
-
+namespace Pampazon.Entidades;
 public enum OPEstadoEnum
 {
     Pendiente,

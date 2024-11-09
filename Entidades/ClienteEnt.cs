@@ -1,4 +1,4 @@
-
+namespace Pampazon.Entidades;
 public class ClienteEnt
 {
     public int NumeroCliente { get; set; }

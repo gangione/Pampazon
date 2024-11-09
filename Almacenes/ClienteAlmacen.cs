@@ -1,34 +1,50 @@
-﻿using System.Text.Json;
+﻿using Pampazon.Entidades;
+using System.Text.Json;
 
 namespace Pampazon.Almacenes;
 public static class ClienteAlmacen
 {
-    private static List<ClienteEnt> _cliente = new();
-    public static IReadOnlyCollection<ClienteEnt> Cliente => _cliente.AsReadOnly();
-
-    public static void Guardar()
+    private static List<ClienteEnt> _clientes = new()
     {
-        //pasar la lista de personas a un formato llamado JSON.
-        //básicamente es transformar la lista en un string muy muy grande
-        //con los datos de todas las personas.
-        var datos = JsonSerializer.Serialize(_cliente);
+    };
+    public static IReadOnlyCollection<ClienteEnt> Clientes => _clientes.AsReadOnly();
+    public static void Grabar()
+    {
+        var datos = JsonSerializer.Serialize(_clientes);
 
-        //Grabarlo en disco:
-        File.WriteAllText("Clientes.json", datos);
+        File.WriteAllText(@"Clientes.json", datos);
     }
-
-    public static void Obtener()
+    public static void Leer()
     {
-        if (!File.Exists("Clientes.json")) //si el archivo no existe no tengo nada que hacer.
+        if (!File.Exists(@"Clientes.json"))
         {
             return;
         }
 
-        var datos = File.ReadAllText("Clientes.json");
+        var datos = File.ReadAllText(@"Clientes.json");
 
-        _cliente = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
+        _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
     }
+    public static void GrabarDatosDePrueba()
+    {
+        if (!File.Exists(@"Almacenes\DatosDePrueba\Clientes.json"))
+        {
+            return;
+        }
 
+        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Clientes.json");
 
+        _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
+    }
+    public static void LeerDatosDePrueba()
+    {
+        if (!File.Exists(@"Almacenes\DatosDePrueba\Clientes.json"))
+        {
+            return;
+        }
+
+        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Clientes.json");
+
+        _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
+    }
 }
-

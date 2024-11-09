@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Pampazon.Entidades;
+using System.Text.Json;
 
 namespace Pampazon.Almacenes;
 public static class RemitoAlmacen
@@ -13,7 +14,6 @@ public static class RemitoAlmacen
 
         File.WriteAllText("Remitos.json", datos);
     }
-
     public static void Leer()
     {
         if (!File.Exists("Remitos.json"))

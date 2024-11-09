@@ -1,0 +1,67 @@
+﻿[
+  {
+    "SKU": "AA-10",
+    "NumeroCliente": 1,
+    "TipoDeMercaderia": "Cemento",
+    "Ubicaciones": [
+      {
+        "Cantidad": 50,
+        "Sector": 1,
+        "Posicion": 1,
+        "Fila": 1
+      }
+    ]
+  },
+  {
+    "SKU": "AB-20",
+    "NumeroCliente": 1,
+    "TipoDeMercaderia": "Arena",
+    "Ubicaciones": [
+      {
+        "Cantidad": 50,
+        "Sector": 1,
+        "Posicion": 1,
+        "Fila": 2
+      }
+    ]
+  },
+  {
+    "SKU": "AC-30",
+    "NumeroCliente": 1,
+    "TipoDeMercaderia": "Ladrillos",
+    "Ubicaciones": [
+      {
+        "Cantidad": 50,
+        "Sector": 1,
+        "Posicion": 1,
+        "Fila": 1
+      }
+    ]
+  },
+  {
+    "SKU": "BA-10",
+    "NumeroCliente": 2,
+    "TipoDeMercaderia": "Zapatillas",
+    "Ubicaciones": [
+      {
+        "Cantidad": 50,
+        "Sector": 1,
+        "Posicion": 1,
+        "Fila": 1
+      }
+    ]
+  },
+  {
+    "SKU": "BA-20",
+    "NumeroCliente": 2,
+    "TipoDeMercaderia": "Remeras",
+    "Ubicaciones": [
+      {
+        "Cantidad": 50,
+        "Sector": 1,
+        "Posicion": 1,
+        "Fila": 1
+      }
+    ]
+  }
+]

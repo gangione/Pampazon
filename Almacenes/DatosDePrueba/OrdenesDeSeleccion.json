@@ -1,0 +1,25 @@
+﻿[
+  {
+    "NumeroOS": 1,
+    "Estado": "APreparar",
+    "OrdenesDePreparacion": [
+      {
+        "Numero": 1,
+        "Detalle": [
+          {
+            "SKU": "AA-10",
+            "Cantidad": 50,
+          },
+          {
+            "SKU": "AB-20",
+            "Cantidad": 150,
+          },
+          {
+            "SKU": "AC-30",
+            "Cantidad": 500,
+          }
+        ]
+      }
+    ]
+  }
+]

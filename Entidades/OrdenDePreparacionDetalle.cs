@@ -1,3 +1,4 @@
+namespace Pampazon.Entidades;
 
 public class OrdenDePreparacionDetalle
 {

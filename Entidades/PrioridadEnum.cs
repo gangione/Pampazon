@@ -1,6 +1,6 @@
-
+namespace Pampazon.Entidades;
 public enum PrioridadEnum
 {
-    Alta,
-    Baja
+    Baja,
+    Alta
 }

@@ -1,0 +1,20 @@
+[
+  {
+    "NumeroCliente": 1,
+    "RazonSocial": "Mercadito S.A",
+    "CUIT": "30111111119",
+    "Prioridad": 1
+  },
+  {
+    "NumeroCliente": 2,
+    "RazonSocial": "Empresa S.A",
+    "CUIT": "30222222229",
+    "Prioridad": 0
+  },
+  {
+    "NumeroCliente": 1,
+    "RazonSocial": "Lopez S.A",
+    "CUIT": "30333333339",
+    "Prioridad": 1
+  }
+]

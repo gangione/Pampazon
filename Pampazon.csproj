@@ -14,4 +14,16 @@
     <None Remove="ModuloRRHH\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Almacenes\DatosDePrueba\Clientes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Almacenes\DatosDePrueba\MercaderiasEnStock.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Almacenes\DatosDePrueba\Transportistas.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
