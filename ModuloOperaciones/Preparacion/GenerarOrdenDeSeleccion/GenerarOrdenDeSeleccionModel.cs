@@ -1,156 +1,289 @@
-﻿using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeSeleccion.Dtos;
+﻿using Pampazon.Almacenes;
+using Pampazon.Entidades;
+using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeSeleccion.Dtos;
 using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeSeleccion.Enums;
 using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeSeleccion.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeSeleccion;
 public class GenerarOrdenDeSeleccionModel
 {
-    private List<Cliente> _clientes;
-    private List<OrdenDePreparacion> _ordenesDePreparacion;
     public GenerarOrdenDeSeleccionModel()
     {
-        _clientes = new()
-        {
-            new ()
-            {
-                Numero = 1,
-                Nombre = "Mercadito S.A",
-                Prioridad = Prioridad.Alta
-            },
-            new ()
-            {
-                Numero = 2,
-                Nombre = "Empresa S.A",
-                Prioridad = Prioridad.Baja
-            }
-        };
-        _ordenesDePreparacion = new()
-        {
-            new()
-            {
-                Numero = 1,
-                Cliente = _clientes.Find(c => c.Numero == 1),
-                FechaADespachar = DateTime.Now,
-                Estado = OrdenDePreparacionEstado.Pendiente,
-                MercaderiasAPreparar = new()
-                {
-                    new ()
-                    {
-                        SKU = "AA-10",
-                        NumeroCliente = 1,
-                        Descripcion = "Cemento",
-                        Cantidad = 50,
-                    },
-                    new ()
-                    {
-                        SKU = "AB-20",
-                        NumeroCliente = 1,
-                        Descripcion = "Arena",
-                        Cantidad = 150,
-                    },
-                    new ()
-                    {
-                        SKU = "AC-30",
-                        NumeroCliente = 1,
-                        Descripcion = "Ladrillos",
-                        Cantidad = 500,
-                    },
-                }
-            },
-            new ()
-            {
-                Numero = 2,
-                Cliente = _clientes.Find(c => c.Numero == 2),
-                FechaADespachar = DateTime.Now.AddDays(1),
-                Estado = OrdenDePreparacionEstado.Pendiente,
-                MercaderiasAPreparar = new()
-                {
-                    new ()
-                    {
-                        SKU = "BA-10",
-                        NumeroCliente = 2,
-                        Descripcion = "Zapatillas",
-                        Cantidad = 100,
-                    },
-                    new ()
-                    {
-                        SKU = "BA-20",
-                        NumeroCliente = 2,
-                        Descripcion = "Remeras",
-                        Cantidad = 100,
-                    }
-                }
-            },
-        };
     }
     public List<Cliente> ObtenerClientes()
     {
-        return _clientes;
-    }
-    public List<Cliente> ObtenerClientesPorFiltro(string filtro)
-    {
-        return _clientes.Where(cliente => cliente.Nombre
-            .ToString()
-            .Contains(filtro, StringComparison.CurrentCultureIgnoreCase)
-        ).ToList();
+        return ClienteAlmacen.Clientes
+            .Select(cliente =>
+            {
+                return new Cliente()
+                {
+                    Numero = cliente.NumeroCliente,
+                    Nombre = cliente.RazonSocial,
+                    Prioridad = Enum.Parse<Prioridad>(cliente.Prioridad.ToString()),
+                };
+            })
+            .ToList();
     }
     public List<OrdenDePreparacion> ObtenerOrdenesDePreparacionPendientes()
     {
-        return _ordenesDePreparacion
-            .Where(op => op.Estado == OrdenDePreparacionEstado.Pendiente)
-            .ToList();
+        var ordenesPendientes = new List<OrdenDePreparacion>();
+        foreach (var op in OrdenDePreparacionAlmacen.OrdenesPreparacion)
+        {
+            if (Enum.Parse<OrdenDePreparacionEstado>(op.Estado.ToString()) == OrdenDePreparacionEstado.Pendiente)
+            {
+                ordenesPendientes.Add(new OrdenDePreparacion()
+                {
+                    Numero = op.NumeroOP,
+                    Cliente = ClienteAlmacen.Clientes
+                        .Select(c =>
+                        {
+                            return new Cliente()
+                            {
+                                Numero = c.NumeroCliente,
+                                Nombre = c.RazonSocial,
+                                Prioridad = Enum.Parse<Prioridad>(c.Prioridad.ToString())
+                            };
+                        })
+                        .Where(c => c.Numero == op.NumeroCliente)
+                        .First(),
+                    FechaADespachar = op.FechaADespachar,
+                    MercaderiasAPreparar = op.Detalle
+                        .Select(detalle =>
+                        {
+                            return new Mercaderia()
+                            {
+                                SKU = detalle.SKU,
+                                Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                                    .Where(m => m.SKU == detalle.SKU)
+                                    .Select(m => { return m.TipoDeMercaderia; })
+                                    .First(),
+                                Cantidad = detalle.Cantidad,
+                            };
+                        })
+                        .ToList(),
+                    Estado = Enum.Parse<OrdenDePreparacionEstado>(op.Estado.ToString()),
+                    Prioridad = Enum.Parse<Prioridad>(op.Prioridad.ToString())
+                });
+            };
+        }
+        return ordenesPendientes;
     }
     public List<OrdenDePreparacion> ObtenerOrdenesPendientesPorFiltros(long numeroCliente, Prioridad? prioridad)
     {
         if (numeroCliente > 0 && prioridad is null)
-            return _ordenesDePreparacion
-                .Where(op => op.Cliente.Numero == numeroCliente)
+            return OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .Where(op => op.NumeroCliente == numeroCliente &&
+                    op.Estado == OPEstadoEnum.Pendiente)
+                .Select(op =>
+                {
+                    return new OrdenDePreparacion()
+                    {
+                        Numero = op.NumeroOP,
+                        Cliente = ClienteAlmacen.Clientes
+                            .Select(c =>
+                            {
+                                return new Cliente()
+                                {
+                                    Numero = c.NumeroCliente,
+                                    Nombre = c.RazonSocial,
+                                    Prioridad = Enum.Parse<Prioridad>(c.Prioridad.ToString())
+                                };
+                            })
+                            .Where(c => c.Numero == op.NumeroCliente)
+                            .First(),
+                        FechaADespachar = op.FechaADespachar,
+                        MercaderiasAPreparar = op.Detalle
+                            .Select(detalle =>
+                            {
+                                return new Mercaderia()
+                                {
+                                    SKU = detalle.SKU,
+                                    Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                                        .Where(m => m.SKU == detalle.SKU)
+                                        .Select(m => { return m.TipoDeMercaderia; })
+                                        .First(),
+                                    Cantidad = detalle.Cantidad,
+                                };
+                            })
+                            .ToList(),
+                        Estado = Enum.Parse<OrdenDePreparacionEstado>(op.Estado.ToString()),
+                        Prioridad = Enum.Parse<Prioridad>(op.Prioridad.ToString())
+                    };
+                })
                 .ToList();
         else if (numeroCliente == 0 && prioridad is not null)
-            return _ordenesDePreparacion
-                .Where(op => op.Cliente.Prioridad == prioridad)
+            return OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .Select(op =>
+                {
+                    return new OrdenDePreparacion()
+                    {
+                        Numero = op.NumeroOP,
+                        Cliente = ClienteAlmacen.Clientes
+                            .Select(c =>
+                            {
+                                return new Cliente()
+                                {
+                                    Numero = c.NumeroCliente,
+                                    Nombre = c.RazonSocial,
+                                    Prioridad = Enum.Parse<Prioridad>(c.Prioridad.ToString())
+                                };
+                            })
+                            .Where(c => c.Numero == op.NumeroCliente)
+                            .First(),
+                        FechaADespachar = op.FechaADespachar,
+                        MercaderiasAPreparar = op.Detalle
+                            .Select(detalle =>
+                            {
+                                return new Mercaderia()
+                                {
+                                    SKU = detalle.SKU,
+                                    Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                                        .Where(m => m.SKU == detalle.SKU)
+                                        .Select(m => { return m.TipoDeMercaderia; })
+                                        .First(),
+                                    Cantidad = detalle.Cantidad,
+                                };
+                            })
+                            .ToList(),
+                        Estado = Enum.Parse<OrdenDePreparacionEstado>(op.Estado.ToString()),
+                        Prioridad = Enum.Parse<Prioridad>(op.Prioridad.ToString())
+                    };
+                })
+                .Where(op => (op.Cliente.Prioridad == prioridad || op.Prioridad == prioridad) &&
+                    op.Estado == OrdenDePreparacionEstado.Pendiente)
                 .ToList();
-        else
-            return _ordenesDePreparacion
+        else return OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .Select(op =>
+                {
+                    return new OrdenDePreparacion()
+                    {
+                        Numero = op.NumeroOP,
+                        Cliente = ClienteAlmacen.Clientes
+                            .Select(c =>
+                            {
+                                return new Cliente()
+                                {
+                                    Numero = c.NumeroCliente,
+                                    Nombre = c.RazonSocial,
+                                    Prioridad = Enum.Parse<Prioridad>(c.Prioridad.ToString())
+                                };
+                            })
+                            .Where(c => c.Numero == op.NumeroCliente)
+                            .First(),
+                        FechaADespachar = op.FechaADespachar,
+                        MercaderiasAPreparar = op.Detalle
+                            .Select(detalle =>
+                            {
+                                return new Mercaderia()
+                                {
+                                    SKU = detalle.SKU,
+                                    Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                                        .Where(m => m.SKU == detalle.SKU)
+                                        .Select(m => { return m.TipoDeMercaderia; })
+                                        .First(),
+                                    Cantidad = detalle.Cantidad,
+                                };
+                            })
+                            .ToList(),
+                        Estado = Enum.Parse<OrdenDePreparacionEstado>(op.Estado.ToString())
+                    };
+                })
                 .Where(op =>
-                    op.Cliente.Numero == numeroCliente
-                    && op.Cliente.Prioridad == prioridad
+                    op.Numero == numeroCliente &&
+                    (op.Cliente.Prioridad == prioridad || op.Prioridad == prioridad) &&
+                    op.Estado == OrdenDePreparacionEstado.Pendiente
                 )
                 .ToList();
     }
     public OrdenDePreparacion ObtenerOrdenDePreparacionPorNumero(long nroOrden)
     {
-        return _ordenesDePreparacion
-            .Where(op => op.Numero == nroOrden)
+        return OrdenDePreparacionAlmacen.OrdenesPreparacion
+            .Where(op => op.NumeroOP == nroOrden)
+            .Select(op =>
+            {
+                return new OrdenDePreparacion()
+                {
+                    Numero = op.NumeroOP,
+                    Cliente = ClienteAlmacen.Clientes
+                        .Select(c =>
+                        {
+                            return new Cliente()
+                            {
+                                Numero = c.NumeroCliente,
+                                Nombre = c.RazonSocial,
+                                Prioridad = Enum.Parse<Prioridad>(c.Prioridad.ToString())
+                            };
+                        })
+                        .Where(c => c.Numero == op.NumeroCliente)
+                        .First(),
+                    FechaADespachar = op.FechaADespachar,
+                    MercaderiasAPreparar = op.Detalle
+                        .Select(detalle =>
+                        {
+                            return new Mercaderia()
+                            {
+                                SKU = detalle.SKU,
+                                Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                                    .Where(m => m.SKU == detalle.SKU)
+                                    .Select(m => { return m.TipoDeMercaderia; })
+                                    .First(),
+                                Cantidad = detalle.Cantidad,
+                            };
+                        })
+                        .ToList(),
+                    Estado = Enum.Parse<OrdenDePreparacionEstado>(op.Estado.ToString()),
+                    Prioridad = Enum.Parse<Prioridad>(op.Prioridad.ToString())
+                };
+            })
             .First();
     }
     public List<Mercaderia>? ObtenerMercaderiasAPrepararPorOrden(string nroOrden)
     {
-        return _ordenesDePreparacion
-            .Where(preparacion => preparacion.Numero == long.Parse(nroOrden))
-            .ToList()
-            .First()
-            .MercaderiasAPreparar;
-    }
-    public Resultado<bool> GenerarOrdenDeSeleccion(OrdenDeSeleccion orden)
-    {
-        // Validar las reglas de negocio.
-        // CAMBIAR DE ESTADO
-        for (int i = 0; i < orden.OrdenesASeleccionar.Count; i++)
+        var mercaderiasAPreparar = new List<Mercaderia>();
+        foreach (var op in OrdenDePreparacionAlmacen.OrdenesPreparacion)
         {
-            OrdenDePreparacion preparacion = _ordenesDePreparacion
-                .First(op => op.Numero == orden.OrdenesASeleccionar[i].Numero);
+            op.Detalle.ForEach(d =>
+            {
+                mercaderiasAPreparar.Add(new Mercaderia()
+                {
+                    SKU = d.SKU,
+                    Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                        .Where(m => m.SKU == d.SKU)
+                        .Select(m => { return m.TipoDeMercaderia; })
+                        .First(),
+                    Cantidad = d.Cantidad
+                });
+            });
+        }
+        return mercaderiasAPreparar;
+    }
+    public Resultado<OrdenDeSeleccionEnt> GenerarOrdenDeSeleccion(OrdenDeSeleccion orden)
+    {
+        var ordenDeSeleccion = new OrdenDeSeleccionEnt();
+        // Validar las reglas de negocio.
+        // 1. Recorrer las Ordenes de Preparación para cambiar el estado a "EnSeleccion"
+        var ordenesDePreparacion = new List<OrdenDePreparacionEnt>();
+        foreach (var ordenASeleccionar in orden.OrdenesASeleccionar.DistinctBy(op => op.Numero))
+        {
+            var op = OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .First(op => op.NumeroOP == ordenASeleccionar.Numero);
 
-            preparacion.Estado = OrdenDePreparacionEstado.EnPreparacion;
-
-            _ordenesDePreparacion.Remove(preparacion);
-            _ordenesDePreparacion.Add(preparacion);
+            op.Estado = OPEstadoEnum.EnSeleccion;
+            ordenesDePreparacion.Add(op);
         }
 
-        return new Resultado<bool>(
+        // 2. Crear y Agregar la nueva Orden de Selección.
+        ordenDeSeleccion.Estado = OSEstadoEnum.Pendiente;
+        ordenDeSeleccion.OrdenesDePreparacion
+            .AddRange(ordenesDePreparacion.Select(op => { return op.NumeroOP; }));
+
+        OrdenDePreparacionAlmacen.ActualizarEnLote(ordenesDePreparacion);
+        ordenDeSeleccion = OrdenDeSeleccionAlmacen.Agregar(ordenDeSeleccion);
+
+        return new Resultado<OrdenDeSeleccionEnt>(
             true,
-            "La orden se generó correctamente.",
-            true
+            $"La OS Número {ordenDeSeleccion.NumeroOS} se generó correctamente.",
+            ordenDeSeleccion
         );
     }
 }

@@ -20,9 +20,6 @@ public partial class GenerarOrdenDeSeleccionForm : Form
         listViewOrdenesDePreparacion.SelectedItems.Clear();
         listViewOrdenesASeleccionar.Items.Clear();
 
-        comboBoxPrioridadDeOrden.Items.Clear();
-        comboBoxPrioridadDeOrden.Items.AddRange(Enum.GetNames(typeof(Prioridad)));
-
         comboBoxBuscarPorCliente.Items.Clear();
         comboBoxBuscarPorCliente.Items.Add(string.Empty);
         comboBoxBuscarPorCliente.Items.AddRange([.. clientes]);
@@ -65,6 +62,7 @@ public partial class GenerarOrdenDeSeleccionForm : Form
             item.SubItems.Add(ordenes[i].FechaADespachar.ToString("dd/MM/yyyy"));
             item.SubItems.Add(ordenes[i].Cliente.Nombre);
             item.SubItems.Add(ordenes[i].Cliente.Prioridad.ToString());
+            item.SubItems.Add(ordenes[i].Prioridad.ToString());
             viewItems.Add(item);
         }
         return viewItems.ToArray();
@@ -152,7 +150,7 @@ public partial class GenerarOrdenDeSeleccionForm : Form
         }
         else
         {
-            Alerta.MostrarAdvertencia("Debe seleccionar una orden de preparación.");
+            Alerta.MostrarAdvertencia("Debe seleccionar al menos una orden de preparación.");
             return;
         }
     }
@@ -180,41 +178,36 @@ public partial class GenerarOrdenDeSeleccionForm : Form
 
     private void buttonGenerarOrden_Click(object sender, EventArgs e)
     {
-        DialogResult confirmacion = Alerta.PedirConfirmacion("Desea registrar la orden de selección?");
+        List<string> errores = ValidarFormularioOrdenDeSeleccion();
 
-        if (confirmacion == DialogResult.Yes)
+        if (errores.Count > 0)
         {
-            List<string> errores = ValidarFormularioOrdenDeSeleccion();
-
-            if (errores.Count > 0)
-            {
-                Alerta.MostrarErrores(errores);
-                return;
-            }
-
-            var ordenesSeleccionadas = listViewOrdenesASeleccionar.Items;
-
-            OrdenDeSeleccion orden = new() { OrdenesASeleccionar = new() };
-            for (int i = 0; i < ordenesSeleccionadas.Count; i++)
-            {
-                var nroOrden = ordenesSeleccionadas[i].Text;
-
-                OrdenDePreparacion ordenDePreparacion = _ordenDeSeleccionModel
-                    .ObtenerOrdenDePreparacionPorNumero(long.Parse(nroOrden));
-
-                orden.OrdenesASeleccionar.Add(ordenDePreparacion);
-            }
-
-            var resultado = _ordenDeSeleccionModel.GenerarOrdenDeSeleccion(orden);
-
-            if (resultado.Exitoso)
-            {
-                Alerta.MostrarInfo(resultado.Mensaje);
-                CargarFormulario();
-            }
-            else
-                Alerta.MostrarError(resultado.Mensaje);
+            Alerta.MostrarErrores(errores);
+            return;
         }
+
+        var ordenesSeleccionadas = listViewOrdenesASeleccionar.Items;
+
+        OrdenDeSeleccion orden = new() { OrdenesASeleccionar = new() };
+        for (int i = 0; i < ordenesSeleccionadas.Count; i++)
+        {
+            var nroOrden = ordenesSeleccionadas[i].Text;
+
+            OrdenDePreparacion ordenDePreparacion = _ordenDeSeleccionModel
+                .ObtenerOrdenDePreparacionPorNumero(long.Parse(nroOrden));
+
+            orden.OrdenesASeleccionar.Add(ordenDePreparacion);
+        }
+
+        var resultado = _ordenDeSeleccionModel.GenerarOrdenDeSeleccion(orden);
+
+        if (resultado.Exitoso)
+        {
+            Alerta.MostrarInfo(resultado.Mensaje);
+            CargarFormulario();
+        }
+        else
+            Alerta.MostrarError(resultado.Mensaje);
     }
 
     private void GenerarOrdenDeSeleccionForm_FormClosing(object sender, FormClosingEventArgs e)

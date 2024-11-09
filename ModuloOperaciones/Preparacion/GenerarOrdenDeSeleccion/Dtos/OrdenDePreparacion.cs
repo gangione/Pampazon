@@ -9,4 +9,5 @@ public class OrdenDePreparacion
     public DateTime FechaADespachar { get; set; }
     public List<Mercaderia>? MercaderiasAPreparar { get; set; }
     public OrdenDePreparacionEstado Estado { get; set; }
+    public Prioridad Prioridad { get; set; }
 }
