@@ -1,0 +1,13 @@
+﻿Caso de Prueba: Camino Feliz Generar Orden de Preparación
+
+1. Ingresar la fecha de despacho: "12/12/2024".
+2. Seleccionar el cliente: "Mercadito S.A.".
+3. Verificar que la prioridad del cliente aparezca como "Alta" o "Baja".
+4. Seleccionar una mercancía de la lista (ejemplo: SKU "AA-10", tipo "Cemento").
+5. Ingresar la cantidad a preparar: "5".
+6. Presionar el botón "+ Agregar".
+7. Verificar que la mercancía seleccionada aparezca en la tabla "Mercaderías a Retirar por Transportista".
+8. Ingresar nombre y apellido del transportista: "Ricardo".
+9. Ingresar DNI del transportista: "12345678".
+10. Presionar el botón "Generar Orden".
+11. Resultado esperado: Se genera la orden de preparación sin errores.
