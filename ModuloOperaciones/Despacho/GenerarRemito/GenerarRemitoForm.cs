@@ -51,7 +51,7 @@ public partial class GenerarRemitoForm : Form
         if (transportista is not null)
         {
             var ordenesDeEntrega = _generarRemitoModel
-                .ObtenerOrdenesDeEntregaPendientesPorTransportista(transportista.DNI);
+                .ObtenerDetalleARetirarPorTransportista(transportista.DNI);
 
             listViewOrdenesDePreparacionPreparadas.Items.Clear();
             listViewOrdenesDePreparacionPreparadas.Items

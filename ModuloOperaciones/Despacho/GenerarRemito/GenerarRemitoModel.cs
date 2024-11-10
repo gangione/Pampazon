@@ -1,116 +1,74 @@
-﻿using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Dtos;
-using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Enums;
+﻿using Pampazon.Almacenes;
+using Pampazon.Entidades;
+using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Dtos;
 using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Despacho.GenerarRemito;
 public class GenerarRemitoModel
 {
-    private List<Transportista> _transportistas;
-    private List<OrdenDeEntrega> _ordenesDeEntrega;
-    private List<OrdenDePreparacion> _ordenesDePreparacion;
-    private List<Mercaderia> _mercaderias;
-    private List<Remito> _remitos;
     public GenerarRemitoModel()
     {
-        _transportistas = new()
-        {
-            new()
-            {
-                DNI = 12123123,
-                NombreYApellido = "Ricardo"
-            },
-            new()
-            {
-                DNI = 22222222,
-                NombreYApellido = "Juan Pablo"
-            },
-            new()
-            {
-                DNI = 33333333,
-                NombreYApellido = "Juan Ignacio"
-            },
-        };
-        _ordenesDeEntrega = new()
-        {
-            new()
-            {
-                NroOrdenDePreparacion = 1,
-                Cliente = "Mercadito S.A.",
-                SKU = "AA-10",
-                Cantidad = 50,
-                DNITransportista = 12123123,
-                Estado = OrdenDeEntregaEstado.Pendiente
-            },
-            new()
-            {
-                NroOrdenDePreparacion = 1,
-                Cliente = "Mercadito S.A.",
-                SKU = "AB-20",
-                Cantidad = 500,
-                DNITransportista = 12123123,
-                Estado = OrdenDeEntregaEstado.Pendiente
-            },
-            new()
-            {
-                NroOrdenDePreparacion = 1,
-                Cliente = "Mercadito S.A.",
-                SKU = "AC-30",
-                Cantidad = 150,
-                DNITransportista = 12123123,
-                Estado = OrdenDeEntregaEstado.Pendiente
-            }
-        };
-        _ordenesDePreparacion = new()
-        {
-            new()
-            {
-                Numero = 1,
-                Estado = OrdenDePreparacionEstado.Preparada,
-            }
-        };
-        _mercaderias = new()
-        {
-            new()
-            {
-                SKU = "AA-10",
-                Cantidad = 50,
-                Estado = MercaderiaEstado.EnDespacho,
-                NroOrdenDePreparacion = 1,
-            },
-            new()
-            {
-                SKU = "AB-20",
-                Cantidad = 500,
-                Estado = MercaderiaEstado.EnDespacho,
-                NroOrdenDePreparacion = 1,
-            },
-            new()
-            {
-                SKU = "AC-30",
-                Cantidad = 150,
-                Estado = MercaderiaEstado.EnDespacho,
-                NroOrdenDePreparacion = 1,
-            }
-        };
-        _remitos = new();
     }
-
     public List<Transportista> ObtenerTransportistas()
     {
-        return _transportistas;
-    }
-
-    public List<OrdenDeEntrega> ObtenerOrdenesDeEntregaPendientesPorTransportista(long dniTransportista)
-    {
-        return _ordenesDeEntrega
-            .Where(entrega => entrega.DNITransportista == dniTransportista &&
-                entrega.Estado == OrdenDeEntregaEstado.Pendiente)
+        return TransportistaAlmacen.Transportistas
+            .Select(t =>
+            {
+                return new Transportista()
+                {
+                    DNI = t.DNI,
+                    NombreYApellido = t.NombreApellido
+                };
+            })
             .ToList();
     }
-    public Resultado<bool> DespacharOrdenesDePreparacion(long dniTransportista)
+    public List<OrdenDeEntrega> ObtenerDetalleARetirarPorTransportista(string dniTransportista)
     {
-        Transportista? transportista = _transportistas
-            .Find(t => t.DNI == dniTransportista);
+        var entregasPendientes = OrdenDeEntregaAlmacen.OrdenesDeEntrega
+            .Where(entrega => entrega.Estado == OEEstadoEnum.Pendiente)
+            .ToList();
+
+        var transportista = TransportistaAlmacen.Transportistas
+            .Where(tr => tr.DNI == dniTransportista)
+            .First();
+
+        var detalleDeEntrega = new List<OrdenDeEntrega>();
+        foreach (var oe in entregasPendientes)
+        {
+            var ops = OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .Where(op => oe.OrdenesDePreparacion.Contains(op.NumeroOP) &&
+                    op.Estado == OPEstadoEnum.Preparada
+                )
+                .ToList();
+
+            ops.ForEach(op =>
+            {
+                if (transportista.NumeroTransportista == op.NumeroTransportista)
+                {
+                    op.Detalle.ForEach(detalle =>
+                    {
+                        detalleDeEntrega.Add(new()
+                        {
+                            NroOrdenDePreparacion = op.NumeroOP,
+                            Cliente = ClienteAlmacen.Clientes
+                                .Where(c => c.NumeroCliente == op.NumeroCliente)
+                                .Select(c => c.RazonSocial)
+                                .First(),
+                            Cantidad = detalle.Cantidad,
+                            SKU = detalle.SKU
+                        });
+                    });
+                }
+            });
+        }
+        return detalleDeEntrega;
+    }
+    public Resultado<bool> DespacharOrdenesDePreparacion(string dniTransportista)
+    {
+        var transportista = TransportistaAlmacen.Transportistas
+            .Where(t => t.DNI == dniTransportista)
+            .Select(t => t)
+            .FirstOrDefault();
 
         if (transportista is null)
             return new Resultado<bool>(
@@ -119,62 +77,65 @@ public class GenerarRemitoModel
                 false
             );
 
-        List<OrdenDeEntrega> ordenesAEntregar = ObtenerOrdenesDeEntregaPendientesPorTransportista(dniTransportista);
+        List<OrdenDeEntrega> listoParaRetirar = ObtenerDetalleARetirarPorTransportista(dniTransportista);
 
-        if (ordenesAEntregar.Count == 0)
+        if (listoParaRetirar.Count == 0)
             return new Resultado<bool>(
                 false,
                 "El Transportista seleccionado no posee ordenes a despachar.",
                 false
             );
 
-        foreach (var entrega in ordenesAEntregar)
+        // Actualizar el estado de las órdenes.
+        var opsEntregadas = new List<int>();
+        var entregasCumplidas = new List<OrdenDeEntregaEnt>();
+        foreach (var entrega in listoParaRetirar)
         {
-            OrdenDePreparacion? op = _ordenesDePreparacion
-                .Find(op => op.Numero == entrega.NroOrdenDePreparacion
-                    && op.Estado == OrdenDePreparacionEstado.Preparada);
-
-            if (op is not null)
-            {
-                var mercaderias = _mercaderias
-                    .FindAll(m => m.NroOrdenDePreparacion == entrega.NroOrdenDePreparacion);
-
-                foreach (Mercaderia mercaderia in mercaderias)
+            var op = OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .Where(op => op.NumeroOP == entrega.NroOrdenDePreparacion &&
+                    op.Estado == OPEstadoEnum.Preparada
+                )
+                .Select(op =>
                 {
-                    mercaderia.Estado = MercaderiaEstado.Entregada;
-                    _mercaderias.Remove(mercaderia);
-                }
-                _mercaderias.AddRange(mercaderias);
+                    op.Estado = OPEstadoEnum.Despachada;
+                    return op;
+                })
+                .First();
 
-                entrega.Estado = OrdenDeEntregaEstado.Despachada;
-                op.Estado = OrdenDePreparacionEstado.Despachada;
-
-                _ordenesDeEntrega.Remove(entrega);
-                _ordenesDeEntrega.Add(entrega);
-
-                _ordenesDePreparacion.Remove(op);
-                _ordenesDePreparacion.Add(op);
-                _remitos.Add(new Remito()
+            var oe = OrdenDeEntregaAlmacen.OrdenesDeEntrega
+                .Where(oe => oe.OrdenesDePreparacion.Contains(op.NumeroOP) &&
+                    oe.Estado == OEEstadoEnum.Pendiente
+                )
+                .Select(oe =>
                 {
-                    Numero = _remitos.LastOrDefault() is null ? 1 : _remitos.Last().Numero + 1,
-                    Fecha = DateTime.Now,
-                    Transportista = transportista,
-                    Mercaderias = mercaderias
-                });
-            }
-            else
-            {
-                entrega.Estado = OrdenDeEntregaEstado.Despachada;
-                _ordenesDeEntrega.Remove(entrega);
-                _ordenesDeEntrega.Add(entrega);
-            }
+                    oe.Estado = OEEstadoEnum.Cumplida;
+                    return oe;
+                })
+                .First();
+
+            if (!entregasCumplidas.Exists(e => e.NumeroOE == oe.NumeroOE))
+                entregasCumplidas.Add(oe);
+
+            opsEntregadas.Add(op.NumeroOP);
+            OrdenDePreparacionAlmacen.Actualizar(op);
         }
+
+        // Crear el remito y guardar toda la transacción.
+        RemitoEnt remito = new()
+        {
+            NumeroTransportista = transportista.NumeroTransportista
+        };
+        remito.OrdenesDePreparacion.AddRange(opsEntregadas);
+        RemitoAlmacen.Agregar(remito);
+
+        OrdenDeEntregaAlmacen.Grabar();
+        OrdenDePreparacionAlmacen.Grabar();
+        RemitoAlmacen.Grabar();
 
         return new Resultado<bool>(
             true,
             "Ordenes de preparación despacahadas.\n\n" +
-            "Se ha generado el remito correctamente.\n" +
-            "Se ha realizado la baja del Stock.",
+            "Se ha generado el remito correctamente.\n",
             true
         );
     }

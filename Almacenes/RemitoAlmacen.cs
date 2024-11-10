@@ -25,4 +25,13 @@ public static class RemitoAlmacen
 
         _remitos = JsonSerializer.Deserialize<List<RemitoEnt>>(datos)!;
     }
+
+    public static RemitoEnt Agregar(RemitoEnt nuevoRemito)
+    {
+        nuevoRemito.NumeroRemito = Remitos.LastOrDefault() is null ? 1 :
+            Remitos.Max(r => r.NumeroRemito) + 1;
+
+        _remitos.Add(nuevoRemito);
+        return nuevoRemito;
+    }
 }

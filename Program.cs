@@ -20,6 +20,7 @@ namespace Pampazon
             //MigrarDatabaseInicial();
             //CargarDatabaseProd();
 
+            //CargarDatabaseProd();
             CargarDatabaseTest();
 
             //Application.Run(new IniciarSesionForm());
