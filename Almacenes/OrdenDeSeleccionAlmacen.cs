@@ -36,5 +36,11 @@ public static class OrdenDeSeleccionAlmacen
     }
     public static void Actualizar(OrdenDeSeleccionEnt orden)
     {
+        var index = ordenesSeleccion.FindIndex(os => os.NumeroOS == orden.NumeroOS);
+
+        ordenesSeleccion.RemoveAt(index);
+        ordenesSeleccion.Insert(index, orden);
+
+        Grabar();
     }
 }
