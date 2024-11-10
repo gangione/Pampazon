@@ -1,0 +1,36 @@
+﻿Caso de Prueba Inválido: Generar Orden de Preparación
+
+1. Dejar el campo "Fecha a despachar" vacío.
+   - Resultado: El sistema muestra un mensaje de error: "El campo no puede estar vacío". 
+
+2. Ingresar una fecha de despacho inválida: "27/02/2024".
+   - Resultado: El sistema muestra un mensaje de error: "La fecha a despachar ingresada debe ser mayor 
+   o igual al día de hoy". 
+
+3. No seleccionar el tipo de Prioridad de la Orden de Preparación.
+   - Resultado: El sistema muestra un mensaje de error: "Debe ingresar una prioridad para la OP". 
+
+4. Seleccionar un cliente y no ingresar cantidad a preparar.
+   - Resultado: El sistema muestra un mensaje de error: "El listado de mercaderías a retirar no puede
+   quedar vacío".
+
+5. Ingresar una cantidad a preparar negativa: "-5".
+   - Resultado: El sistema muestra un mensaje de error: "El valor ingresado debe ser mayor a 0".
+
+6. Ingresar caracteres no numéricos en el campo "Cantidad a preparar": "ABC".
+   - Resultado: El sistema muestra un mensaje de error: "El campo solo debe contener números".
+
+7. Ingresar una cantidad a preparar superior al stock disponible: "200".
+   - Resultado: El sistema muestra un mensaje de error: "La mercadería a preparar no puede superar la cantidad en stock".
+
+8. Dejar el campo "Nombre y apellido" del transportista vacío.
+   - Resultado: El sistema muestra un mensaje de error:  "El campo no puede estar vacío".
+
+9. Dejar el campo "DNI" del transportista vacío. 
+   - Resultado: El sistema muestra un mensaje de error:  "El campo no puede estar vacío".
+
+10. Ingresar un DNI inválido: "ABCD".
+   - Resultado: El sistema muestra un mensaje de error: "El campo solo debe contener números".
+
+10. Ingresar un DNI inválido: "1234567".
+   - Resultado: El sistema muestra un mensaje de error: "El largo debe ser de 8 caracteres".

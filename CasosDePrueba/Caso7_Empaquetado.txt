@@ -1,0 +1,7 @@
+﻿Caso de Prueba Camino Feliz: Empaquetado
+
+1. Presionar el botón "Buscar siguiente Orden".
+2. Vizualizar las mercaderías a empaquetar que muestra el listado: Orden Nº "1", SKU "AA-10", 
+Tipo de mercadería: "Cemento", Cantidad de Mercadería "5".
+3. Presionar el botón "Confirmar empaquetado".
+6. Resultado: Confirmación de empaquetado, vuelve a la pantalla para buscar la siguiente orden.

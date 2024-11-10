@@ -1,0 +1,14 @@
+﻿Caso de Prueba Camino Feliz: Generar Orden de Preparación
+
+1. Ingresar la fecha de despacho: "12/12/2024".
+2. Seleccione la Prioridad de la OP: "Alta".
+3. Seleccionar el cliente: "Mercadito S.A.".
+4. Verificar que la prioridad del cliente aparezca como "Alta" o "Baja".
+5. Seleccionar una mercadería de la lista: SKU "AA-10", Tipo de Mercadería "Cemento", Cantidad en Stock "50").
+6. Ingresar la cantidad a preparar: "5".
+7. Presionar el botón "+ Agregar".
+8. Verificar que la mercancía seleccionada aparezca en la tabla "Mercaderías a Retirar por Transportista".
+9. Ingresar nombre y apellido del transportista: "Ricardo".
+10. Verificar el autocompletado del DNI del transportista : "12123123".
+11. Presionar el botón "Generar Orden".
+12. Resultado: La OP número 1 se ha generado correctamente.

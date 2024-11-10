@@ -1,0 +1,5 @@
+﻿Caso de Prueba Inválido: Selección de Mercadería / Baja de Stock 
+
+1. Presionar el boton "Confirmar selección" sin haber seleccionado ninguna OS del listado Ordenes de Selección pendientes.
+   - Resultado: El sistema muestra un mensaje de error: "Debe seleccionar una orden de selección pendiente
+   para confirmar". 

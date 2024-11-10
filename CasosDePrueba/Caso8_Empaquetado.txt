@@ -1,0 +1,4 @@
+﻿Caso de Prueba Inválido: Empaquetado
+
+1. Presionar el boton "Confirmar empaquetado" sin haber buscado la siguiente orden, es decir, con la pantalla en blanco.
+   - Resultado: El sistema muestra un mensaje de error: "Debe seleccionar un transportista de la lista". 

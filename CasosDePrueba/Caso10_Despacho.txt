@@ -1,0 +1,4 @@
+﻿Caso de Prueba Inválido: Despacho pedido / Generar Remito
+
+1. Presionar el boton "Confirmar Despacho y Generar Remito" sin seleccionar transportista, es decir, con la pantalla en blanco.
+   - Resultado: El sistema muestra un mensaje de error: "No hay ordenes para despachar". 

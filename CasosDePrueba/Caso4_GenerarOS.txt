@@ -1,11 +1,11 @@
 ﻿
 Caso de Prueba Inválido: Generar Orden de Selección
 
-1. Presionar boton + Agregar a la selección sin seleccionar ninguna OP.
-   - Resultado esperado: El sistema muestra el mensaje de error: "Debe seleccionar al menos una orden de preparación"
+1. Presionar el boton "+ Agregar" a la selección sin seleccionar ninguna OP.
+   - Resultado: El sistema muestra el mensaje de error: "Debe seleccionar al menos una orden de preparación".
 
-2. Presionar boton - Eliminar de la selección sin niguna mercadería seleccionada
-   - Resultado esperado: El sistema muestra el mensaje de error: "Debe seleccionar una mercadería"
+2. Presionar el boton "- Eliminar" de la selección sin niguna mercadería seleccionada
+   - Resultado: El sistema muestra el mensaje de error: "Debe seleccionar una mercadería"
 
-3. Presionar boton Generar orden sin agregar ninguna orden a la selección
-   - Resultado esperado: El sistema muestra el mensaje de error: "Hay errores en los datos ingresados, el listado no puede estar vacio"
+3. Presionar el boton "Generar orden" sin agregar ninguna orden a la selección
+   - Resultado: El sistema muestra el mensaje de error: "Hay errores en los datos ingresados, el listado no puede estar vacio"

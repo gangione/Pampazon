@@ -1,0 +1,7 @@
+﻿Caso de Prueba Camino Feliz: Selección de Mercadería / Baja de Stock 
+
+1. Seleccionar una orden de selección pendiente de la lista: Orden Nº "1".
+2. Verificar que el detalle de la orden de selección muestre la mercadería correspondiente: Ubicación "1-1-1", Cantidad de Mercadería "5, 
+"SKU "AA-10", tipo de Mercadería "Cemento".
+3. Presionar el botón "Confirmar selección".
+4. Resultado: Se realiza la baja de stock seleccionado.

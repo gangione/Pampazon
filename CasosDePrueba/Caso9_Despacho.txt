@@ -1,0 +1,8 @@
+﻿Caso de Prueba Camino Feliz: Despacho pedido / Generar Remito
+
+1. Seleccionar transportista: "Ricardo - 12123123".
+2. Vizualizar las mercaderías a empaquetar que muestra el listado: Orden Nº "1", Cliente "Mercadito S.A", SKU "AA-10", 
+Cantidad de Mercadería "5".
+3. Presionar el botón "Confirmar Despacho y Generar Remito".
+4. Visualizar mensaje: "¿Desea confirmar el despacho y generar el remito?" S/N.
+6. Resultado: Orden de Preparación despachada correctamente, generación de remito exitoso.
