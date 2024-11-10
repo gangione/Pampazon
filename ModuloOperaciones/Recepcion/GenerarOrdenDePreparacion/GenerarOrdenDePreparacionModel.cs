@@ -153,6 +153,9 @@ public class GenerarOrdenDePreparacionModel
         ordenDePreparacion.Detalle.AddRange(detalle);
         ordenDePreparacion = OrdenDePreparacionAlmacen.Agregar(ordenDePreparacion);
 
+        TransportistaAlmacen.Grabar();
+        OrdenDePreparacionAlmacen.Grabar();
+
         return new Resultado<OrdenDePreparacionEnt>(
             true,
             $"La OP Número {ordenDePreparacion.NumeroOP} se generó correctamente.",
