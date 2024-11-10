@@ -32,4 +32,12 @@ public static class OrdenDeEntregaAlmacen
         _ordenesDeEntrega.Add(nuevaOrden);
         return nuevaOrden;
     }
+
+    public static void Actualizar(OrdenDeEntregaEnt orden)
+    {
+        var index = _ordenesDeEntrega.FindIndex(os => os.NumeroOE == orden.NumeroOE);
+
+        _ordenesDeEntrega.RemoveAt(index);
+        _ordenesDeEntrega.Insert(index, orden);
+    }
 }

@@ -47,15 +47,12 @@ namespace Pampazon
             // Repositorios de Prueba.
 
             // Archivo de Clientes.
-            ClienteAlmacen.GrabarDatosDePrueba();
             ClienteAlmacen.LeerDatosDePrueba();
 
             // Archivo de Transportistas.
-            TransportistaAlmacen.GrabarDatosDePrueba();
             TransportistaAlmacen.LeerDatosDePrueba();
 
             // Archivo de Mercaderias en Stock.
-            MercaderiaEnStockAlmacen.GrabarDatosDePrueba();
             MercaderiaEnStockAlmacen.LeerDatosDePrueba();
         }
         /// <summary>
@@ -65,9 +62,9 @@ namespace Pampazon
         private static void MigrarDatabaseInicial()
         {
             // Repositorios
-            ClienteAlmacen.MigrarDatosDePrueba();
-            TransportistaAlmacen.MigrarDatosDePrueba();
-            MercaderiaEnStockAlmacen.MigrarDatosDePrueba();
+            ClienteAlmacen.LeerDatosDePrueba();
+            TransportistaAlmacen.LeerDatosDePrueba();
+            MercaderiaEnStockAlmacen.LeerDatosDePrueba();
 
             // Grabar los Datos de la migración del sistema para comenzar a utilizar
             ClienteAlmacen.Grabar();

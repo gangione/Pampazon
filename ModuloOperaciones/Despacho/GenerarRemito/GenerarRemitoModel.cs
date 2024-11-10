@@ -66,65 +66,57 @@ public class GenerarRemitoModel
     public Resultado<bool> DespacharOrdenesDePreparacion(string dniTransportista)
     {
         var transportista = TransportistaAlmacen.Transportistas
-            .Where(t => t.DNI == dniTransportista)
-            .Select(t => t)
-            .FirstOrDefault();
+            .FirstOrDefault(t => t.DNI == dniTransportista);
 
         if (transportista is null)
             return new Resultado<bool>(
                 false,
-                $"No se enontró el Transportista con DNI {dniTransportista}.",
+                $"No se encontró el transportista con DNI {dniTransportista}.",
                 false
             );
 
         List<OrdenDeEntrega> listoParaRetirar = ObtenerDetalleARetirarPorTransportista(dniTransportista);
 
-        if (listoParaRetirar.Count == 0)
+        if (!listoParaRetirar.Any())
             return new Resultado<bool>(
                 false,
-                "El Transportista seleccionado no posee ordenes a despachar.",
+                "El transportista seleccionado no posee órdenes a despachar.",
                 false
             );
 
-        // Actualizar el estado de las órdenes.
         var opsEntregadas = new List<int>();
-        var entregasCumplidas = new List<OrdenDeEntregaEnt>();
+        var entregasCumplidas = new HashSet<int>();
+
         foreach (var entrega in listoParaRetirar)
         {
             var op = OrdenDePreparacionAlmacen.OrdenesPreparacion
-                .Where(op => op.NumeroOP == entrega.NroOrdenDePreparacion &&
-                    op.Estado == OPEstadoEnum.Preparada
-                )
-                .Select(op =>
-                {
-                    op.Estado = OPEstadoEnum.Despachada;
-                    return op;
-                })
-                .First();
+                .FirstOrDefault(op => op.NumeroOP == entrega.NroOrdenDePreparacion && op.Estado == OPEstadoEnum.Preparada);
 
-            var oe = OrdenDeEntregaAlmacen.OrdenesDeEntrega
-                .Where(oe => oe.OrdenesDePreparacion.Contains(op.NumeroOP) &&
-                    oe.Estado == OEEstadoEnum.Pendiente
-                )
-                .Select(oe =>
+            if (op != null)
+            {
+                op.Estado = OPEstadoEnum.Despachada;
+                OrdenDePreparacionAlmacen.Actualizar(op);
+                opsEntregadas.Add(op.NumeroOP);
+
+                var oe = OrdenDeEntregaAlmacen.OrdenesDeEntrega
+                    .FirstOrDefault(oe => oe.OrdenesDePreparacion.Contains(op.NumeroOP) && oe.Estado == OEEstadoEnum.Pendiente);
+
+                if (oe != null && oe.OrdenesDePreparacion.All(numOP =>
+                        OrdenDePreparacionAlmacen.OrdenesPreparacion.FirstOrDefault(op => op.NumeroOP == numOP)?.Estado == OPEstadoEnum.Despachada))
                 {
                     oe.Estado = OEEstadoEnum.Cumplida;
-                    return oe;
-                })
-                .First();
-
-            if (!entregasCumplidas.Exists(e => e.NumeroOE == oe.NumeroOE))
-                entregasCumplidas.Add(oe);
-
-            opsEntregadas.Add(op.NumeroOP);
-            OrdenDePreparacionAlmacen.Actualizar(op);
+                    entregasCumplidas.Add(oe.NumeroOE);
+                    OrdenDeEntregaAlmacen.Actualizar(oe);
+                }
+            }
         }
 
         // Crear el remito y guardar toda la transacción.
-        RemitoEnt remito = new()
+        var remito = new RemitoEnt
         {
             NumeroTransportista = transportista.NumeroTransportista
         };
+
         remito.OrdenesDePreparacion.AddRange(opsEntregadas);
         RemitoAlmacen.Agregar(remito);
 
@@ -134,8 +126,8 @@ public class GenerarRemitoModel
 
         return new Resultado<bool>(
             true,
-            "Ordenes de preparación despacahadas.\n\n" +
-            "Se ha generado el remito correctamente.\n",
+            "Órdenes de preparación despachadas correctamente.\n" +
+            "Se ha generado el remito con éxito.\n",
             true
         );
     }
