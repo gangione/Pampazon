@@ -86,12 +86,18 @@ public class GenerarOrdenDeEntregaModel
             })
             .ToList();
         // 2. Crear la OE.
-        var ordenDeEntrega = new OrdenDeEntregaEnt();
-        ordenDeEntrega.Estado = OEEstadoEnum.Pendiente;
+        var ordenDeEntrega = new OrdenDeEntregaEnt
+        {
+            Estado = OEEstadoEnum.Pendiente
+        };
         ordenDeEntrega.OrdenesDePreparacion.AddRange(os.OrdenesDePreparacion);
 
         OrdenDeEntregaAlmacen.Agregar(ordenDeEntrega);
         OrdenDeSeleccionAlmacen.Actualizar(os);
         OrdenDePreparacionAlmacen.ActualizarEnLote(ops);
+
+        OrdenDeEntregaAlmacen.Grabar();
+        OrdenDeSeleccionAlmacen.Grabar();
+        OrdenDePreparacionAlmacen.Grabar();
     }
 }
