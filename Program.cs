@@ -43,13 +43,18 @@ namespace Pampazon
         private static void CargarDatabaseTest()
         {
             // Cargar Seeders del sistema para Testing.
-            ClienteAlmacen.GrabarDatosDePrueba();
-            TransportistaAlmacen.GrabarDatosDePrueba();
-            MercaderiaEnStockAlmacen.GrabarDatosDePrueba();
+            // Repositorios de Prueba.
 
-            // Cargar Repositorios de Prueba
+            // Archivo de Clientes.
+            ClienteAlmacen.GrabarDatosDePrueba();
             ClienteAlmacen.LeerDatosDePrueba();
+
+            // Archivo de Transportistas.
+            TransportistaAlmacen.GrabarDatosDePrueba();
             TransportistaAlmacen.LeerDatosDePrueba();
+
+            // Archivo de Mercaderias en Stock.
+            MercaderiaEnStockAlmacen.GrabarDatosDePrueba();
             MercaderiaEnStockAlmacen.LeerDatosDePrueba();
         }
         /// <summary>

@@ -3,5 +3,5 @@ public class OrdenDeSeleccionEnt
 {
     public int NumeroOS { get; set; }
     public OSEstadoEnum Estado { get; set; }
-    public List<int> OrdenesDePreparacion { get; } = [];
+    public List<int> OrdenesDePreparacion { get; set; } = [];
 }

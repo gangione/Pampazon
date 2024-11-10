@@ -1,12 +1,7 @@
-﻿using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Enums;
-
-namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Dtos;
+﻿namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Dtos;
 
 public class OrdenDeSeleccion
 {
     public long Numero { get; set; }
-    public Prioridad Prioridad { get; set; }
-    public DateTime FechaADespachar { get; set; }
-    public OrdenDeSeleccionEstado Estado { get; set; }
-    public List<OrdenDePreparacion> OrdenesDePreparacion { get; set; }
+    public List<int> OrdenesDePreparacion { get; set; }
 }
