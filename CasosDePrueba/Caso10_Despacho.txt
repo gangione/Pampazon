@@ -2,3 +2,6 @@
 
 1. Presionar el boton "Confirmar Despacho y Generar Remito" sin seleccionar transportista, es decir, con la pantalla en blanco.
    - Resultado: El sistema muestra un mensaje de error: "No hay ordenes para despachar". 
+
+2. Seleccionar un transportista que no tenga asignadas Ordenes para despachar y luego presionar el boton "Confirmar Despacho y Generar Remito".
+   - Resultado: El sistema muestra un mensaje de error: "El transportista seleccionado no posee ordenes a despachar". 
