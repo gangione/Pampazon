@@ -30,8 +30,6 @@ public static class OrdenDeSeleccionAlmacen
             OrdenesSeleccion.Max(op => op.NumeroOS) + 1;
 
         ordenesSeleccion.Add(nuevaOrden);
-        Grabar();
-
         return nuevaOrden;
     }
     public static void Actualizar(OrdenDeSeleccionEnt orden)
@@ -40,7 +38,5 @@ public static class OrdenDeSeleccionAlmacen
 
         ordenesSeleccion.RemoveAt(index);
         ordenesSeleccion.Insert(index, orden);
-
-        Grabar();
     }
 }

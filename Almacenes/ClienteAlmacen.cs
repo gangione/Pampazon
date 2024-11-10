@@ -25,17 +25,6 @@ public static class ClienteAlmacen
 
         _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
     }
-    public static void GrabarDatosDePrueba()
-    {
-        if (!File.Exists(@"Almacenes\DatosDePrueba\Clientes.json"))
-        {
-            return;
-        }
-
-        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Clientes.json");
-
-        _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
-    }
     public static void LeerDatosDePrueba()
     {
         if (!File.Exists(@"Almacenes\DatosDePrueba\Clientes.json"))
@@ -44,17 +33,6 @@ public static class ClienteAlmacen
         }
 
         var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Clientes.json");
-
-        _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
-    }
-    public static void MigrarDatosDePrueba()
-    {
-        if (!File.Exists(@"Almacenes\DatosDePrueba\Clientes.json"))
-        {
-            return;
-        }
-
-        var datos = File.ReadAllText(@"Clientes.json");
 
         _clientes = JsonSerializer.Deserialize<List<ClienteEnt>>(datos)!;
     }

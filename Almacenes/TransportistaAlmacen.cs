@@ -29,19 +29,7 @@ public static class TransportistaAlmacen
             Transportistas.Max(t => t.NumeroTransportista) + 1;
 
         _transportistas.Add(transportista);
-        Grabar();
         return transportista;
-    }
-    public static void GrabarDatosDePrueba()
-    {
-        if (!File.Exists(@"Almacenes\DatosDePrueba\Transportistas.json"))
-        {
-            return;
-        }
-
-        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Transportistas.json");
-
-        _transportistas = JsonSerializer.Deserialize<List<TransportistaEnt>>(datos)!;
     }
     public static void LeerDatosDePrueba()
     {
@@ -51,17 +39,6 @@ public static class TransportistaAlmacen
         }
 
         var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Transportistas.json");
-
-        _transportistas = JsonSerializer.Deserialize<List<TransportistaEnt>>(datos)!;
-    }
-    public static void MigrarDatosDePrueba()
-    {
-        if (!File.Exists(@"Almacenes\DatosDePrueba\Transportistas.json"))
-        {
-            return;
-        }
-
-        var datos = File.ReadAllText(@"Transportistas.json");
 
         _transportistas = JsonSerializer.Deserialize<List<TransportistaEnt>>(datos)!;
     }

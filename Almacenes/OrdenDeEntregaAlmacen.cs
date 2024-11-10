@@ -30,8 +30,6 @@ public static class OrdenDeEntregaAlmacen
             OrdenesDeEntrega.Max(op => op.NumeroOE) + 1;
 
         _ordenesDeEntrega.Add(nuevaOrden);
-        Grabar();
-
         return nuevaOrden;
     }
 }

@@ -11,7 +11,7 @@ public static class OrdenDePreparacionAlmacen
     public static void Grabar()
     {
         var datos = JsonSerializer.Serialize(ordenesPreparacion);
-        File.WriteAllText("OrdenesDePreparacion.json", datos);
+        File.WriteAllText(@"OrdenesDePreparacion.json", datos);
     }
     public static void Leer()
     {
@@ -20,7 +20,7 @@ public static class OrdenDePreparacionAlmacen
             return;
         }
 
-        var datos = File.ReadAllText("OrdenesDePreparacion.json");
+        var datos = File.ReadAllText(@"OrdenesDePreparacion.json");
 
         ordenesPreparacion = JsonSerializer.Deserialize<List<OrdenDePreparacionEnt>>(datos)!;
     }
@@ -30,18 +30,14 @@ public static class OrdenDePreparacionAlmacen
             OrdenesPreparacion.Max(op => op.NumeroOP) + 1;
 
         ordenesPreparacion.Add(nuevaOrden);
-        Grabar();
-
         return nuevaOrden;
     }
-
     public static void Actualizar(OrdenDePreparacionEnt orden)
     {
         var index = ordenesPreparacion.FindIndex(op => op.NumeroOP == orden.NumeroOP);
 
         ordenesPreparacion.RemoveAt(index);
         ordenesPreparacion.Insert(index, orden);
-        Grabar();
     }
     public static void ActualizarEnLote(List<OrdenDePreparacionEnt> ordenes)
     {
@@ -52,6 +48,5 @@ public static class OrdenDePreparacionAlmacen
             ordenesPreparacion.RemoveAt(index);
             ordenesPreparacion.Insert(index, orden);
         }
-        Grabar();
     }
 }

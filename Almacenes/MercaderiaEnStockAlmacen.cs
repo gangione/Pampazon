@@ -32,18 +32,6 @@ public static class MercaderiaEnStockAlmacen
             _mercaderias.RemoveAt(index);
             _mercaderias.Insert(index, mercaderia);
         }
-        Grabar();
-    }
-    public static void GrabarDatosDePrueba()
-    {
-        if (!File.Exists(@"Almacenes\DatosDePrueba\MercaderiasEnStock.json"))
-        {
-            return;
-        }
-
-        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\MercaderiasEnStock.json");
-
-        _mercaderias = JsonSerializer.Deserialize<List<MercaderiaEnStockEnt>>(datos)!;
     }
     public static void LeerDatosDePrueba()
     {
@@ -53,17 +41,6 @@ public static class MercaderiaEnStockAlmacen
         }
 
         var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\MercaderiasEnStock.json");
-
-        _mercaderias = JsonSerializer.Deserialize<List<MercaderiaEnStockEnt>>(datos)!;
-    }
-    public static void MigrarDatosDePrueba()
-    {
-        if (!File.Exists(@"Almacenes\DatosDePrueba\MercaderiasEnStock.json"))
-        {
-            return;
-        }
-
-        var datos = File.ReadAllText(@"MercaderiasEnStock.json");
 
         _mercaderias = JsonSerializer.Deserialize<List<MercaderiaEnStockEnt>>(datos)!;
     }
