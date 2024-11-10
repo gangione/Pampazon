@@ -167,7 +167,6 @@ partial class GenerarOrdenDeEntregaForm
         Name = "GenerarOrdenDeEntregaForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Orden De Entrega";
-        Load += GenerarOrdenDeEntregaForm_Load;
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
         groupBoxOrdenDeSeleccion.ResumeLayout(false);
         groupBoxMercaderiasAEmpaquetar.ResumeLayout(false);

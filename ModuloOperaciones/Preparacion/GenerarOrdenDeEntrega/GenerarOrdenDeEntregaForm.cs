@@ -38,38 +38,37 @@ public partial class GenerarOrdenDeEntregaForm : Form
 
     #region Mercaderias a Empaquetar
 
-    private void CargarMercaderiasAEmpaquetar(OrdenDeSeleccion? ordenDeSeleccion)
+    private void CargarMercaderiasAEmpaquetar(OrdenDeSeleccion? os)
     {
         listViewMercaderiasAEmpaquetar.Items.Clear();
 
-        if (ordenDeSeleccion is null)
+        if (os is null)
         {
             Alerta.MostrarAdvertencia("No existen ordenes pendientes a empaquetar...");
             return;
         }
 
-        if (ordenDeSeleccion?.OrdenesASeleccionar.Count > 0)
+        if (os?.OrdenesASeleccionar.Count > 0)
         {
-            ListViewItem[] mercaderias = ObtenerListViewMercaderiasAEmpaquetar(ordenDeSeleccion);
+            ListViewItem[] mercaderias = ObtenerListViewMercaderiasAEmpaquetar(os);
 
             listViewMercaderiasAEmpaquetar.Items
                 .AddRange(mercaderias);
         }
     }
 
-    private static ListViewItem[] ObtenerListViewMercaderiasAEmpaquetar(OrdenDeSeleccion ordenDeSeleccion)
+    private static ListViewItem[] ObtenerListViewMercaderiasAEmpaquetar(OrdenDeSeleccion os)
     {
         List<ListViewItem> viewItems = new();
-        var ordenesDePreparacion = ordenDeSeleccion.OrdenesASeleccionar;
-        for (int i = 0; i < ordenesDePreparacion.Count; i++)
+
+        foreach (var op in os.OrdenesASeleccionar)
         {
-            var mercaderias = ordenesDePreparacion[i].MercaderiasAPreparar;
-            for (int j = 0; j < mercaderias?.Count; j++)
+            foreach (var m in op.MercaderiasAPreparar)
             {
-                ListViewItem item = new(ordenesDePreparacion[i].Numero.ToString());
-                item.SubItems.Add(mercaderias[j].SKU);
-                item.SubItems.Add(mercaderias[j].Descripcion);
-                item.SubItems.Add(mercaderias[j].Cantidad.ToString());
+                ListViewItem item = new(op.Numero.ToString());
+                item.SubItems.Add(m.SKU);
+                item.SubItems.Add(m.Descripcion);
+                item.SubItems.Add(m.Cantidad.ToString());
                 viewItems.Add(item);
             }
         }
@@ -79,11 +78,6 @@ public partial class GenerarOrdenDeEntregaForm : Form
     #endregion
 
     #region Eventos
-
-    private void GenerarOrdenDeEntregaForm_Load(object sender, EventArgs e)
-    {
-        CargarSiguienteOrdenAPreparar();
-    }
 
     private void buttonBuscarSiguienteOrden_Click(object sender, EventArgs e)
     {
@@ -98,17 +92,11 @@ public partial class GenerarOrdenDeEntregaForm : Form
             return;
         }
 
-        DialogResult confirma = Alerta.PedirConfirmacion("Desea confirmar el empaquetado de la orden?");
+        _generarOrdenDeEntregaModel
+            .ConfirmarEmpaquetado((long)groupBoxOrdenDeSeleccion.Tag);
 
-        if (confirma == DialogResult.Yes)
-        {
-            _generarOrdenDeEntregaModel
-                .ConfirmarEmpaquetado((long)groupBoxOrdenDeSeleccion.Tag);
-
-            Alerta.MostrarInfo("Se confirmó el empaquetado correctamente.");
-            listViewMercaderiasAEmpaquetar.Items.Clear();
-            CargarSiguienteOrdenAPreparar();
-        }
+        listViewMercaderiasAEmpaquetar.Items.Clear();
+        groupBoxOrdenDeSeleccion.Text = "Orden de Selección";
     }
     #endregion
 }

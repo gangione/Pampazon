@@ -1,7 +1,7 @@
 ﻿namespace Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Enums;
-public enum OrdenDeSeleccionEstado
+
+public enum OSEstado
 {
     Pendiente,
-    APreparar,
-    Cumplida,
+    Despachada
 }

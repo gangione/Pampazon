@@ -1,79 +1,97 @@
-﻿using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Dtos;
+﻿using Pampazon.Almacenes;
+using Pampazon.Entidades;
+using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Dtos;
 using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Enums;
 
 namespace Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega;
 public class GenerarOrdenDeEntregaModel
 {
-    private List<OrdenDeSeleccion> _ordenesDeSeleccion;
     public GenerarOrdenDeEntregaModel()
     {
-        _ordenesDeSeleccion = new()
-        {
-            new ()
-            {
-                Numero = 1,
-                Prioridad = Prioridad.Alta,
-                FechaADespachar = DateTime.Now.AddDays(1),
-                Estado = OrdenDeSeleccionEstado.APreparar,
-                OrdenesASeleccionar = new()
-                {
-                    new()
-                    {
-                        Numero = 1,
-                        MercaderiasAPreparar = new ()
-                        {
-                            new ()
-                            {
-                                SKU = "AA-10",
-                                Descripcion = "Cemento",
-                                Cantidad = 50,
-                                Estado = MercaderiaEstado.EnPreparacion
-                            },
-                            new ()
-                            {
-                                SKU = "AB-20",
-                                Descripcion = "Arena",
-                                Cantidad = 150,
-                                Estado = MercaderiaEstado.EnPreparacion
-                            },
-                            new ()
-                            {
-                                SKU = "AC-30",
-                                Descripcion = "Ladrillos",
-                                Cantidad = 500,
-                                Estado = MercaderiaEstado.EnPreparacion
-                            }
-                        }
-                    }
-                },
-            }
-        };
     }
 
     public OrdenDeSeleccion? ObtenerSiguienteOrdenAEmpaquetar()
     {
-        return _ordenesDeSeleccion
-            .Where(os => os.Estado == OrdenDeSeleccionEstado.APreparar)
-            .OrderBy(os => os.Prioridad)
-            .OrderByDescending(os => os.FechaADespachar)
-            .FirstOrDefault();
-    }
-    public void ConfirmarEmpaquetado(long numeroOrdenSeleccion)
-    {
-        _ordenesDeSeleccion.ForEach(os =>
-        {
-            if (os.Numero == numeroOrdenSeleccion)
+        var os = OrdenDeSeleccionAlmacen.OrdenesSeleccion
+            .Where(os => os.Estado == OSEstadoEnum.Cumplida)
+            .Select(os =>
             {
-                os.Estado = OrdenDeSeleccionEstado.Cumplida;
-                os.OrdenesASeleccionar.ForEach(op =>
+                if (OrdenDePreparacionAlmacen.OrdenesPreparacion
+                        .Where(op => os.OrdenesDePreparacion.Contains(op.NumeroOP))
+                        .Select(op => op.Estado == OPEstadoEnum.Preparada)
+                        .First())
+                    return null;
+
+                return new OrdenDeSeleccion()
                 {
-                    op.Estado = OrdenDePreparacionEstado.Preparada;
-                    op.MercaderiasAPreparar?.ForEach(m =>
-                    {
-                        m.Estado = MercaderiaEstado.EnDespacho;
-                    });
-                });
-            }
-        });
+                    Numero = os.NumeroOS,
+                    OrdenesASeleccionar = OrdenDePreparacionAlmacen.OrdenesPreparacion
+                        .Where(op => os.OrdenesDePreparacion.Contains(op.NumeroOP))
+                        .Select(op =>
+                        {
+                            return new OrdenDePreparacion()
+                            {
+                                Numero = op.NumeroOP,
+                                Estado = Enum.Parse<OPEstado>(op.Estado.ToString()),
+                                Prioridad = Enum.Parse<Prioridad>(op.Prioridad.ToString()),
+                                FechaADespachar = op.FechaADespachar,
+                                MercaderiasAPreparar = op.Detalle
+                                    .Select(d =>
+                                    {
+                                        return new Mercaderia()
+                                        {
+                                            SKU = d.SKU,
+                                            Cantidad = d.Cantidad,
+                                            Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                                                .Where(m => m.SKU == d.SKU)
+                                                .Select(m => m.TipoDeMercaderia)
+                                                .First()
+                                        };
+                                    })
+                                    .ToList()
+                            };
+                        })
+                        .ToList(),
+                };
+            })
+            .FirstOrDefault();
+
+        if (os is null)
+            return os;
+
+        os.OrdenesASeleccionar = os.OrdenesASeleccionar
+            .OrderByDescending(op => op.Prioridad)
+            .ToList();
+
+        return os;
+    }
+    public void ConfirmarEmpaquetado(long numeroOS)
+    {
+        // 1. Cambiar de estado las OP Empaquetadas.
+        var os = OrdenDeSeleccionAlmacen.OrdenesSeleccion
+            .Where(os => os.NumeroOS == numeroOS)
+            .Select(os =>
+            {
+                os.Estado = OSEstadoEnum.Cumplida;
+                return os;
+            })
+            .First();
+
+        var ops = OrdenDePreparacionAlmacen.OrdenesPreparacion
+            .Where(op => os.OrdenesDePreparacion.Contains(op.NumeroOP))
+            .Select(op =>
+            {
+                op.Estado = OPEstadoEnum.Preparada;
+                return op;
+            })
+            .ToList();
+        // 2. Crear la OE.
+        var ordenDeEntrega = new OrdenDeEntregaEnt();
+        ordenDeEntrega.Estado = OEEstadoEnum.Pendiente;
+        ordenDeEntrega.OrdenesDePreparacion.AddRange(os.OrdenesDePreparacion);
+
+        OrdenDeEntregaAlmacen.Agregar(ordenDeEntrega);
+        OrdenDeSeleccionAlmacen.Actualizar(os);
+        OrdenDePreparacionAlmacen.ActualizarEnLote(ops);
     }
 }

@@ -34,6 +34,15 @@ public static class OrdenDePreparacionAlmacen
 
         return nuevaOrden;
     }
+
+    public static void Actualizar(OrdenDePreparacionEnt orden)
+    {
+        var index = ordenesPreparacion.FindIndex(op => op.NumeroOP == orden.NumeroOP);
+
+        ordenesPreparacion.RemoveAt(index);
+        ordenesPreparacion.Insert(index, orden);
+        Grabar();
+    }
     public static void ActualizarEnLote(List<OrdenDePreparacionEnt> ordenes)
     {
         foreach (var orden in ordenes)
