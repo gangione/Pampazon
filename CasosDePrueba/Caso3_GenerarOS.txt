@@ -1,0 +1,19 @@
+﻿
+
+Caso de Prueba: Camino Feliz Generar Orden de Selección
+
+1. Filtrar el cliente: "Mercadito S.A.".
+2. Filtrar por prioridad: "Alta"
+3. Verificar que se muestren las ordenes de preparación según los filtos aplicados. 
+	N° orden de preparación: 1
+	Fecha a despachar:12/12/2024
+	Cliente: Mercadito S.A
+	Prioridad del cliente: Alta
+	Prioridad de la OP: Alta
+4. Seleccionar una orden de preparación N°1 y presionar agregar a la selección.
+5. Verificar que la información de mercadería asociada a esa orden de preparación aparezca en la tabla "Mercaderías a seleccionar en almacen".
+6. Seleccionar de la tabla "Mercaderías a seleccionar en almacen" la fila agregada y presionar eliminar de la selección.
+7. Volver a seleccionar una orden de preparación N°1 y presionar agregar a la selección.
+8. Verificar que la información de mercadería asociada a esa orden de preparación aparezca en la tabla "Mercaderías a seleccionar en almacen"
+9. Presionar el botón "Generar Orden".
+10.Resultado esperado: La OS N1 se generó correctamente.
