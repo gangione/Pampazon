@@ -237,24 +237,28 @@ public class GenerarOrdenDeSeleccionModel
             })
             .First();
     }
-    public List<Mercaderia>? ObtenerMercaderiasAPrepararPorOrden(string nroOrden)
+    public List<Mercaderia>? ObtenerMercaderiasAPrepararPorOrden(long nroOrden)
     {
         var mercaderiasAPreparar = new List<Mercaderia>();
-        foreach (var op in OrdenDePreparacionAlmacen.OrdenesPreparacion)
+
+        var op = OrdenDePreparacionAlmacen.OrdenesPreparacion
+            .Where(op => op.NumeroOP == nroOrden)
+            .Select(op => op)
+            .First();
+
+        op.Detalle.ForEach(d =>
         {
-            op.Detalle.ForEach(d =>
+            mercaderiasAPreparar.Add(new Mercaderia()
             {
-                mercaderiasAPreparar.Add(new Mercaderia()
-                {
-                    SKU = d.SKU,
-                    Descripcion = MercaderiaEnStockAlmacen.Mercaderias
-                        .Where(m => m.SKU == d.SKU)
-                        .Select(m => { return m.TipoDeMercaderia; })
-                        .First(),
-                    Cantidad = d.Cantidad
-                });
+                SKU = d.SKU,
+                Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                    .Where(m => m.SKU == d.SKU)
+                    .Select(m => { return m.TipoDeMercaderia; })
+                    .First(),
+                Cantidad = d.Cantidad
             });
-        }
+        });
+
         return mercaderiasAPreparar;
     }
     public Resultado<OrdenDeSeleccionEnt> GenerarOrdenDeSeleccion(OrdenDeSeleccion orden)

@@ -132,7 +132,7 @@ public partial class GenerarOrdenDeSeleccionForm : Form
             }
 
             var mercaderias = _ordenDeSeleccionModel
-                .ObtenerMercaderiasAPrepararPorOrden(ordenDePreparacionSelected.Text);
+                .ObtenerMercaderiasAPrepararPorOrden(long.Parse(ordenDePreparacionSelected.Text));
 
             for (int i = 0; i < mercaderias?.Count; i++)
             {
