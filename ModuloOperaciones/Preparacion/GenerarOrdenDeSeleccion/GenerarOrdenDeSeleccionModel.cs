@@ -284,6 +284,9 @@ public class GenerarOrdenDeSeleccionModel
         OrdenDePreparacionAlmacen.ActualizarEnLote(ordenesDePreparacion);
         ordenDeSeleccion = OrdenDeSeleccionAlmacen.Agregar(ordenDeSeleccion);
 
+        OrdenDePreparacionAlmacen.Grabar();
+        OrdenDeSeleccionAlmacen.Grabar();
+
         return new Resultado<OrdenDeSeleccionEnt>(
             true,
             $"La OS Número {ordenDeSeleccion.NumeroOS} se generó correctamente.",
