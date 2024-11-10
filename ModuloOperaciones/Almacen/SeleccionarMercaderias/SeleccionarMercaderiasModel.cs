@@ -41,31 +41,44 @@ public class SeleccionarMercaderiasModel
             .Select(op => op)
             .ToList();
 
-        List<Mercaderia> mercaderias = new();
+        List<Mercaderia> mercaderiasASeleccionar = new();
+
+        // Diccionario temporal para almacenar el stock restante por ubicación
+        var stockDisponible = MercaderiaEnStockAlmacen.Mercaderias
+            .ToDictionary(
+                m => m.SKU,
+                m => m.Ubicaciones
+                    .Select(u => new Ubicacion
+                    {
+                        Cantidad = u.Cantidad,
+                        Sector = u.Sector,
+                        Posicion = u.Posicion,
+                        Fila = u.Fila
+                    })
+                    .ToList()
+            );
+
         foreach (var op in ordenesDePreparacion)
         {
             // 2. Recorro el detalle de la OP de la OS
             foreach (var detalle in op.Detalle)
             {
                 // 2.1. Busco las ubicaciones de las mercaderías en el stock
-                var ubicaciones = MercaderiaEnStockAlmacen.Mercaderias
-                    .First(m => m.SKU == detalle.SKU)
-                    .Ubicaciones;
-
-                // 2.2. Ordeno y agrupo las ubicaciones por Sector
-                var ubicacionesPorSector = ubicaciones
-                    .GroupBy(m => m.Sector)
-                    .SelectMany(grupo => grupo)
+                // Accedemos a las ubicaciones del SKU del stock actualizado
+                var ubicaciones = stockDisponible[detalle.SKU]
+                    .OrderBy(u => u.Sector)
+                    .ThenBy(u => u.Posicion)
+                    .ThenBy(u => u.Fila)
                     .ToList();
 
-                // 2.3. Recorro las ubicaciones para recolectar la cantidad solicitada
                 var cantidadSolicitada = detalle.Cantidad;
                 var cantidadTotalSeleccionada = 0;
-                foreach (var ubicacion in ubicacionesPorSector)
+                // 2.2. Recorro las ubicaciones para recolectar la cantidad solicitada
+                foreach (var ubicacion in ubicaciones)
                 {
                     var cantidadFaltante = cantidadSolicitada - cantidadTotalSeleccionada;
                     // 2.3.1. Validar si aún falta hacer picking.
-                    if (cantidadFaltante > 0)
+                    if (cantidadFaltante > 0 && ubicacion.Cantidad > 0)
                     {
                         // Cantidad disponible en esta ubicación
                         var cantidadDisponible = ubicacion.Cantidad;
@@ -85,12 +98,13 @@ public class SeleccionarMercaderiasModel
                                     .First(),
                         };
 
-                        // 2.3.1.1 Si la cantidad seleccionada + disponible es menor  o igual que la faltante,
+                        // 2.3.1.1 Si la cantidad disponible en la ubicación es menor o igual que la faltante,
                         // se agrega toda la cantidad de la ubicación.
                         if (cantidadDisponible <= cantidadFaltante)
                         {
                             cantidadTotalSeleccionada += cantidadDisponible;
                             mercaderiaAPickear.Ubicacion.Cantidad = cantidadDisponible;
+                            ubicacion.Cantidad -= mercaderiaAPickear.Ubicacion.Cantidad;
                         }
                         // 2.3.1.2 Si la cantidad disponible excede lo que falta para alcanzar la cantidad solicitada,
                         // solo se agrega la cantidad necesaria para completar la orden.
@@ -98,18 +112,33 @@ public class SeleccionarMercaderiasModel
                         {
                             cantidadTotalSeleccionada += cantidadFaltante;
                             mercaderiaAPickear.Ubicacion.Cantidad = cantidadFaltante;
+                            ubicacion.Cantidad -= mercaderiaAPickear.Ubicacion.Cantidad;
                         }
-                        mercaderias.Add(mercaderiaAPickear);
+
+                        mercaderiasASeleccionar.Add(mercaderiaAPickear);
                     }
-                    else break;
                 }
             }
         }
 
-        return mercaderias
-            .GroupBy(m => m.Ubicacion.ToString())
-            .SelectMany(grupo => grupo)
+        // Agrupar por ubicación y sumar las cantidades de las distintas mercaderías en la misma ubicación
+        var mercaderiasAgrupadasPorUbicacion = mercaderiasASeleccionar
+            .GroupBy(m => new { m.Ubicacion.Sector, m.Ubicacion.Posicion, m.Ubicacion.Fila })
+            .Select(g => new Mercaderia
+            {
+                SKU = string.Join(", ", g.Select(m => m.SKU).Distinct()),
+                Descripcion = string.Join(", ", g.Select(m => m.Descripcion).Distinct()),
+                Ubicacion = new Ubicacion
+                {
+                    Cantidad = g.Sum(m => m.Ubicacion.Cantidad),
+                    Sector = g.Key.Sector,
+                    Posicion = g.Key.Posicion,
+                    Fila = g.Key.Fila
+                }
+            })
             .ToList();
+
+        return mercaderiasAgrupadasPorUbicacion;
     }
 
     public Resultado<bool> ConfirmarSeleccion(long nroOrdenSeleccion)
@@ -162,6 +191,9 @@ public class SeleccionarMercaderiasModel
         MercaderiaEnStockAlmacen.ActualizarEnLote(stockActualizado);
         OrdenDePreparacionAlmacen.ActualizarEnLote(ordenesDePrepracion);
 
+        OrdenDeSeleccionAlmacen.Grabar();
+        MercaderiaEnStockAlmacen.Grabar();
+        OrdenDePreparacionAlmacen.Grabar();
         return new Resultado<bool>(
             true,
             "Seleccion Confirmada.\n\n" +
