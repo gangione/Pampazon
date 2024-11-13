@@ -65,7 +65,7 @@ public class GenerarOrdenDePreparacionModel
             {
                 int cantidadEnPreparacion = OrdenDePreparacionAlmacen
                    .OrdenesPreparacion
-                   .Where(op => op.NumeroCliente == numeroCliente)
+                   .Where(op => op.NumeroCliente == numeroCliente && op.Estado != OPEstadoEnum.Despachada)
                    .Sum(op => op.Detalle
                        .Where(detalle => detalle.SKU == mercaderia.SKU)
                        .Sum(mercaderia => mercaderia.Cantidad)
