@@ -34,4 +34,12 @@ public static class RemitoAlmacen
         _remitos.Add(nuevoRemito);
         return nuevoRemito;
     }
+
+    public static void AgregarEnLote(List<RemitoEnt> nuevosRemitos)
+    {
+        foreach (var remito in nuevosRemitos)
+        {
+            Agregar(remito);
+        }
+    }
 }

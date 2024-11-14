@@ -152,7 +152,7 @@ public class GenerarOrdenDePreparacionModel
         ordenDePreparacion.FechaADespachar = orden.FechaDeDespacho;
         ordenDePreparacion.NumeroTransportista = transportista.NumeroTransportista;
         ordenDePreparacion.Estado = OPEstadoEnum.Pendiente;
-        ordenDePreparacion.Prioridad = Enum.Parse<PrioridadEnum>(orden.Cliente.Prioridad.ToString());
+        ordenDePreparacion.Prioridad = Enum.Parse<PrioridadEnum>(orden.Prioridad.ToString());
         ordenDePreparacion.Detalle.AddRange(detalle);
         ordenDePreparacion = OrdenDePreparacionAlmacen.Agregar(ordenDePreparacion);
 

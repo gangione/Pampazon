@@ -10,94 +10,62 @@ public class GenerarOrdenDeEntregaModel
     {
     }
 
-    public OrdenDeSeleccion? ObtenerSiguienteOrdenAEmpaquetar()
+    public OrdenDePreparacion? ObtenerSiguienteOrdenAEmpaquetar()
     {
-        var os = OrdenDeSeleccionAlmacen.OrdenesSeleccion
-            .Where(os => os.Estado == OSEstadoEnum.Cumplida)
-            .Select(os =>
-            {
-                if (OrdenDePreparacionAlmacen.OrdenesPreparacion
-                        .Where(op => os.OrdenesDePreparacion.Contains(op.NumeroOP))
-                        .Select(op => op.Estado == OPEstadoEnum.Preparada)
-                        .First())
-                    return null;
+        var op = OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .Where(op => op.Estado == OPEstadoEnum.EnPreparacion)
+                .OrderByDescending(op => op.Prioridad)
+                .Select(op => op)
+                .FirstOrDefault();
 
-                return new OrdenDeSeleccion()
+        if (op is null)
+            return null;
+
+        return new OrdenDePreparacion()
+        {
+            Numero = op.NumeroOP,
+            Estado = Enum.Parse<OPEstado>(op.Estado.ToString()),
+            Prioridad = Enum.Parse<Prioridad>(op.Prioridad.ToString()),
+            FechaADespachar = op.FechaADespachar,
+            MercaderiasAPreparar = op.Detalle
+                .Select(d =>
                 {
-                    Numero = os.NumeroOS,
-                    OrdenesASeleccionar = OrdenDePreparacionAlmacen.OrdenesPreparacion
-                        .Where(op => os.OrdenesDePreparacion.Contains(op.NumeroOP))
-                        .Select(op =>
-                        {
-                            return new OrdenDePreparacion()
-                            {
-                                Numero = op.NumeroOP,
-                                Estado = Enum.Parse<OPEstado>(op.Estado.ToString()),
-                                Prioridad = Enum.Parse<Prioridad>(op.Prioridad.ToString()),
-                                FechaADespachar = op.FechaADespachar,
-                                MercaderiasAPreparar = op.Detalle
-                                    .Select(d =>
-                                    {
-                                        return new Mercaderia()
-                                        {
-                                            SKU = d.SKU,
-                                            Cantidad = d.Cantidad,
-                                            Descripcion = MercaderiaEnStockAlmacen.Mercaderias
-                                                .Where(m => m.SKU == d.SKU)
-                                                .Select(m => m.TipoDeMercaderia)
-                                                .First()
-                                        };
-                                    })
-                                    .ToList()
-                            };
-                        })
-                        .ToList(),
-                };
-            })
-            .FirstOrDefault();
-
-        if (os is null)
-            return os;
-
-        os.OrdenesASeleccionar = os.OrdenesASeleccionar
-            .OrderByDescending(op => op.Prioridad)
-            .ToList();
-
-        return os;
+                    return new Mercaderia()
+                    {
+                        SKU = d.SKU,
+                        Cantidad = d.Cantidad,
+                        Descripcion = MercaderiaEnStockAlmacen.Mercaderias
+                            .Where(m => m.SKU == d.SKU)
+                            .Select(m => m.TipoDeMercaderia)
+                            .First()
+                    };
+                })
+                .ToList()
+        };
     }
-    public void ConfirmarEmpaquetado(long numeroOS)
+    public void ConfirmarEmpaquetado(long numeroOP)
     {
-        // 1. Cambiar de estado las OP Empaquetadas.
-        var os = OrdenDeSeleccionAlmacen.OrdenesSeleccion
-            .Where(os => os.NumeroOS == numeroOS)
-            .Select(os =>
-            {
-                os.Estado = OSEstadoEnum.Cumplida;
-                return os;
-            })
-            .First();
-
-        var ops = OrdenDePreparacionAlmacen.OrdenesPreparacion
-            .Where(op => os.OrdenesDePreparacion.Contains(op.NumeroOP))
+        // 1. Cambiar de estado la OP Empaquetadas.
+        var op = OrdenDePreparacionAlmacen.OrdenesPreparacion
+            .Where(os => os.NumeroOP == numeroOP)
             .Select(op =>
             {
                 op.Estado = OPEstadoEnum.Preparada;
                 return op;
             })
-            .ToList();
+            .First();
+
         // 2. Crear la OE.
         var ordenDeEntrega = new OrdenDeEntregaEnt
         {
-            Estado = OEEstadoEnum.Pendiente
+            Estado = OEEstadoEnum.Pendiente,
+            NumeroOP = op.NumeroOP
         };
-        ordenDeEntrega.OrdenesDePreparacion.AddRange(os.OrdenesDePreparacion);
 
         OrdenDeEntregaAlmacen.Agregar(ordenDeEntrega);
-        OrdenDeSeleccionAlmacen.Actualizar(os);
-        OrdenDePreparacionAlmacen.ActualizarEnLote(ops);
+        OrdenDePreparacionAlmacen.Actualizar(op);
 
         OrdenDeEntregaAlmacen.Grabar();
-        OrdenDeSeleccionAlmacen.Grabar();
         OrdenDePreparacionAlmacen.Grabar();
     }
 }

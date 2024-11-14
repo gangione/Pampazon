@@ -20,8 +20,8 @@ namespace Pampazon
             //MigrarDatabaseInicial();
             //CargarDatabaseProd();
 
-            //CargarDatabaseProd();
-            CargarDatabaseTest();
+            CargarDatabaseProd();
+            //CargarDatabaseTest();
 
             //Application.Run(new IniciarSesionForm());
             Application.Run(new MenuInicioForm());
@@ -81,6 +81,10 @@ namespace Pampazon
             ClienteAlmacen.Leer();
             TransportistaAlmacen.Leer();
             MercaderiaEnStockAlmacen.Leer();
+            OrdenDePreparacionAlmacen.Leer();
+            OrdenDeSeleccionAlmacen.Leer();
+            OrdenDeEntregaAlmacen.Leer();
+            RemitoAlmacen.Leer();
         }
     }
 }

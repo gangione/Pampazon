@@ -40,4 +40,15 @@ public static class OrdenDeEntregaAlmacen
         _ordenesDeEntrega.RemoveAt(index);
         _ordenesDeEntrega.Insert(index, orden);
     }
+
+    public static void ActualizarEnLote(List<OrdenDeEntregaEnt> ordenes)
+    {
+        foreach (var orden in ordenes)
+        {
+            var index = _ordenesDeEntrega.FindIndex(op => op.NumeroOP == orden.NumeroOP);
+
+            _ordenesDeEntrega.RemoveAt(index);
+            _ordenesDeEntrega.Insert(index, orden);
+        }
+    }
 }

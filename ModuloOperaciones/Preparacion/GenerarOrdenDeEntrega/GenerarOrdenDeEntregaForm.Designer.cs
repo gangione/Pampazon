@@ -31,7 +31,7 @@ partial class GenerarOrdenDeEntregaForm
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenerarOrdenDeEntregaForm));
         pictureBoxLogo = new PictureBox();
         labelTitulo = new Label();
-        groupBoxOrdenDeSeleccion = new GroupBox();
+        groupBoxOrdenDePreparacion = new GroupBox();
         buttonConfirmarPreparacion = new Button();
         buttonBuscarSiguienteOrden = new Button();
         groupBoxMercaderiasAEmpaquetar = new GroupBox();
@@ -41,7 +41,7 @@ partial class GenerarOrdenDeEntregaForm
         columnHeaderMercaderiaDescripcion = new ColumnHeader();
         columnHeaderMercaderiaCantidad = new ColumnHeader();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
-        groupBoxOrdenDeSeleccion.SuspendLayout();
+        groupBoxOrdenDePreparacion.SuspendLayout();
         groupBoxMercaderiasAEmpaquetar.SuspendLayout();
         SuspendLayout();
         // 
@@ -66,17 +66,17 @@ partial class GenerarOrdenDeEntregaForm
         labelTitulo.TabIndex = 21;
         labelTitulo.Text = "Empaquetado";
         // 
-        // groupBoxOrdenDeSeleccion
+        // groupBoxOrdenDePreparacion
         // 
-        groupBoxOrdenDeSeleccion.Controls.Add(buttonConfirmarPreparacion);
-        groupBoxOrdenDeSeleccion.Controls.Add(buttonBuscarSiguienteOrden);
-        groupBoxOrdenDeSeleccion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-        groupBoxOrdenDeSeleccion.Location = new Point(12, 70);
-        groupBoxOrdenDeSeleccion.Name = "groupBoxOrdenDeSeleccion";
-        groupBoxOrdenDeSeleccion.Size = new Size(583, 546);
-        groupBoxOrdenDeSeleccion.TabIndex = 22;
-        groupBoxOrdenDeSeleccion.TabStop = false;
-        groupBoxOrdenDeSeleccion.Text = "Orden de Selección";
+        groupBoxOrdenDePreparacion.Controls.Add(buttonConfirmarPreparacion);
+        groupBoxOrdenDePreparacion.Controls.Add(buttonBuscarSiguienteOrden);
+        groupBoxOrdenDePreparacion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+        groupBoxOrdenDePreparacion.Location = new Point(12, 70);
+        groupBoxOrdenDePreparacion.Name = "groupBoxOrdenDePreparacion";
+        groupBoxOrdenDePreparacion.Size = new Size(583, 546);
+        groupBoxOrdenDePreparacion.TabIndex = 22;
+        groupBoxOrdenDePreparacion.TabStop = false;
+        groupBoxOrdenDePreparacion.Text = "Orden de Preparación";
         // 
         // buttonConfirmarPreparacion
         // 
@@ -161,14 +161,14 @@ partial class GenerarOrdenDeEntregaForm
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(607, 628);
         Controls.Add(groupBoxMercaderiasAEmpaquetar);
-        Controls.Add(groupBoxOrdenDeSeleccion);
+        Controls.Add(groupBoxOrdenDePreparacion);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
         Name = "GenerarOrdenDeEntregaForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Orden De Entrega";
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
-        groupBoxOrdenDeSeleccion.ResumeLayout(false);
+        groupBoxOrdenDePreparacion.ResumeLayout(false);
         groupBoxMercaderiasAEmpaquetar.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
@@ -178,7 +178,7 @@ partial class GenerarOrdenDeEntregaForm
 
     private PictureBox pictureBoxLogo;
     private Label labelTitulo;
-    private GroupBox groupBoxOrdenDeSeleccion;
+    private GroupBox groupBoxOrdenDePreparacion;
     private Button buttonBuscarSiguienteOrden;
     private GroupBox groupBoxMercaderiasAEmpaquetar;
     private ListView listViewMercaderiasAEmpaquetar;
