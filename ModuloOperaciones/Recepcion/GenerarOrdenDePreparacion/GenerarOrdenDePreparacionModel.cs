@@ -63,16 +63,16 @@ public class GenerarOrdenDePreparacionModel
 
             if (mercaderia.NumeroCliente == numeroCliente)
             {
-                int cantidadEnPreparacion = OrdenDePreparacionAlmacen
+                int cantidadEnSeleccion = OrdenDePreparacionAlmacen
                    .OrdenesPreparacion
-                   .Where(op => op.NumeroCliente == numeroCliente && op.Estado != OPEstadoEnum.Despachada)
+                   .Where(op => op.NumeroCliente == numeroCliente && op.Estado == OPEstadoEnum.EnSeleccion)
                    .Sum(op => op.Detalle
                        .Where(detalle => detalle.SKU == mercaderia.SKU)
                        .Sum(mercaderia => mercaderia.Cantidad)
                    );
 
                 int cantidadDisponible = mercaderia.Ubicaciones
-                    .Sum(u => u.Cantidad) - cantidadEnPreparacion;
+                    .Sum(u => u.Cantidad) - cantidadEnSeleccion;
 
                 if (cantidadDisponible > 0)
                     mercaderiasDisponibles.Add(new Mercaderia()
