@@ -11,16 +11,16 @@ public static class OrdenDeEntregaAlmacen
     {
         var datos = JsonSerializer.Serialize(_ordenesDeEntrega);
 
-        File.WriteAllText("OrdenesDeEntrega.json", datos);
+        File.WriteAllText(@"Almacenes\DatosDePrueba\OrdenesDeEntrega.json", datos);
     }
     public static void Leer()
     {
-        if (!File.Exists("OrdenesDeEntrega.json"))
+        if (!File.Exists(@"Almacenes\DatosDePrueba\OrdenesDeEntrega.json"))
         {
             return;
         }
 
-        var datos = File.ReadAllText("OrdenesDeEntrega.json");
+        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\OrdenesDeEntrega.json");
 
         _ordenesDeEntrega = JsonSerializer.Deserialize<List<OrdenDeEntregaEnt>>(datos)!;
     }

@@ -11,16 +11,16 @@ public static class OrdenDeSeleccionAlmacen
     public static void Grabar()
     {
         var datos = JsonSerializer.Serialize(ordenesSeleccion);
-        File.WriteAllText(@"OrdenesDeSeleccion.json", datos);
+        File.WriteAllText(@"Almacenes\DatosDePrueba\OrdenesDeSeleccion.json", datos);
     }
     public static void Leer()
     {
-        if (!File.Exists(@"OrdenesDeSeleccion.json"))
+        if (!File.Exists(@"Almacenes\DatosDePrueba\OrdenesDeSeleccion.json"))
         {
             return;
         }
 
-        var datos = File.ReadAllText(@"OrdenesDeSeleccion.json");
+        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\OrdenesDeSeleccion.json");
 
         ordenesSeleccion = JsonSerializer.Deserialize<List<OrdenDeSeleccionEnt>>(datos)!;
     }

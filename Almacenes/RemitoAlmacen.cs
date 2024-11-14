@@ -12,16 +12,16 @@ public static class RemitoAlmacen
 
         var datos = JsonSerializer.Serialize(_remitos);
 
-        File.WriteAllText("Remitos.json", datos);
+        File.WriteAllText(@"Almacenes\DatosDePrueba\Remitos.json", datos);
     }
     public static void Leer()
     {
-        if (!File.Exists("Remitos.json"))
+        if (!File.Exists(@"Almacenes\DatosDePrueba\Remitos.json"))
         {
             return;
         }
 
-        var datos = File.ReadAllText("Remitos.json");
+        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Remitos.json");
 
         _remitos = JsonSerializer.Deserialize<List<RemitoEnt>>(datos)!;
     }

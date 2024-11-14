@@ -11,16 +11,16 @@ public static class OrdenDePreparacionAlmacen
     public static void Grabar()
     {
         var datos = JsonSerializer.Serialize(ordenesPreparacion);
-        File.WriteAllText(@"OrdenesDePreparacion.json", datos);
+        File.WriteAllText(@"Almacenes\DatosDePrueba\OrdenesDePreparacion.json", datos);
     }
     public static void Leer()
     {
-        if (!File.Exists(@"OrdenesDePreparacion.json"))
+        if (!File.Exists(@"Almacenes\DatosDePrueba\OrdenesDePreparacion.json"))
         {
             return;
         }
 
-        var datos = File.ReadAllText(@"OrdenesDePreparacion.json");
+        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\OrdenesDePreparacion.json");
 
         ordenesPreparacion = JsonSerializer.Deserialize<List<OrdenDePreparacionEnt>>(datos)!;
     }

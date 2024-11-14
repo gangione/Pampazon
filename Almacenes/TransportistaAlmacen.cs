@@ -10,16 +10,16 @@ public static class TransportistaAlmacen
     {
         var datos = JsonSerializer.Serialize(_transportistas);
 
-        File.WriteAllText("Transportistas.json", datos);
+        File.WriteAllText(@"Almacenes\DatosDePrueba\Transportistas.json", datos);
     }
     public static void Leer()
     {
-        if (!File.Exists("Transportistas.json"))
+        if (!File.Exists(@"Almacenes\DatosDePrueba\Transportistas.json"))
         {
             return;
         }
 
-        var datos = File.ReadAllText("Transportistas.json");
+        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Transportistas.json");
 
         _transportistas = JsonSerializer.Deserialize<List<TransportistaEnt>>(datos)!;
     }
@@ -30,16 +30,5 @@ public static class TransportistaAlmacen
 
         _transportistas.Add(transportista);
         return transportista;
-    }
-    public static void LeerDatosDePrueba()
-    {
-        if (!File.Exists(@"Almacenes\DatosDePrueba\Transportistas.json"))
-        {
-            return;
-        }
-
-        var datos = File.ReadAllText(@"Almacenes\DatosDePrueba\Transportistas.json");
-
-        _transportistas = JsonSerializer.Deserialize<List<TransportistaEnt>>(datos)!;
     }
 }
