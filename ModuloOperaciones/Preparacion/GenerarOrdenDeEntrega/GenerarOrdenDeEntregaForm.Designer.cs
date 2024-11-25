@@ -85,7 +85,7 @@ partial class GenerarOrdenDeEntregaForm
         buttonConfirmarPreparacion.FlatStyle = FlatStyle.Flat;
         buttonConfirmarPreparacion.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonConfirmarPreparacion.ForeColor = Color.White;
-        buttonConfirmarPreparacion.Location = new Point(376, 519);
+        buttonConfirmarPreparacion.Location = new Point(382, 519);
         buttonConfirmarPreparacion.Name = "buttonConfirmarPreparacion";
         buttonConfirmarPreparacion.Size = new Size(201, 27);
         buttonConfirmarPreparacion.TabIndex = 26;
@@ -100,7 +100,7 @@ partial class GenerarOrdenDeEntregaForm
         buttonBuscarSiguienteOrden.FlatStyle = FlatStyle.Flat;
         buttonBuscarSiguienteOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonBuscarSiguienteOrden.ForeColor = Color.White;
-        buttonBuscarSiguienteOrden.Location = new Point(6, 28);
+        buttonBuscarSiguienteOrden.Location = new Point(169, 519);
         buttonBuscarSiguienteOrden.Name = "buttonBuscarSiguienteOrden";
         buttonBuscarSiguienteOrden.Size = new Size(201, 27);
         buttonBuscarSiguienteOrden.TabIndex = 26;
@@ -112,9 +112,9 @@ partial class GenerarOrdenDeEntregaForm
         // 
         groupBoxMercaderiasAEmpaquetar.Controls.Add(listViewMercaderiasAEmpaquetar);
         groupBoxMercaderiasAEmpaquetar.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-        groupBoxMercaderiasAEmpaquetar.Location = new Point(12, 131);
+        groupBoxMercaderiasAEmpaquetar.Location = new Point(12, 98);
         groupBoxMercaderiasAEmpaquetar.Name = "groupBoxMercaderiasAEmpaquetar";
-        groupBoxMercaderiasAEmpaquetar.Size = new Size(583, 452);
+        groupBoxMercaderiasAEmpaquetar.Size = new Size(583, 485);
         groupBoxMercaderiasAEmpaquetar.TabIndex = 39;
         groupBoxMercaderiasAEmpaquetar.TabStop = false;
         groupBoxMercaderiasAEmpaquetar.Text = "Mercaderias a Empaquetar";
@@ -159,11 +159,14 @@ partial class GenerarOrdenDeEntregaForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
+        AutoSizeMode = AutoSizeMode.GrowAndShrink;
         ClientSize = new Size(607, 628);
         Controls.Add(groupBoxMercaderiasAEmpaquetar);
         Controls.Add(groupBoxOrdenDePreparacion);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
+        FormBorderStyle = FormBorderStyle.FixedDialog;
+        MaximizeBox = false;
         Name = "GenerarOrdenDeEntregaForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Orden De Entrega";

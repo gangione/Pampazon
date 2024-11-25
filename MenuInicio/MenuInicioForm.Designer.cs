@@ -148,6 +148,8 @@
             Controls.Add(pictureBox1);
             Controls.Add(labelTitulo);
             Controls.Add(groupBox1);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
             Name = "MenuInicioForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MenuInicioForm";

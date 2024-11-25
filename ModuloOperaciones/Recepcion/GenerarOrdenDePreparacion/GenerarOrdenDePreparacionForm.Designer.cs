@@ -33,6 +33,8 @@ partial class GenerarOrdenDePreparacionForm
         pictureBoxLogo = new PictureBox();
         labelTitulo = new Label();
         groupBoxOrdenDePreparacion = new GroupBox();
+        label9 = new Label();
+        comboBoxPrioridadDeOrden = new ComboBox();
         groupBoxTransportista = new GroupBox();
         labelDNITransportista = new Label();
         labelNombreTransportista = new Label();
@@ -85,8 +87,6 @@ partial class GenerarOrdenDePreparacionForm
         errorProviderTransportistaDNI = new ErrorProvider(components);
         errorProviderTransportistaNombre = new ErrorProvider(components);
         errorProviderCantidadAPreparar = new ErrorProvider(components);
-        label9 = new Label();
-        comboBoxPrioridadDeOrden = new ComboBox();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxOrdenDePreparacion.SuspendLayout();
         groupBoxTransportista.SuspendLayout();
@@ -138,6 +138,25 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxOrdenDePreparacion.TabIndex = 16;
         groupBoxOrdenDePreparacion.TabStop = false;
         groupBoxOrdenDePreparacion.Text = "Orden De Preparación";
+        // 
+        // label9
+        // 
+        label9.AutoSize = true;
+        label9.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
+        label9.Location = new Point(220, 36);
+        label9.Name = "label9";
+        label9.Size = new Size(73, 19);
+        label9.TabIndex = 47;
+        label9.Text = "Prioridad";
+        // 
+        // comboBoxPrioridadDeOrden
+        // 
+        comboBoxPrioridadDeOrden.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxPrioridadDeOrden.FormattingEnabled = true;
+        comboBoxPrioridadDeOrden.Location = new Point(220, 59);
+        comboBoxPrioridadDeOrden.Name = "comboBoxPrioridadDeOrden";
+        comboBoxPrioridadDeOrden.Size = new Size(152, 29);
+        comboBoxPrioridadDeOrden.TabIndex = 46;
         // 
         // groupBoxTransportista
         // 
@@ -645,25 +664,6 @@ partial class GenerarOrdenDePreparacionForm
         // 
         errorProviderCantidadAPreparar.ContainerControl = this;
         // 
-        // label9
-        // 
-        label9.AutoSize = true;
-        label9.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
-        label9.Location = new Point(220, 36);
-        label9.Name = "label9";
-        label9.Size = new Size(73, 19);
-        label9.TabIndex = 47;
-        label9.Text = "Prioridad";
-        // 
-        // comboBoxPrioridadDeOrden
-        // 
-        comboBoxPrioridadDeOrden.DropDownStyle = ComboBoxStyle.DropDownList;
-        comboBoxPrioridadDeOrden.FormattingEnabled = true;
-        comboBoxPrioridadDeOrden.Location = new Point(220, 59);
-        comboBoxPrioridadDeOrden.Name = "comboBoxPrioridadDeOrden";
-        comboBoxPrioridadDeOrden.Size = new Size(152, 29);
-        comboBoxPrioridadDeOrden.TabIndex = 46;
-        // 
         // GenerarOrdenDePreparacionForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -672,6 +672,8 @@ partial class GenerarOrdenDePreparacionForm
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
         Controls.Add(groupBoxOrdenDePreparacion);
+        FormBorderStyle = FormBorderStyle.FixedDialog;
+        MaximizeBox = false;
         Name = "GenerarOrdenDePreparacionForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Orden De Preparacion";

@@ -171,6 +171,8 @@ partial class SeleccionarMercaderiasForm
         Controls.Add(groupBoxOrdenDeSeleccion);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
+        FormBorderStyle = FormBorderStyle.FixedDialog;
+        MaximizeBox = false;
         Name = "SeleccionarMercaderiasForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Baja de Stock";

@@ -169,6 +169,8 @@ partial class GenerarRemitoForm
         Controls.Add(labelTitulo);
         Controls.Add(buttonGenerarOrden);
         Controls.Add(groupBoxRemito);
+        FormBorderStyle = FormBorderStyle.FixedDialog;
+        MaximizeBox = false;
         Name = "GenerarRemitoForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Remito";

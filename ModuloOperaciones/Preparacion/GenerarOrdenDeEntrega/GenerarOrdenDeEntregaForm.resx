@@ -328,4 +328,7 @@
         SyyxxGZE8+QSSyyxxGZE8+QSSyyxxObDDa/4/5Gguof3HtiIAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

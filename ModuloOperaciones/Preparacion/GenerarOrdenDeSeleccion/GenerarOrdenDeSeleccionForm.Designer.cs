@@ -36,6 +36,7 @@ partial class GenerarOrdenDeSeleccionForm
         columnHeaderOPFechaDespacho = new ColumnHeader();
         columnHeaderClienteNombre = new ColumnHeader();
         columnHeaderClientePrioridad = new ColumnHeader();
+        columnHeaderOPPrioridad = new ColumnHeader();
         groupBoxOrdenDeSeleccion = new GroupBox();
         groupBoxMercaderiasASeleccionar = new GroupBox();
         listViewOrdenesASeleccionar = new ListView();
@@ -52,7 +53,6 @@ partial class GenerarOrdenDeSeleccionForm
         buttonAgregar = new Button();
         labelCliente = new Label();
         buttonGenerarOrden = new Button();
-        columnHeaderOPPrioridad = new ColumnHeader();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
         groupBoxOrdenDeSeleccion.SuspendLayout();
         groupBoxMercaderiasASeleccionar.SuspendLayout();
@@ -114,6 +114,11 @@ partial class GenerarOrdenDeSeleccionForm
         // 
         columnHeaderClientePrioridad.Text = "Prioridad de Cliente";
         columnHeaderClientePrioridad.Width = 135;
+        // 
+        // columnHeaderOPPrioridad
+        // 
+        columnHeaderOPPrioridad.Text = "Prioridad de la OP";
+        columnHeaderOPPrioridad.Width = 135;
         // 
         // groupBoxOrdenDeSeleccion
         // 
@@ -289,11 +294,6 @@ partial class GenerarOrdenDeSeleccionForm
         buttonGenerarOrden.UseVisualStyleBackColor = false;
         buttonGenerarOrden.Click += buttonGenerarOrden_Click;
         // 
-        // columnHeaderOPPrioridad
-        // 
-        columnHeaderOPPrioridad.Text = "Prioridad de la OP";
-        columnHeaderOPPrioridad.Width = 135;
-        // 
         // GenerarOrdenDeSeleccionForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -302,6 +302,8 @@ partial class GenerarOrdenDeSeleccionForm
         Controls.Add(groupBoxOrdenDeSeleccion);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
+        FormBorderStyle = FormBorderStyle.FixedDialog;
+        MaximizeBox = false;
         Name = "GenerarOrdenDeSeleccionForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Orden De Seleccion";
