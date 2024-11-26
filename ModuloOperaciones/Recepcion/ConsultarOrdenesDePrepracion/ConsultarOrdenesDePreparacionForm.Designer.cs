@@ -47,7 +47,7 @@ partial class ConsultarOrdenesDePreparacionForm
         columnHeaderOPDeposito = new ColumnHeader();
         columnHeaderOPFechaDespacho = new ColumnHeader();
         columnHeaderClienteNombre = new ColumnHeader();
-        columnHeaderClientePrioridad = new ColumnHeader();
+        columnHeaderOPEstado = new ColumnHeader();
         columnHeaderOPPrioridad = new ColumnHeader();
         labelCliente = new Label();
         pictureBoxLogo = new PictureBox();
@@ -196,7 +196,7 @@ partial class ConsultarOrdenesDePreparacionForm
         // 
         // listViewOrdenesDePreparacion
         // 
-        listViewOrdenesDePreparacion.Columns.AddRange(new ColumnHeader[] { columnHeaderOPPendienteNumero, columnHeaderOPDeposito, columnHeaderOPFechaDespacho, columnHeaderClienteNombre, columnHeaderClientePrioridad, columnHeaderOPPrioridad });
+        listViewOrdenesDePreparacion.Columns.AddRange(new ColumnHeader[] { columnHeaderOPPendienteNumero, columnHeaderOPDeposito, columnHeaderOPEstado, columnHeaderOPFechaDespacho, columnHeaderOPPrioridad, columnHeaderClienteNombre });
         listViewOrdenesDePreparacion.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         listViewOrdenesDePreparacion.FullRowSelect = true;
         listViewOrdenesDePreparacion.GridLines = true;
@@ -230,10 +230,10 @@ partial class ConsultarOrdenesDePreparacionForm
         columnHeaderClienteNombre.Text = "Cliente";
         columnHeaderClienteNombre.Width = 180;
         // 
-        // columnHeaderClientePrioridad
+        // columnHeaderOPEstado
         // 
-        columnHeaderClientePrioridad.Text = "Prioridad de Cliente";
-        columnHeaderClientePrioridad.Width = 135;
+        columnHeaderOPEstado.Text = "Estado";
+        columnHeaderOPEstado.Width = 135;
         // 
         // columnHeaderOPPrioridad
         // 
@@ -313,7 +313,7 @@ partial class ConsultarOrdenesDePreparacionForm
     private ColumnHeader columnHeaderOPPendienteNumero;
     private ColumnHeader columnHeaderOPFechaDespacho;
     private ColumnHeader columnHeaderClienteNombre;
-    private ColumnHeader columnHeaderClientePrioridad;
+    private ColumnHeader columnHeaderOPEstado;
     private ColumnHeader columnHeaderOPPrioridad;
     private Label labelCliente;
     private PictureBox pictureBoxLogo;

@@ -40,10 +40,10 @@ public partial class ConsultarOrdenesDePreparacionForm : Form
         {
             ListViewItem item = new(ordenes[i].Numero.ToString());
             item.SubItems.Add(ordenes[i].Deposito.ToString());
-            item.SubItems.Add(ordenes[i].FechaADespachar.ToString());
-            item.SubItems.Add(ordenes[i].Cliente.ToString());
-            item.SubItems.Add(ordenes[i].Cliente.Prioridad.ToString());
+            item.SubItems.Add(ordenes[i].Estado.ToString());
+            item.SubItems.Add(ordenes[i].FechaADespachar.ToString("dd/MM/yyyy"));
             item.SubItems.Add(ordenes[i].Prioridad.ToString());
+            item.SubItems.Add(ordenes[i].Cliente.ToString());
             viewItems.Add(item);
         }
         return viewItems.ToArray();
@@ -101,8 +101,6 @@ public partial class ConsultarOrdenesDePreparacionForm : Form
 
         buttonBuscar_Click(sender, e);
     }
-    #endregion
-
     private void listViewOrdenesDePreparacion_SelectedIndexChanged(object sender, EventArgs e)
     {
         listViewDetalle.Items.Clear();
@@ -123,4 +121,5 @@ public partial class ConsultarOrdenesDePreparacionForm : Form
             }
         }
     }
+    #endregion
 }
