@@ -196,6 +196,7 @@ partial class SeleccionarMercaderiasForm
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
         FormBorderStyle = FormBorderStyle.FixedDialog;
+        Icon = (Icon)resources.GetObject("$this.Icon");
         MaximizeBox = false;
         Name = "SeleccionarMercaderiasForm";
         StartPosition = FormStartPosition.CenterScreen;

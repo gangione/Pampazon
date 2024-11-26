@@ -697,6 +697,7 @@ partial class GenerarOrdenDePreparacionForm
         Controls.Add(labelTitulo);
         Controls.Add(groupBoxOrdenDePreparacion);
         FormBorderStyle = FormBorderStyle.FixedDialog;
+        Icon = (Icon)resources.GetObject("$this.Icon");
         MaximizeBox = false;
         Name = "GenerarOrdenDePreparacionForm";
         StartPosition = FormStartPosition.CenterScreen;
