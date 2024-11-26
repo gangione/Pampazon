@@ -2,6 +2,8 @@
 using Pampazon.ModuloOperaciones.Despacho.GenerarRemito;
 using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega;
 using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeSeleccion;
+using Pampazon.ModuloOperaciones.Recepcion.ConsultarOrdenesDePrepracion;
+using Pampazon.ModuloOperaciones.Recepcion.ConsultarStockDeMercaderias;
 using Pampazon.ModuloOperaciones.Recepcion.GenerarOrdenDePreparacion;
 
 namespace Pampazon.MenuInicio
@@ -11,9 +13,6 @@ namespace Pampazon.MenuInicio
         public MenuInicioForm()
         {
             InitializeComponent();
-        }
-        private void MenuInicioForm_Load(object sender, EventArgs e)
-        {
         }
 
         private void buttonPedirMercaderiasDeCliente_Click(object sender, EventArgs e)
@@ -44,6 +43,18 @@ namespace Pampazon.MenuInicio
         {
             var despachar = new GenerarRemitoForm();
             despachar.ShowDialog();
+        }
+
+        private void buttonConsultarOrdenesDePreparacion_Click(object sender, EventArgs e)
+        {
+            var consultarOps = new ConsultarOrdenesDePreparacionForm();
+            consultarOps.ShowDialog();
+        }
+
+        private void buttonConsultarStockDeMercaderias_Click(object sender, EventArgs e)
+        {
+            var consultarStock = new ConsultarStockDeMercaderiasForm();
+            consultarStock.ShowDialog();
         }
     }
 }
