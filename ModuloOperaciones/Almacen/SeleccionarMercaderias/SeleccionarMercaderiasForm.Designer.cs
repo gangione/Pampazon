@@ -34,6 +34,8 @@ partial class SeleccionarMercaderiasForm
         labelTitulo = new Label();
         buttonConfirmarSeleccion = new Button();
         groupBoxOrdenDeSeleccion = new GroupBox();
+        labelDeposito = new Label();
+        comboBoxDeposito = new ComboBox();
         groupBoxMercaderiasASeleccionar = new GroupBox();
         listViewMercaderiasASeleccionar = new ListView();
         columnHeaderSeleccionMercaderiaUbicacion = new ColumnHeader();
@@ -51,7 +53,7 @@ partial class SeleccionarMercaderiasForm
         // 
         pictureBoxLogo.BackgroundImageLayout = ImageLayout.None;
         pictureBoxLogo.Image = (Image)resources.GetObject("pictureBoxLogo.Image");
-        pictureBoxLogo.Location = new Point(407, 9);
+        pictureBoxLogo.Location = new Point(375, 9);
         pictureBoxLogo.Name = "pictureBoxLogo";
         pictureBoxLogo.Size = new Size(300, 60);
         pictureBoxLogo.TabIndex = 18;
@@ -75,7 +77,7 @@ partial class SeleccionarMercaderiasForm
         buttonConfirmarSeleccion.FlatStyle = FlatStyle.Flat;
         buttonConfirmarSeleccion.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonConfirmarSeleccion.ForeColor = Color.White;
-        buttonConfirmarSeleccion.Location = new Point(526, 523);
+        buttonConfirmarSeleccion.Location = new Point(494, 523);
         buttonConfirmarSeleccion.Name = "buttonConfirmarSeleccion";
         buttonConfirmarSeleccion.Size = new Size(163, 27);
         buttonConfirmarSeleccion.TabIndex = 21;
@@ -85,23 +87,45 @@ partial class SeleccionarMercaderiasForm
         // 
         // groupBoxOrdenDeSeleccion
         // 
+        groupBoxOrdenDeSeleccion.Controls.Add(labelDeposito);
+        groupBoxOrdenDeSeleccion.Controls.Add(comboBoxDeposito);
         groupBoxOrdenDeSeleccion.Controls.Add(groupBoxMercaderiasASeleccionar);
         groupBoxOrdenDeSeleccion.Controls.Add(buttonConfirmarSeleccion);
         groupBoxOrdenDeSeleccion.Controls.Add(listViewOrdenesDeSeleccionPendientes);
         groupBoxOrdenDeSeleccion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         groupBoxOrdenDeSeleccion.Location = new Point(18, 75);
         groupBoxOrdenDeSeleccion.Name = "groupBoxOrdenDeSeleccion";
-        groupBoxOrdenDeSeleccion.Size = new Size(689, 550);
+        groupBoxOrdenDeSeleccion.Size = new Size(657, 550);
         groupBoxOrdenDeSeleccion.TabIndex = 31;
         groupBoxOrdenDeSeleccion.TabStop = false;
         groupBoxOrdenDeSeleccion.Text = "Ordenes de Selección Pendientes";
+        // 
+        // labelDeposito
+        // 
+        labelDeposito.AutoSize = true;
+        labelDeposito.Font = new Font("Segoe UI Symbol", 9.75F);
+        labelDeposito.Location = new Point(5, 33);
+        labelDeposito.Name = "labelDeposito";
+        labelDeposito.Size = new Size(61, 17);
+        labelDeposito.TabIndex = 53;
+        labelDeposito.Text = "Depósito";
+        // 
+        // comboBoxDeposito
+        // 
+        comboBoxDeposito.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxDeposito.FormattingEnabled = true;
+        comboBoxDeposito.Location = new Point(6, 51);
+        comboBoxDeposito.Name = "comboBoxDeposito";
+        comboBoxDeposito.Size = new Size(267, 29);
+        comboBoxDeposito.TabIndex = 52;
+        comboBoxDeposito.SelectedIndexChanged += comboBoxDeposito_SelectedIndexChanged;
         // 
         // groupBoxMercaderiasASeleccionar
         // 
         groupBoxMercaderiasASeleccionar.Controls.Add(listViewMercaderiasASeleccionar);
         groupBoxMercaderiasASeleccionar.Location = new Point(0, 240);
         groupBoxMercaderiasASeleccionar.Name = "groupBoxMercaderiasASeleccionar";
-        groupBoxMercaderiasASeleccionar.Size = new Size(689, 277);
+        groupBoxMercaderiasASeleccionar.Size = new Size(651, 277);
         groupBoxMercaderiasASeleccionar.TabIndex = 38;
         groupBoxMercaderiasASeleccionar.TabStop = false;
         groupBoxMercaderiasASeleccionar.Text = "Detalle de Orden de Selección";
@@ -116,7 +140,7 @@ partial class SeleccionarMercaderiasForm
         listViewMercaderiasASeleccionar.Location = new Point(6, 28);
         listViewMercaderiasASeleccionar.MultiSelect = false;
         listViewMercaderiasASeleccionar.Name = "listViewMercaderiasASeleccionar";
-        listViewMercaderiasASeleccionar.Size = new Size(683, 243);
+        listViewMercaderiasASeleccionar.Size = new Size(645, 243);
         listViewMercaderiasASeleccionar.TabIndex = 34;
         listViewMercaderiasASeleccionar.UseCompatibleStateImageBehavior = false;
         listViewMercaderiasASeleccionar.View = View.Details;
@@ -148,11 +172,11 @@ partial class SeleccionarMercaderiasForm
         listViewOrdenesDeSeleccionPendientes.FullRowSelect = true;
         listViewOrdenesDeSeleccionPendientes.GridLines = true;
         listViewOrdenesDeSeleccionPendientes.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewOrdenesDeSeleccionPendientes.Location = new Point(6, 28);
+        listViewOrdenesDeSeleccionPendientes.Location = new Point(6, 97);
         listViewOrdenesDeSeleccionPendientes.MultiSelect = false;
         listViewOrdenesDeSeleccionPendientes.Name = "listViewOrdenesDeSeleccionPendientes";
         listViewOrdenesDeSeleccionPendientes.RightToLeft = RightToLeft.No;
-        listViewOrdenesDeSeleccionPendientes.Size = new Size(294, 193);
+        listViewOrdenesDeSeleccionPendientes.Size = new Size(267, 124);
         listViewOrdenesDeSeleccionPendientes.TabIndex = 37;
         listViewOrdenesDeSeleccionPendientes.UseCompatibleStateImageBehavior = false;
         listViewOrdenesDeSeleccionPendientes.View = View.Details;
@@ -167,7 +191,7 @@ partial class SeleccionarMercaderiasForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(725, 637);
+        ClientSize = new Size(692, 637);
         Controls.Add(groupBoxOrdenDeSeleccion);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
@@ -179,6 +203,7 @@ partial class SeleccionarMercaderiasForm
         Load += SeleccionarMercaderiasForm_Load;
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
         groupBoxOrdenDeSeleccion.ResumeLayout(false);
+        groupBoxOrdenDeSeleccion.PerformLayout();
         groupBoxMercaderiasASeleccionar.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
@@ -199,4 +224,6 @@ partial class SeleccionarMercaderiasForm
     private ColumnHeader columnHeaderSeleccionMercaderiaCantidad;
     private ColumnHeader columnHeaderSeleccionMercaderiaUbicacion;
     private ColumnHeader columnHeaderMercaderiaSKU;
+    private Label labelDeposito;
+    private ComboBox comboBoxDeposito;
 }

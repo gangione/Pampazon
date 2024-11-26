@@ -33,8 +33,10 @@ partial class GenerarOrdenDePreparacionForm
         pictureBoxLogo = new PictureBox();
         labelTitulo = new Label();
         groupBoxOrdenDePreparacion = new GroupBox();
+        labelDeposito = new Label();
         label9 = new Label();
         comboBoxPrioridadDeOrden = new ComboBox();
+        comboBoxDeposito = new ComboBox();
         groupBoxTransportista = new GroupBox();
         labelDNITransportista = new Label();
         labelNombreTransportista = new Label();
@@ -123,8 +125,10 @@ partial class GenerarOrdenDePreparacionForm
         // 
         // groupBoxOrdenDePreparacion
         // 
+        groupBoxOrdenDePreparacion.Controls.Add(labelDeposito);
         groupBoxOrdenDePreparacion.Controls.Add(label9);
         groupBoxOrdenDePreparacion.Controls.Add(comboBoxPrioridadDeOrden);
+        groupBoxOrdenDePreparacion.Controls.Add(comboBoxDeposito);
         groupBoxOrdenDePreparacion.Controls.Add(groupBoxTransportista);
         groupBoxOrdenDePreparacion.Controls.Add(groupBoxMercaderiasARetirar);
         groupBoxOrdenDePreparacion.Controls.Add(labelFechaADespachar);
@@ -139,11 +143,21 @@ partial class GenerarOrdenDePreparacionForm
         groupBoxOrdenDePreparacion.TabStop = false;
         groupBoxOrdenDePreparacion.Text = "Orden De Preparación";
         // 
+        // labelDeposito
+        // 
+        labelDeposito.AutoSize = true;
+        labelDeposito.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
+        labelDeposito.Location = new Point(13, 25);
+        labelDeposito.Name = "labelDeposito";
+        labelDeposito.Size = new Size(72, 19);
+        labelDeposito.TabIndex = 49;
+        labelDeposito.Text = "Depósito";
+        // 
         // label9
         // 
         label9.AutoSize = true;
         label9.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
-        label9.Location = new Point(220, 36);
+        label9.Location = new Point(503, 25);
         label9.Name = "label9";
         label9.Size = new Size(73, 19);
         label9.TabIndex = 47;
@@ -153,10 +167,20 @@ partial class GenerarOrdenDePreparacionForm
         // 
         comboBoxPrioridadDeOrden.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBoxPrioridadDeOrden.FormattingEnabled = true;
-        comboBoxPrioridadDeOrden.Location = new Point(220, 59);
+        comboBoxPrioridadDeOrden.Location = new Point(503, 48);
         comboBoxPrioridadDeOrden.Name = "comboBoxPrioridadDeOrden";
         comboBoxPrioridadDeOrden.Size = new Size(152, 29);
         comboBoxPrioridadDeOrden.TabIndex = 46;
+        // 
+        // comboBoxDeposito
+        // 
+        comboBoxDeposito.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxDeposito.FormattingEnabled = true;
+        comboBoxDeposito.Location = new Point(13, 48);
+        comboBoxDeposito.Name = "comboBoxDeposito";
+        comboBoxDeposito.Size = new Size(267, 29);
+        comboBoxDeposito.TabIndex = 48;
+        comboBoxDeposito.SelectedIndexChanged += comboBoxDeposito_SelectedIndexChanged;
         // 
         // groupBoxTransportista
         // 
@@ -389,7 +413,7 @@ partial class GenerarOrdenDePreparacionForm
         // 
         labelFechaADespachar.AutoSize = true;
         labelFechaADespachar.Font = new Font("Segoe UI Symbol", 10.25F, FontStyle.Bold);
-        labelFechaADespachar.Location = new Point(7, 36);
+        labelFechaADespachar.Location = new Point(299, 27);
         labelFechaADespachar.Name = "labelFechaADespachar";
         labelFechaADespachar.Size = new Size(152, 19);
         labelFechaADespachar.TabIndex = 16;
@@ -400,7 +424,7 @@ partial class GenerarOrdenDePreparacionForm
         textBoxFechaADespachar.AllowDrop = true;
         textBoxFechaADespachar.CharacterCasing = CharacterCasing.Upper;
         textBoxFechaADespachar.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-        textBoxFechaADespachar.Location = new Point(7, 59);
+        textBoxFechaADespachar.Location = new Point(299, 50);
         textBoxFechaADespachar.Name = "textBoxFechaADespachar";
         textBoxFechaADespachar.PlaceholderText = "Dia / Mes / Año";
         textBoxFechaADespachar.Size = new Size(186, 27);
@@ -761,4 +785,6 @@ partial class GenerarOrdenDePreparacionForm
     private Label labelPrioridad;
     private Label label9;
     private ComboBox comboBoxPrioridadDeOrden;
+    private Label labelDeposito;
+    private ComboBox comboBoxDeposito;
 }

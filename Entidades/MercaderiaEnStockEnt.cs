@@ -5,4 +5,5 @@ public class MercaderiaEnStockEnt
     public int NumeroCliente { get; set; }
     public string TipoDeMercaderia { get; set; }
     public List<UbicacionDeEstiva> Ubicaciones { get; set; } = [];
+    public DepositoEnum Deposito { get; set; }
 }

@@ -38,6 +38,8 @@ partial class GenerarRemitoForm
         columnHeaderMercaderiaSKU = new ColumnHeader();
         buttonGenerarOrden = new Button();
         groupBoxRemito = new GroupBox();
+        labelDeposito = new Label();
+        comboBoxDeposito = new ComboBox();
         comboBoxTransportistas = new ComboBox();
         labelTransportista = new Label();
         groupBoxOrdenesDePreparacion = new GroupBox();
@@ -119,6 +121,8 @@ partial class GenerarRemitoForm
         // 
         // groupBoxRemito
         // 
+        groupBoxRemito.Controls.Add(labelDeposito);
+        groupBoxRemito.Controls.Add(comboBoxDeposito);
         groupBoxRemito.Controls.Add(comboBoxTransportistas);
         groupBoxRemito.Controls.Add(labelTransportista);
         groupBoxRemito.Controls.Add(groupBoxOrdenesDePreparacion);
@@ -130,11 +134,31 @@ partial class GenerarRemitoForm
         groupBoxRemito.TabStop = false;
         groupBoxRemito.Text = "Remito";
         // 
+        // labelDeposito
+        // 
+        labelDeposito.AutoSize = true;
+        labelDeposito.Font = new Font("Segoe UI Symbol", 9.75F);
+        labelDeposito.Location = new Point(6, 36);
+        labelDeposito.Name = "labelDeposito";
+        labelDeposito.Size = new Size(61, 17);
+        labelDeposito.TabIndex = 57;
+        labelDeposito.Text = "Depósito";
+        // 
+        // comboBoxDeposito
+        // 
+        comboBoxDeposito.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxDeposito.FormattingEnabled = true;
+        comboBoxDeposito.Location = new Point(7, 54);
+        comboBoxDeposito.Name = "comboBoxDeposito";
+        comboBoxDeposito.Size = new Size(267, 29);
+        comboBoxDeposito.TabIndex = 56;
+        comboBoxDeposito.SelectedIndexChanged += comboBoxTransportistas_SelectedIndexChanged;
+        // 
         // comboBoxTransportistas
         // 
         comboBoxTransportistas.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBoxTransportistas.FormattingEnabled = true;
-        comboBoxTransportistas.Location = new Point(7, 54);
+        comboBoxTransportistas.Location = new Point(297, 54);
         comboBoxTransportistas.Name = "comboBoxTransportistas";
         comboBoxTransportistas.Size = new Size(273, 29);
         comboBoxTransportistas.TabIndex = 43;
@@ -144,7 +168,7 @@ partial class GenerarRemitoForm
         // 
         labelTransportista.AutoSize = true;
         labelTransportista.Font = new Font("Segoe UI Symbol", 9.75F);
-        labelTransportista.Location = new Point(5, 34);
+        labelTransportista.Location = new Point(295, 34);
         labelTransportista.Name = "labelTransportista";
         labelTransportista.Size = new Size(164, 17);
         labelTransportista.TabIndex = 42;
@@ -197,4 +221,6 @@ partial class GenerarRemitoForm
     private ColumnHeader columnHeaderMercaderiaSKU;
     private ComboBox comboBoxTransportistas;
     private Label labelTransportista;
+    private Label labelDeposito;
+    private ComboBox comboBoxDeposito;
 }

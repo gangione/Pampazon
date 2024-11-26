@@ -1,4 +1,5 @@
 ﻿using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Dtos;
+using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Enums;
 using Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Preparacion.GenerarOrdenDeEntrega;
@@ -14,14 +15,8 @@ public partial class GenerarOrdenDeEntregaForm : Form
     #region Formulario
     private void CargarSiguienteOrdenAPreparar()
     {
-        if (listViewMercaderiasAEmpaquetar.Items.Count > 0)
-        {
-            Alerta.MostrarAdvertencia("Debe terminar de empaquetar la Orden actual.");
-            return;
-        }
-
         var siguienteOrden = _generarOrdenDeEntregaModel
-            .ObtenerSiguienteOrdenAEmpaquetar();
+            .ObtenerSiguienteOrdenAEmpaquetarPorDeposito(Enum.Parse<Deposito>(comboBoxDeposito.Text));
 
         if (siguienteOrden is not null)
         {
@@ -72,7 +67,16 @@ public partial class GenerarOrdenDeEntregaForm : Form
     #endregion
 
     #region Eventos
-
+    private void GenerarOrdenDeEntregaForm_Load(object sender, EventArgs e)
+    {
+        comboBoxDeposito.Items.Clear();
+        comboBoxDeposito.Items.AddRange(Enum.GetNames(typeof(Deposito)));
+        comboBoxDeposito.SelectedIndex = 0;
+    }
+    private void comboBoxDeposito_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        listViewMercaderiasAEmpaquetar.Items.Clear();
+    }
     private void buttonBuscarSiguienteOrden_Click(object sender, EventArgs e)
     {
         CargarSiguienteOrdenAPreparar();

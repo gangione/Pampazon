@@ -53,11 +53,14 @@ public class GenerarOrdenDePreparacionModel
             ))
             .ToList();
     }
-    public List<Mercaderia> ObtenerMercaderiasDisponiblesPorCliente(int numeroCliente)
+    public List<Mercaderia> ObtenerMercaderiasDisponiblesPorClienteYDeposito(int numeroCliente, Deposito deposito)
     {
         var mercaderiasDisponibles = new List<Mercaderia>();
+        var mercaderiasEnDeposito = MercaderiaEnStockAlmacen.Mercaderias
+            .Where(m => m.Deposito == Enum.Parse<DepositoEnum>(deposito.ToString()))
+            .ToList();
 
-        foreach (var mercaderia in MercaderiaEnStockAlmacen.Mercaderias)
+        foreach (var mercaderia in mercaderiasEnDeposito)
         {
             var mercaderiasEnStock = new List<Mercaderia>();
 
@@ -66,6 +69,7 @@ public class GenerarOrdenDePreparacionModel
                 int cantidadEnSeleccion = OrdenDePreparacionAlmacen
                    .OrdenesPreparacion
                    .Where(op => op.NumeroCliente == numeroCliente &&
+                        op.Deposito == Enum.Parse<DepositoEnum>(deposito.ToString()) &&
                         op.Estado == OPEstadoEnum.Pendiente ||
                         op.Estado == OPEstadoEnum.EnSeleccion
                    )
@@ -106,8 +110,9 @@ public class GenerarOrdenDePreparacionModel
         {
             if (mercaderiaSolicitada is not null)
             {
-                Mercaderia mercaderiaEnStock = ObtenerMercaderiasDisponiblesPorCliente(
-                    (int)orden.Cliente.Numero
+                Mercaderia mercaderiaEnStock = ObtenerMercaderiasDisponiblesPorClienteYDeposito(
+                    (int)orden.Cliente.Numero,
+                    orden.Deposito
                 )
                 .First(m => m.SKU == mercaderiaSolicitada.SKU);
 
@@ -148,6 +153,7 @@ public class GenerarOrdenDePreparacionModel
             });
 
         // 5. Completar y Agregar la nueva Orden de Preparación.
+        ordenDePreparacion.Deposito = Enum.Parse<DepositoEnum>(orden.Deposito.ToString());
         ordenDePreparacion.NumeroCliente = (int)orden.Cliente.Numero;
         ordenDePreparacion.FechaADespachar = orden.FechaDeDespacho;
         ordenDePreparacion.NumeroTransportista = transportista.NumeroTransportista;

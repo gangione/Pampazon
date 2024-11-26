@@ -1,4 +1,5 @@
 ﻿using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Dtos;
+using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Enums;
 using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Despacho.GenerarRemito;
@@ -21,6 +22,10 @@ public partial class GenerarRemitoForm : Form
         comboBoxTransportistas.Items.AddRange([.. transportistas]);
 
         listViewOrdenesDePreparacionPreparadas.Items.Clear();
+
+        comboBoxDeposito.Items.Clear();
+        comboBoxDeposito.Items.AddRange(Enum.GetNames(typeof(Deposito)));
+        comboBoxDeposito.SelectedIndex = 0;
     }
 
     #endregion
@@ -51,7 +56,7 @@ public partial class GenerarRemitoForm : Form
         if (transportista is not null)
         {
             var ordenesDeEntrega = _generarRemitoModel
-                .ObtenerDetalleARetirarPorTransportista(transportista.DNI);
+                .ObtenerDetalleARetirarPorTransportistaYDeposito(transportista.DNI, Enum.Parse<Deposito>(comboBoxDeposito.Text));
 
             listViewOrdenesDePreparacionPreparadas.Items.Clear();
             listViewOrdenesDePreparacionPreparadas.Items
@@ -73,7 +78,8 @@ public partial class GenerarRemitoForm : Form
                 return;
             }
 
-            var resultado = _generarRemitoModel.DespacharOrdenesDePreparacion(transportista.DNI);
+            var resultado = _generarRemitoModel
+                .DespacharOrdenesDePreparacion(transportista.DNI, Enum.Parse<Deposito>(comboBoxDeposito.Text));
 
             if (resultado.Exitoso)
             {

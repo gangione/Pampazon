@@ -1,6 +1,7 @@
 ﻿using Pampazon.Almacenes;
 using Pampazon.Entidades;
 using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Dtos;
+using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Enums;
 using Pampazon.ModuloOperaciones.Despacho.GenerarRemito.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Despacho.GenerarRemito;
@@ -22,10 +23,12 @@ public class GenerarRemitoModel
             })
             .ToList();
     }
-    public List<OrdenDeEntrega> ObtenerDetalleARetirarPorTransportista(string dniTransportista)
+    public List<OrdenDeEntrega> ObtenerDetalleARetirarPorTransportistaYDeposito(string dniTransportista, Deposito deposito)
     {
-        var entregasPendientes = OrdenDeEntregaAlmacen.OrdenesDeEntrega
-            .Where(entrega => entrega.Estado == OEEstadoEnum.Pendiente)
+        var entregasPendientes = OrdenDePreparacionAlmacen.OrdenesPreparacion
+            .Where(op => op.Estado == OPEstadoEnum.Preparada &&
+                op.Deposito == Enum.Parse<DepositoEnum>(deposito.ToString())
+            )
             .ToList();
 
         var transportista = TransportistaAlmacen.Transportistas
@@ -33,17 +36,14 @@ public class GenerarRemitoModel
             .First();
 
         var detalleDeEntrega = new List<OrdenDeEntrega>();
-        foreach (var oe in entregasPendientes)
+        foreach (var op in entregasPendientes)
         {
-            var op = OrdenDePreparacionAlmacen.OrdenesPreparacion
-                .Where(op => op.NumeroOP == oe.NumeroOP)
-                .First();
             if (op.NumeroTransportista == transportista.NumeroTransportista)
                 op.Detalle.ForEach(detalle =>
                 {
                     detalleDeEntrega.Add(new()
                     {
-                        NroOrdenDePreparacion = oe.NumeroOP,
+                        NroOrdenDePreparacion = op.NumeroOP,
                         Cliente = ClienteAlmacen.Clientes
                             .Where(c => c.NumeroCliente == op.NumeroCliente)
                         .Select(c => c.RazonSocial)
@@ -56,7 +56,7 @@ public class GenerarRemitoModel
         }
         return detalleDeEntrega;
     }
-    public Resultado<bool> DespacharOrdenesDePreparacion(string dniTransportista)
+    public Resultado<bool> DespacharOrdenesDePreparacion(string dniTransportista, Deposito deposito)
     {
         var transportista = TransportistaAlmacen.Transportistas
             .FirstOrDefault(t => t.DNI == dniTransportista);
@@ -69,7 +69,7 @@ public class GenerarRemitoModel
             );
 
         // Obtener las órdenes de entrega pendientes para el transportista
-        var listoParaRetirar = ObtenerDetalleARetirarPorTransportista(dniTransportista);
+        var listoParaRetirar = ObtenerDetalleARetirarPorTransportistaYDeposito(dniTransportista, deposito);
 
         if (!listoParaRetirar.Any())
             return new Resultado<bool>(

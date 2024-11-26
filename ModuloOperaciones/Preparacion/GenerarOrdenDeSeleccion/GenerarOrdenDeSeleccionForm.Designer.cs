@@ -38,6 +38,8 @@ partial class GenerarOrdenDeSeleccionForm
         columnHeaderClientePrioridad = new ColumnHeader();
         columnHeaderOPPrioridad = new ColumnHeader();
         groupBoxOrdenDeSeleccion = new GroupBox();
+        labelDeposito = new Label();
+        comboBoxDeposito = new ComboBox();
         groupBoxMercaderiasASeleccionar = new GroupBox();
         listViewOrdenesASeleccionar = new ListView();
         columnHeaderSeleccionOrdenDePreparacionNro = new ColumnHeader();
@@ -48,9 +50,9 @@ partial class GenerarOrdenDeSeleccionForm
         groupBoxOrdenesDePreparacionPendientes = new GroupBox();
         buttonBuscar = new Button();
         comboBoxBuscarPorCliente = new ComboBox();
+        buttonAgregar = new Button();
         comboBoxBuscarPorPrioridad = new ComboBox();
         label3 = new Label();
-        buttonAgregar = new Button();
         labelCliente = new Label();
         buttonGenerarOrden = new Button();
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
@@ -87,10 +89,10 @@ partial class GenerarOrdenDeSeleccionForm
         listViewOrdenesDePreparacion.FullRowSelect = true;
         listViewOrdenesDePreparacion.GridLines = true;
         listViewOrdenesDePreparacion.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-        listViewOrdenesDePreparacion.Location = new Point(7, 89);
+        listViewOrdenesDePreparacion.Location = new Point(7, 80);
         listViewOrdenesDePreparacion.MultiSelect = false;
         listViewOrdenesDePreparacion.Name = "listViewOrdenesDePreparacion";
-        listViewOrdenesDePreparacion.Size = new Size(760, 129);
+        listViewOrdenesDePreparacion.Size = new Size(760, 128);
         listViewOrdenesDePreparacion.TabIndex = 18;
         listViewOrdenesDePreparacion.UseCompatibleStateImageBehavior = false;
         listViewOrdenesDePreparacion.View = View.Details;
@@ -122,24 +124,46 @@ partial class GenerarOrdenDeSeleccionForm
         // 
         // groupBoxOrdenDeSeleccion
         // 
+        groupBoxOrdenDeSeleccion.Controls.Add(labelDeposito);
+        groupBoxOrdenDeSeleccion.Controls.Add(comboBoxDeposito);
         groupBoxOrdenDeSeleccion.Controls.Add(groupBoxMercaderiasASeleccionar);
         groupBoxOrdenDeSeleccion.Controls.Add(groupBoxOrdenesDePreparacionPendientes);
         groupBoxOrdenDeSeleccion.Controls.Add(buttonGenerarOrden);
         groupBoxOrdenDeSeleccion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
         groupBoxOrdenDeSeleccion.Location = new Point(18, 75);
         groupBoxOrdenDeSeleccion.Name = "groupBoxOrdenDeSeleccion";
-        groupBoxOrdenDeSeleccion.Size = new Size(767, 553);
+        groupBoxOrdenDeSeleccion.Size = new Size(767, 596);
         groupBoxOrdenDeSeleccion.TabIndex = 31;
         groupBoxOrdenDeSeleccion.TabStop = false;
         groupBoxOrdenDeSeleccion.Text = "Orden de Selección";
+        // 
+        // labelDeposito
+        // 
+        labelDeposito.AutoSize = true;
+        labelDeposito.Font = new Font("Segoe UI Symbol", 9.75F);
+        labelDeposito.Location = new Point(6, 25);
+        labelDeposito.Name = "labelDeposito";
+        labelDeposito.Size = new Size(61, 17);
+        labelDeposito.TabIndex = 51;
+        labelDeposito.Text = "Depósito";
+        // 
+        // comboBoxDeposito
+        // 
+        comboBoxDeposito.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxDeposito.FormattingEnabled = true;
+        comboBoxDeposito.Location = new Point(7, 43);
+        comboBoxDeposito.Name = "comboBoxDeposito";
+        comboBoxDeposito.Size = new Size(267, 29);
+        comboBoxDeposito.TabIndex = 50;
+        comboBoxDeposito.SelectedIndexChanged += comboBoxDeposito_SelectedIndexChanged;
         // 
         // groupBoxMercaderiasASeleccionar
         // 
         groupBoxMercaderiasASeleccionar.Controls.Add(listViewOrdenesASeleccionar);
         groupBoxMercaderiasASeleccionar.Controls.Add(buttonEliminar);
-        groupBoxMercaderiasASeleccionar.Location = new Point(0, 291);
+        groupBoxMercaderiasASeleccionar.Location = new Point(0, 330);
         groupBoxMercaderiasASeleccionar.Name = "groupBoxMercaderiasASeleccionar";
-        groupBoxMercaderiasASeleccionar.Size = new Size(767, 197);
+        groupBoxMercaderiasASeleccionar.Size = new Size(767, 217);
         groupBoxMercaderiasASeleccionar.TabIndex = 43;
         groupBoxMercaderiasASeleccionar.TabStop = false;
         groupBoxMercaderiasASeleccionar.Text = "Mercaderías a Seleccionar del Almacén";
@@ -154,7 +178,7 @@ partial class GenerarOrdenDeSeleccionForm
         listViewOrdenesASeleccionar.Location = new Point(9, 28);
         listViewOrdenesASeleccionar.MultiSelect = false;
         listViewOrdenesASeleccionar.Name = "listViewOrdenesASeleccionar";
-        listViewOrdenesASeleccionar.Size = new Size(758, 134);
+        listViewOrdenesASeleccionar.Size = new Size(758, 146);
         listViewOrdenesASeleccionar.TabIndex = 33;
         listViewOrdenesASeleccionar.UseCompatibleStateImageBehavior = false;
         listViewOrdenesASeleccionar.View = View.Details;
@@ -186,7 +210,7 @@ partial class GenerarOrdenDeSeleccionForm
         buttonEliminar.FlatStyle = FlatStyle.Flat;
         buttonEliminar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonEliminar.ForeColor = Color.White;
-        buttonEliminar.Location = new Point(566, 170);
+        buttonEliminar.Location = new Point(566, 184);
         buttonEliminar.Name = "buttonEliminar";
         buttonEliminar.Size = new Size(201, 27);
         buttonEliminar.TabIndex = 24;
@@ -199,14 +223,14 @@ partial class GenerarOrdenDeSeleccionForm
         // 
         groupBoxOrdenesDePreparacionPendientes.Controls.Add(buttonBuscar);
         groupBoxOrdenesDePreparacionPendientes.Controls.Add(comboBoxBuscarPorCliente);
+        groupBoxOrdenesDePreparacionPendientes.Controls.Add(buttonAgregar);
         groupBoxOrdenesDePreparacionPendientes.Controls.Add(comboBoxBuscarPorPrioridad);
         groupBoxOrdenesDePreparacionPendientes.Controls.Add(label3);
         groupBoxOrdenesDePreparacionPendientes.Controls.Add(listViewOrdenesDePreparacion);
-        groupBoxOrdenesDePreparacionPendientes.Controls.Add(buttonAgregar);
         groupBoxOrdenesDePreparacionPendientes.Controls.Add(labelCliente);
-        groupBoxOrdenesDePreparacionPendientes.Location = new Point(0, 28);
+        groupBoxOrdenesDePreparacionPendientes.Location = new Point(0, 78);
         groupBoxOrdenesDePreparacionPendientes.Name = "groupBoxOrdenesDePreparacionPendientes";
-        groupBoxOrdenesDePreparacionPendientes.Size = new Size(767, 257);
+        groupBoxOrdenesDePreparacionPendientes.Size = new Size(767, 246);
         groupBoxOrdenesDePreparacionPendientes.TabIndex = 42;
         groupBoxOrdenesDePreparacionPendientes.TabStop = false;
         groupBoxOrdenesDePreparacionPendientes.Text = "Ordenes de Preparación Pendientes";
@@ -218,7 +242,7 @@ partial class GenerarOrdenDeSeleccionForm
         buttonBuscar.FlatStyle = FlatStyle.Flat;
         buttonBuscar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonBuscar.ForeColor = Color.White;
-        buttonBuscar.Location = new Point(594, 55);
+        buttonBuscar.Location = new Point(591, 46);
         buttonBuscar.Name = "buttonBuscar";
         buttonBuscar.Size = new Size(158, 28);
         buttonBuscar.TabIndex = 35;
@@ -230,29 +254,10 @@ partial class GenerarOrdenDeSeleccionForm
         // 
         comboBoxBuscarPorCliente.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBoxBuscarPorCliente.FormattingEnabled = true;
-        comboBoxBuscarPorCliente.Location = new Point(9, 54);
+        comboBoxBuscarPorCliente.Location = new Point(7, 45);
         comboBoxBuscarPorCliente.Name = "comboBoxBuscarPorCliente";
         comboBoxBuscarPorCliente.Size = new Size(375, 29);
         comboBoxBuscarPorCliente.TabIndex = 34;
-        // 
-        // comboBoxBuscarPorPrioridad
-        // 
-        comboBoxBuscarPorPrioridad.DropDownStyle = ComboBoxStyle.DropDownList;
-        comboBoxBuscarPorPrioridad.FormattingEnabled = true;
-        comboBoxBuscarPorPrioridad.Location = new Point(408, 55);
-        comboBoxBuscarPorPrioridad.Name = "comboBoxBuscarPorPrioridad";
-        comboBoxBuscarPorPrioridad.Size = new Size(152, 29);
-        comboBoxBuscarPorPrioridad.TabIndex = 34;
-        // 
-        // label3
-        // 
-        label3.AutoSize = true;
-        label3.Font = new Font("Segoe UI Symbol", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        label3.Location = new Point(408, 33);
-        label3.Name = "label3";
-        label3.Size = new Size(124, 17);
-        label3.TabIndex = 33;
-        label3.Text = "Filtrar por Prioridad";
         // 
         // buttonAgregar
         // 
@@ -261,7 +266,7 @@ partial class GenerarOrdenDeSeleccionForm
         buttonAgregar.FlatStyle = FlatStyle.Flat;
         buttonAgregar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonAgregar.ForeColor = Color.White;
-        buttonAgregar.Location = new Point(566, 227);
+        buttonAgregar.Location = new Point(566, 216);
         buttonAgregar.Name = "buttonAgregar";
         buttonAgregar.Size = new Size(201, 30);
         buttonAgregar.TabIndex = 25;
@@ -269,11 +274,30 @@ partial class GenerarOrdenDeSeleccionForm
         buttonAgregar.UseVisualStyleBackColor = false;
         buttonAgregar.Click += buttonAgregar_Click;
         // 
+        // comboBoxBuscarPorPrioridad
+        // 
+        comboBoxBuscarPorPrioridad.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxBuscarPorPrioridad.FormattingEnabled = true;
+        comboBoxBuscarPorPrioridad.Location = new Point(405, 46);
+        comboBoxBuscarPorPrioridad.Name = "comboBoxBuscarPorPrioridad";
+        comboBoxBuscarPorPrioridad.Size = new Size(152, 29);
+        comboBoxBuscarPorPrioridad.TabIndex = 34;
+        // 
+        // label3
+        // 
+        label3.AutoSize = true;
+        label3.Font = new Font("Segoe UI Symbol", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        label3.Location = new Point(405, 24);
+        label3.Name = "label3";
+        label3.Size = new Size(124, 17);
+        label3.TabIndex = 33;
+        label3.Text = "Filtrar por Prioridad";
+        // 
         // labelCliente
         // 
         labelCliente.AutoSize = true;
         labelCliente.Font = new Font("Segoe UI Symbol", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        labelCliente.Location = new Point(7, 34);
+        labelCliente.Location = new Point(9, 25);
         labelCliente.Name = "labelCliente";
         labelCliente.Size = new Size(109, 17);
         labelCliente.TabIndex = 21;
@@ -286,7 +310,7 @@ partial class GenerarOrdenDeSeleccionForm
         buttonGenerarOrden.FlatStyle = FlatStyle.Flat;
         buttonGenerarOrden.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
         buttonGenerarOrden.ForeColor = Color.White;
-        buttonGenerarOrden.Location = new Point(566, 510);
+        buttonGenerarOrden.Location = new Point(566, 553);
         buttonGenerarOrden.Name = "buttonGenerarOrden";
         buttonGenerarOrden.Size = new Size(201, 43);
         buttonGenerarOrden.TabIndex = 26;
@@ -298,7 +322,7 @@ partial class GenerarOrdenDeSeleccionForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(802, 652);
+        ClientSize = new Size(802, 683);
         Controls.Add(groupBoxOrdenDeSeleccion);
         Controls.Add(pictureBoxLogo);
         Controls.Add(labelTitulo);
@@ -311,6 +335,7 @@ partial class GenerarOrdenDeSeleccionForm
         Load += GenerarOrdenDeSeleccionForm_Load;
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
         groupBoxOrdenDeSeleccion.ResumeLayout(false);
+        groupBoxOrdenDeSeleccion.PerformLayout();
         groupBoxMercaderiasASeleccionar.ResumeLayout(false);
         groupBoxOrdenesDePreparacionPendientes.ResumeLayout(false);
         groupBoxOrdenesDePreparacionPendientes.PerformLayout();
@@ -348,4 +373,6 @@ partial class GenerarOrdenDeSeleccionForm
     private ComboBox comboBoxBuscarPorCliente;
     private Button buttonBuscar;
     private ColumnHeader columnHeaderOPPrioridad;
+    private Label labelDeposito;
+    private ComboBox comboBoxDeposito;
 }

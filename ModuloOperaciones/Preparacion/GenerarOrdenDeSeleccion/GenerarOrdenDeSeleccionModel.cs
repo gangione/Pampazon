@@ -24,10 +24,13 @@ public class GenerarOrdenDeSeleccionModel
             })
             .ToList();
     }
-    public List<OrdenDePreparacion> ObtenerOrdenesDePreparacionPendientes()
+    public List<OrdenDePreparacion> ObtenerOrdenesDePreparacionPendientesPorDeposito(Deposito deposito)
     {
         var ordenesPendientes = new List<OrdenDePreparacion>();
-        foreach (var op in OrdenDePreparacionAlmacen.OrdenesPreparacion)
+        var ordenesDelDeposito = OrdenDePreparacionAlmacen.OrdenesPreparacion
+            .Where(op => op.Deposito == Enum.Parse<DepositoEnum>(deposito.ToString()));
+
+        foreach (var op in ordenesDelDeposito)
         {
             if (Enum.Parse<OrdenDePreparacionEstado>(op.Estado.ToString()) == OrdenDePreparacionEstado.Pendiente)
             {
@@ -68,11 +71,12 @@ public class GenerarOrdenDeSeleccionModel
         }
         return ordenesPendientes;
     }
-    public List<OrdenDePreparacion> ObtenerOrdenesPendientesPorFiltros(long numeroCliente, Prioridad? prioridad)
+    public List<OrdenDePreparacion> ObtenerOrdenesPendientesPorFiltros(Deposito deposito, long numeroCliente, Prioridad? prioridad)
     {
         if (numeroCliente > 0 && prioridad is null)
             return OrdenDePreparacionAlmacen.OrdenesPreparacion
-                .Where(op => op.NumeroCliente == numeroCliente &&
+                .Where(op => op.Deposito == Enum.Parse<DepositoEnum>(deposito.ToString()) &&
+                    op.NumeroCliente == numeroCliente &&
                     op.Estado == OPEstadoEnum.Pendiente)
                 .Select(op =>
                 {
@@ -113,6 +117,7 @@ public class GenerarOrdenDeSeleccionModel
                 .ToList();
         else if (numeroCliente == 0 && prioridad is not null)
             return OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .Where(op => op.Deposito == Enum.Parse<DepositoEnum>(op.Deposito.ToString()))
                 .Select(op =>
                 {
                     return new OrdenDePreparacion()
@@ -153,6 +158,7 @@ public class GenerarOrdenDeSeleccionModel
                     op.Estado == OrdenDePreparacionEstado.Pendiente)
                 .ToList();
         else return OrdenDePreparacionAlmacen.OrdenesPreparacion
+                .Where(op => op.Deposito == Enum.Parse<DepositoEnum>(op.Deposito.ToString()))
                 .Select(op =>
                 {
                     return new OrdenDePreparacion()
@@ -277,6 +283,7 @@ public class GenerarOrdenDeSeleccionModel
         }
 
         // 2. Crear y Agregar la nueva Orden de Selección.
+        ordenDeSeleccion.Deposito = Enum.Parse<DepositoEnum>(orden.Deposito.ToString());
         ordenDeSeleccion.Estado = OSEstadoEnum.Pendiente;
         ordenDeSeleccion.OrdenesDePreparacion
             .AddRange(ordenesDePreparacion.Select(op => { return op.NumeroOP; }));

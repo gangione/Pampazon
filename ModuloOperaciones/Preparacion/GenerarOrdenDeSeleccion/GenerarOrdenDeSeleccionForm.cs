@@ -20,6 +20,10 @@ public partial class GenerarOrdenDeSeleccionForm : Form
         listViewOrdenesDePreparacion.SelectedItems.Clear();
         listViewOrdenesASeleccionar.Items.Clear();
 
+        comboBoxDeposito.Items.Clear();
+        comboBoxDeposito.Items.AddRange(Enum.GetNames(typeof(Deposito)));
+        comboBoxDeposito.SelectedIndex = 0;
+
         comboBoxBuscarPorCliente.Items.Clear();
         comboBoxBuscarPorCliente.Items.Add(string.Empty);
         comboBoxBuscarPorCliente.Items.AddRange([.. clientes]);
@@ -48,7 +52,8 @@ public partial class GenerarOrdenDeSeleccionForm : Form
     private void CargarListadoOrdenesPendientes()
     {
         listViewOrdenesDePreparacion.Items.Clear();
-        var ordenesPendientes = _ordenDeSeleccionModel.ObtenerOrdenesDePreparacionPendientes();
+        var ordenesPendientes = _ordenDeSeleccionModel
+            .ObtenerOrdenesDePreparacionPendientesPorDeposito(Enum.Parse<Deposito>(comboBoxDeposito.Text));
 
         listViewOrdenesDePreparacion.Items.AddRange(ObtenerListViewOrdenesDePreparacion(ordenesPendientes));
     }
@@ -75,6 +80,11 @@ public partial class GenerarOrdenDeSeleccionForm : Form
     {
         CargarFormulario();
     }
+    private void comboBoxDeposito_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        buttonBuscar_Click(sender, e);
+        listViewOrdenesASeleccionar.Items.Clear();
+    }
     private void buttonBuscar_Click(object sender, EventArgs e)
     {
         long numeroCliente = 0;
@@ -95,10 +105,11 @@ public partial class GenerarOrdenDeSeleccionForm : Form
                 prioridad = (Prioridad)Enum.Parse(typeof(Prioridad), prioridadSeleccionada);
         }
 
+        Deposito deposito = Enum.Parse<Deposito>(comboBoxDeposito.Text);
         if (numeroCliente == 0 && prioridad is null)
         {
             var ordenesPendientes = _ordenDeSeleccionModel
-                .ObtenerOrdenesDePreparacionPendientes();
+                .ObtenerOrdenesDePreparacionPendientesPorDeposito(deposito);
 
             listViewOrdenesDePreparacion.Items.Clear();
             listViewOrdenesDePreparacion.Items
@@ -107,7 +118,7 @@ public partial class GenerarOrdenDeSeleccionForm : Form
         else
         {
             var ordenesPendientes = _ordenDeSeleccionModel
-                .ObtenerOrdenesPendientesPorFiltros(numeroCliente, prioridad);
+                .ObtenerOrdenesPendientesPorFiltros(deposito, numeroCliente, prioridad);
 
             listViewOrdenesDePreparacion.Items.Clear();
             listViewOrdenesDePreparacion.Items
@@ -188,7 +199,12 @@ public partial class GenerarOrdenDeSeleccionForm : Form
 
         var ordenesSeleccionadas = listViewOrdenesASeleccionar.Items;
 
-        OrdenDeSeleccion orden = new() { OrdenesASeleccionar = new() };
+        OrdenDeSeleccion orden = new()
+        {
+            Deposito = Enum.Parse<Deposito>(comboBoxDeposito.Text),
+            OrdenesASeleccionar = new()
+        };
+
         for (int i = 0; i < ordenesSeleccionadas.Count; i++)
         {
             var nroOrden = ordenesSeleccionadas[i].Text;

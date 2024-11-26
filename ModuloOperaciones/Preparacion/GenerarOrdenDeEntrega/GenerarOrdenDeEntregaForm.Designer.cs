@@ -32,7 +32,9 @@ partial class GenerarOrdenDeEntregaForm
         pictureBoxLogo = new PictureBox();
         labelTitulo = new Label();
         groupBoxOrdenDePreparacion = new GroupBox();
+        labelDeposito = new Label();
         buttonConfirmarPreparacion = new Button();
+        comboBoxDeposito = new ComboBox();
         buttonBuscarSiguienteOrden = new Button();
         groupBoxMercaderiasAEmpaquetar = new GroupBox();
         listViewMercaderiasAEmpaquetar = new ListView();
@@ -68,7 +70,9 @@ partial class GenerarOrdenDeEntregaForm
         // 
         // groupBoxOrdenDePreparacion
         // 
+        groupBoxOrdenDePreparacion.Controls.Add(labelDeposito);
         groupBoxOrdenDePreparacion.Controls.Add(buttonConfirmarPreparacion);
+        groupBoxOrdenDePreparacion.Controls.Add(comboBoxDeposito);
         groupBoxOrdenDePreparacion.Controls.Add(buttonBuscarSiguienteOrden);
         groupBoxOrdenDePreparacion.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
         groupBoxOrdenDePreparacion.Location = new Point(12, 70);
@@ -77,6 +81,16 @@ partial class GenerarOrdenDeEntregaForm
         groupBoxOrdenDePreparacion.TabIndex = 22;
         groupBoxOrdenDePreparacion.TabStop = false;
         groupBoxOrdenDePreparacion.Text = "Orden de Preparación";
+        // 
+        // labelDeposito
+        // 
+        labelDeposito.AutoSize = true;
+        labelDeposito.Font = new Font("Segoe UI Symbol", 9.75F);
+        labelDeposito.Location = new Point(5, 26);
+        labelDeposito.Name = "labelDeposito";
+        labelDeposito.Size = new Size(61, 17);
+        labelDeposito.TabIndex = 55;
+        labelDeposito.Text = "Depósito";
         // 
         // buttonConfirmarPreparacion
         // 
@@ -92,6 +106,16 @@ partial class GenerarOrdenDeEntregaForm
         buttonConfirmarPreparacion.Text = "Confirmar Empaquetado";
         buttonConfirmarPreparacion.UseVisualStyleBackColor = false;
         buttonConfirmarPreparacion.Click += buttonConfirmarPreparacion_Click;
+        // 
+        // comboBoxDeposito
+        // 
+        comboBoxDeposito.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxDeposito.FormattingEnabled = true;
+        comboBoxDeposito.Location = new Point(6, 44);
+        comboBoxDeposito.Name = "comboBoxDeposito";
+        comboBoxDeposito.Size = new Size(267, 29);
+        comboBoxDeposito.TabIndex = 54;
+        comboBoxDeposito.SelectedIndexChanged += comboBoxDeposito_SelectedIndexChanged;
         // 
         // buttonBuscarSiguienteOrden
         // 
@@ -112,9 +136,9 @@ partial class GenerarOrdenDeEntregaForm
         // 
         groupBoxMercaderiasAEmpaquetar.Controls.Add(listViewMercaderiasAEmpaquetar);
         groupBoxMercaderiasAEmpaquetar.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-        groupBoxMercaderiasAEmpaquetar.Location = new Point(12, 98);
+        groupBoxMercaderiasAEmpaquetar.Location = new Point(12, 149);
         groupBoxMercaderiasAEmpaquetar.Name = "groupBoxMercaderiasAEmpaquetar";
-        groupBoxMercaderiasAEmpaquetar.Size = new Size(583, 485);
+        groupBoxMercaderiasAEmpaquetar.Size = new Size(583, 434);
         groupBoxMercaderiasAEmpaquetar.TabIndex = 39;
         groupBoxMercaderiasAEmpaquetar.TabStop = false;
         groupBoxMercaderiasAEmpaquetar.Text = "Mercaderias a Empaquetar";
@@ -130,7 +154,7 @@ partial class GenerarOrdenDeEntregaForm
         listViewMercaderiasAEmpaquetar.Location = new Point(6, 28);
         listViewMercaderiasAEmpaquetar.MultiSelect = false;
         listViewMercaderiasAEmpaquetar.Name = "listViewMercaderiasAEmpaquetar";
-        listViewMercaderiasAEmpaquetar.Size = new Size(571, 424);
+        listViewMercaderiasAEmpaquetar.Size = new Size(571, 380);
         listViewMercaderiasAEmpaquetar.TabIndex = 34;
         listViewMercaderiasAEmpaquetar.UseCompatibleStateImageBehavior = false;
         listViewMercaderiasAEmpaquetar.View = View.Details;
@@ -170,8 +194,10 @@ partial class GenerarOrdenDeEntregaForm
         Name = "GenerarOrdenDeEntregaForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Generar Orden De Entrega";
+        Load += GenerarOrdenDeEntregaForm_Load;
         ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
         groupBoxOrdenDePreparacion.ResumeLayout(false);
+        groupBoxOrdenDePreparacion.PerformLayout();
         groupBoxMercaderiasAEmpaquetar.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
@@ -190,4 +216,6 @@ partial class GenerarOrdenDeEntregaForm
     private ColumnHeader columnHeaderMercaderiaCantidad;
     private Button buttonConfirmarPreparacion;
     private ColumnHeader columnHeaderMercaderiaSKU;
+    private Label labelDeposito;
+    private ComboBox comboBoxDeposito;
 }

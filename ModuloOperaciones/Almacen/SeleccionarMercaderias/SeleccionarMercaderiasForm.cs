@@ -1,4 +1,5 @@
 ﻿using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Dtos;
+using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Enums;
 using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias;
@@ -14,8 +15,11 @@ public partial class SeleccionarMercaderiasForm : Form
     #region Formulario
     private void CargarFormulario()
     {
-        CargarListadoOrdenesPendientes();
+        comboBoxDeposito.Items.Clear();
+        comboBoxDeposito.Items.AddRange(Enum.GetNames(typeof(Deposito)));
+        comboBoxDeposito.SelectedIndex = 0;
         listViewMercaderiasASeleccionar.Items.Clear();
+        CargarListadoOrdenesPendientes();
     }
 
     #endregion
@@ -25,7 +29,7 @@ public partial class SeleccionarMercaderiasForm : Form
     {
         listViewOrdenesDeSeleccionPendientes.Items.Clear();
         var ordenesPendientes = _seleccionarMercaderiasModel
-            .ObtenerOrdenesDeSeleccionPendiente();
+            .ObtenerOrdenesDeSeleccionPendientePorDeposito(Enum.Parse<Deposito>(comboBoxDeposito.Text));
 
         listViewOrdenesDeSeleccionPendientes.Items.AddRange(ObtenerListViewOrdenesDeSeleccion(ordenesPendientes));
     }
@@ -87,6 +91,11 @@ public partial class SeleccionarMercaderiasForm : Form
         CargarFormulario();
     }
 
+    private void comboBoxDeposito_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        CargarListadoOrdenesPendientes();
+        listViewMercaderiasASeleccionar.Items.Clear();
+    }
     private void listViewOrdenesDeSeleccionPendientes_SelectedIndexChanged(object sender, EventArgs e)
     {
         CargarDetalleDeOrdenDeSeleccion();
@@ -114,4 +123,5 @@ public partial class SeleccionarMercaderiasForm : Form
     }
 
     #endregion
+
 }

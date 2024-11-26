@@ -10,10 +10,12 @@ public class GenerarOrdenDeEntregaModel
     {
     }
 
-    public OrdenDePreparacion? ObtenerSiguienteOrdenAEmpaquetar()
+    public OrdenDePreparacion? ObtenerSiguienteOrdenAEmpaquetarPorDeposito(Deposito deposito)
     {
         var op = OrdenDePreparacionAlmacen.OrdenesPreparacion
-                .Where(op => op.Estado == OPEstadoEnum.EnPreparacion)
+                .Where(op => op.Deposito == Enum.Parse<DepositoEnum>(deposito.ToString()) &&
+                    op.Estado == OPEstadoEnum.EnPreparacion
+                )
                 .OrderByDescending(op => op.Prioridad)
                 .Select(op => op)
                 .FirstOrDefault();

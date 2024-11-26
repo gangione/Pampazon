@@ -1,6 +1,7 @@
 ﻿using Pampazon.Almacenes;
 using Pampazon.Entidades;
 using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Dtos;
+using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Enums;
 using Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias.Utilidades;
 
 namespace Pampazon.ModuloOperaciones.Almacen.SeleccionarMercaderias;
@@ -10,10 +11,12 @@ public class SeleccionarMercaderiasModel
     {
     }
 
-    public List<OrdenDeSeleccion> ObtenerOrdenesDeSeleccionPendiente()
+    public List<OrdenDeSeleccion> ObtenerOrdenesDeSeleccionPendientePorDeposito(Deposito deposito)
     {
         return OrdenDeSeleccionAlmacen.OrdenesSeleccion
-            .Where(os => os.Estado == OSEstadoEnum.Pendiente)
+            .Where(os => os.Deposito == Enum.Parse<DepositoEnum>(deposito.ToString()) &&
+                os.Estado == OSEstadoEnum.Pendiente
+            )
             .Select(os =>
             {
                 return new OrdenDeSeleccion()

@@ -18,9 +18,12 @@ public partial class GenerarOrdenDePreparacionForm : Form
         var clientes = _ordenDePreparacionModel.ObtenerClientes();
         var transportistas = _ordenDePreparacionModel.ObtenerTransportistas();
 
-        labelPrioridad.Hide();
         comboBoxPrioridadDeOrden.Items.Clear();
         comboBoxPrioridadDeOrden.Items.AddRange(Enum.GetNames(typeof(Prioridad)));
+        comboBoxDeposito.Items.Clear();
+        comboBoxDeposito.Items.AddRange(Enum.GetNames(typeof(Deposito)));
+        comboBoxDeposito.SelectedIndex = 0;
+
         textBoxFechaADespachar.Clear();
         textBoxCantidadAPreparar.Clear();
         textBoxDNITransportista.Clear();
@@ -32,7 +35,8 @@ public partial class GenerarOrdenDePreparacionForm : Form
 
         comboBoxClientes.Items.Clear();
         comboBoxClientes.Items.AddRange([.. clientes]);
-
+        comboBoxClientes.SelectedItem = null;
+        labelPrioridad.Hide();
         ConfigurarAutocompleteTransportistas(transportistas);
     }
 
@@ -184,14 +188,37 @@ public partial class GenerarOrdenDePreparacionForm : Form
         CargarFormulario();
     }
 
+    private void comboBoxDeposito_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        listViewMercaderiasEnStock.Items.Clear();
+        listViewMercaderiasARetirar.Items.Clear();
+        labelPrioridad.Hide();
+
+        Cliente? cliente = comboBoxClientes.SelectedItem as Cliente;
+
+        if (cliente is not null)
+        {
+            var mercaderias = _ordenDePreparacionModel.ObtenerMercaderiasDisponiblesPorClienteYDeposito(
+                (int)cliente.Numero,
+                Enum.Parse<Deposito>(comboBoxDeposito.Text)
+            );
+
+            listViewMercaderiasEnStock.Items
+                .AddRange(ObtenerListViewMercaderiasEnStock(mercaderias));
+
+            labelPrioridad.Text = $"Prioridad del Cliente: {cliente.Prioridad}";
+            labelPrioridad.Show();
+        }
+    }
     private void comboBoxClientes_SelectedIndexChanged(object sender, EventArgs e)
     {
         Cliente? cliente = comboBoxClientes.SelectedItem as Cliente;
 
         if (cliente is not null)
         {
-            var mercaderias = _ordenDePreparacionModel.ObtenerMercaderiasDisponiblesPorCliente(
-                (int)cliente.Numero
+            var mercaderias = _ordenDePreparacionModel.ObtenerMercaderiasDisponiblesPorClienteYDeposito(
+                (int)cliente.Numero,
+                Enum.Parse<Deposito>(comboBoxDeposito.SelectedItem.ToString())
             );
             listViewMercaderiasEnStock.Items.Clear();
             listViewMercaderiasARetirar.Items.Clear();
@@ -314,6 +341,7 @@ public partial class GenerarOrdenDePreparacionForm : Form
         var resultado = _ordenDePreparacionModel
             .GenerarOrdenDePreparacion(new OrdenDePreparacion()
             {
+                Deposito = Enum.Parse<Deposito>(comboBoxDeposito.Text),
                 Cliente = cliente,
                 Transportista = transportista,
                 FechaDeDespacho = DateTime.Parse(textBoxFechaADespachar.Text),
